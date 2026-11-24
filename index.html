@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>21CSS201T COA — 6-Hour Exam Study Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)'], ['$', '$']],
+    displayMath: [['\\[', '\\]'], ['$$', '$$']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+};
+</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<style>
+:root {
+  --bg: #f6f6f3;
+  --surface: #ffffff;
+  --surface-2: #efefea;
+  --ink: #18181b;
+  --muted: #52525b;
+  --border: #dcdcd6;
+  --accent: #0f4c81;
+  --accent-soft: #e6eff7;
+  --ok: #15803d;
+  --ok-soft: #dcfce7;
+  --warn: #a16207;
+  --warn-soft: #fef9c3;
+  --bad: #b91c1c;
+  --bad-soft: #fee2e2;
+  --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+[data-theme="dark"] {
+  --bg: #0f1115;
+  --surface: #171a21;
+  --surface-2: #21252e;
+  --ink: #eceef2;
+  --muted: #a1a7b3;
+  --border: #2c313d;
+  --accent: #5ba4e5;
+  --accent-soft: #1a2838;
+  --ok: #4ade80;
+  --ok-soft: #142d1f;
+  --warn: #facc15;
+  --warn-soft: #2e2712;
+  --bad: #f87171;
+  --bad-soft: #32181a;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.55; overflow-x: hidden; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { font-family: var(--mono); font-size: 0.88em; background: var(--surface-2); padding: 0.12em 0.38em; border-radius: 4px; }
+
+/* Sticky top bar + Pomodoro */
+.topbar { position: sticky; top: 0; z-index: 50; background: var(--surface); border-bottom: 1px solid var(--border); }
+.topbar-inner { max-width: 1080px; margin: 0 auto; padding: 8px 14px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.brand { display: flex; flex-direction: column; }
+.brand-title { font-weight: 700; font-size: 0.98rem; letter-spacing: -0.01em; }
+.brand-sub { font-size: 0.76rem; color: var(--muted); }
+
+.pomo-bar { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; background: var(--surface-2); border: 1px solid var(--border); padding: 4px 8px; border-radius: 8px; }
+.pomo-phase { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 2px 6px; border-radius: 4px; background: var(--accent-soft); color: var(--accent); }
+.pomo-time { font-family: var(--mono); font-weight: 600; font-size: 0.95rem; min-width: 52px; text-align: center; }
+.pomo-cycle { font-size: 0.74rem; color: var(--muted); }
+
+.btn { cursor: pointer; font-family: var(--sans); font-size: 0.82rem; font-weight: 600; padding: 6px 11px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface); color: var(--ink); transition: background 0.15s; min-height: 34px; }
+.btn:hover { background: var(--surface-2); }
+.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+[data-theme="dark"] .btn-primary { color: #0b111a; }
+.btn-primary:hover { opacity: 0.92; background: var(--accent); }
+.btn-sm { padding: 4px 8px; font-size: 0.76rem; min-height: 28px; }
+
+/* Navigation tabs */
+.nav-wrap { background: var(--surface); border-bottom: 1px solid var(--border); }
+.nav-tabs { max-width: 1080px; margin: 0 auto; display: flex; overflow-x: auto; gap: 2px; padding: 0 10px; scrollbar-width: none; }
+.nav-tabs::-webkit-scrollbar { display: none; }
+.tab-btn { flex: 0 0 auto; background: none; border: none; border-bottom: 2px solid transparent; padding: 11px 12px; font-family: var(--sans); font-size: 0.86rem; font-weight: 600; color: var(--muted); cursor: pointer; white-space: nowrap; }
+.tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* Main container */
+.container { max-width: 1080px; margin: 0 auto; padding: 16px 14px 60px; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 15px; margin-bottom: 14px; }
+.card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+h2 { font-size: 1.15rem; margin: 0 0 10px; letter-spacing: -0.01em; }
+h3 { font-size: 1rem; margin: 0 0 6px; }
+.muted { color: var(--muted); font-size: 0.88rem; }
+
+.badge { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 2px 7px; border-radius: 4px; background: var(--surface-2); border: 1px solid var(--border); color: var(--ink); }
+.badge-accent { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+.badge-ok { background: var(--ok-soft); color: var(--ok); border-color: transparent; }
+.badge-warn { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
+.badge-bad { background: var(--bad-soft); color: var(--bad); border-color: transparent; }
+
+/* Progress bar */
+.prog-outer { width: 100%; height: 10px; background: var(--surface-2); border-radius: 99px; overflow: hidden; border: 1px solid var(--border); }
+.prog-inner { height: 100%; background: var(--accent); width: 0%; transition: width 0.25s; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 14px; }
+.stat-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
+.stat-val { font-size: 1.2rem; font-weight: 700; font-family: var(--mono); }
+.stat-lbl { font-size: 0.76rem; color: var(--muted); }
+
+/* Scrollable wrappers for tables and MathJax */
+.table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--border); border-radius: 8px; margin: 8px 0; }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 520px; }
+th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { background: var(--surface-2); font-weight: 600; white-space: nowrap; }
+tr:last-child td { border-bottom: none; }
+
+.math-box { overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 8px 10px; background: var(--surface-2); border-radius: 6px; margin: 6px 0; max-width: 100%; }
+mjx-container { max-width: 100%; overflow-x: auto; overflow-y: hidden; }
+
+/* Checkboxes & Details */
+.chk-label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; font-size: 0.84rem; font-weight: 600; user-select: none; }
+.chk-label input { width: 17px; height: 17px; accent-color: var(--accent); cursor: pointer; }
+.reveal-box { margin-top: 8px; border-top: 1px dashed var(--border); padding-top: 8px; }
+.answer-body { display: none; margin-top: 8px; padding: 10px; background: var(--surface-2); border-left: 3px solid var(--accent); border-radius: 6px; font-size: 0.9rem; overflow-x: auto; }
+.answer-body.open { display: block; }
+
+/* Quiz */
+.filter-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
+select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface); color: var(--ink); min-height: 36px; }
+.quiz-opt { display: block; width: 100%; text-align: left; padding: 10px 12px; margin: 6px 0; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--ink); cursor: pointer; font-family: var(--sans); font-size: 0.9rem; }
+.quiz-opt:hover:not(:disabled) { background: var(--surface-2); }
+.quiz-opt.correct { background: var(--ok-soft); border-color: var(--ok); color: var(--ink); font-weight: 600; }
+.quiz-opt.wrong { background: var(--bad-soft); border-color: var(--bad); color: var(--ink); }
+
+/* Formula hide mode */
+.formula-mask { cursor: pointer; transition: filter 0.15s; }
+.formula-hidden .formula-mask { filter: blur(6px); user-select: none; }
+.formula-hidden .formula-mask.peek { filter: none; }
+
+/* Flashcards */
+.fc-card { min-height: 180px; display: flex; flex-direction: column; justify-content: center; padding: 20px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); text-align: center; cursor: pointer; }
+.fc-q { font-size: 1.05rem; font-weight: 600; }
+.fc-a { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 0.94rem; color: var(--muted); display: none; }
+.fc-a.open { display: block; color: var(--ink); }
+.fc-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 12px; }
+
+.step-list { padding-left: 18px; margin: 6px 0; }
+.step-list li { margin-bottom: 5px; }
+.done-card { opacity: 0.78; }
+.notice { padding: 10px 12px; border-radius: 8px; border-left: 4px solid var(--warn); background: var(--warn-soft); font-size: 0.88rem; margin-bottom: 12px; }
+
+@media (max-width: 600px) {
+  .topbar-inner { padding: 8px 10px; }
+  .pomo-bar { width: 100%; justify-content: space-between; }
+  .container { padding: 12px 10px 60px; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-title">21CSS201T COA Study Hub</span>
+      <span class="brand-sub">8 PYQs (May 2023 - May 2026) | 6-Hour Sprint | Casio fx-991MS</span>
+    </div>
+    <div class="pomo-bar" aria-label="Pomodoro Timer">
+      <span class="pomo-phase" id="pomo-phase">FOCUS</span>
+      <span class="pomo-time" id="pomo-time">25:00</span>
+      <span class="pomo-cycle" id="pomo-cycle">1/4</span>
+      <button class="btn btn-sm btn-primary" id="pomo-toggle">Start</button>
+      <button class="btn btn-sm" id="pomo-reset">Reset</button>
+      <button class="btn btn-sm" id="pomo-skip">Skip</button>
+      <button class="btn btn-sm" id="theme-btn" title="Toggle light/dark mode">Dark</button>
+    </div>
+  </div>
+</header>
+
+<nav class="nav-wrap" aria-label="Study Sections">
+  <div class="nav-tabs" id="nav-tabs">
+    <button class="tab-btn active" data-tab="plan">My Plan</button>
+    <button class="tab-btn" data-tab="guide">Step Guide</button>
+    <button class="tab-btn" data-tab="formulas">Formula Sheet</button>
+    <button class="tab-btn" data-tab="mcq">MCQ Quiz (160)</button>
+    <button class="tab-btn" data-tab="flashcards">Flashcards</button>
+    <button class="tab-btn" data-tab="pyqs">PYQ Bank</button>
+    <button class="tab-btn" data-tab="videos">Videos</button>
+    <button class="tab-btn" data-tab="learn">Learn Fast</button>
+  </div>
+</nav>
+
+<main class="container">
+  <!-- TAB 1: MY PLAN -->
+  <section id="tab-plan" class="tab-panel active">
+    <div class="stat-grid">
+      <div class="stat-box"><div class="stat-val" id="stat-plan">0 / 8</div><div class="stat-lbl">Plan Steps Done</div></div>
+      <div class="stat-box"><div class="stat-val" id="stat-pyq">0 / 95</div><div class="stat-lbl">PYQs Ticked</div></div>
+      <div class="stat-box"><div class="stat-val" id="stat-mcq">0%</div><div class="stat-lbl">MCQ Accuracy</div></div>
+      <div class="stat-box"><div class="stat-val" id="stat-wrong">0</div><div class="stat-lbl">Wrong MCQs to Retry</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h3>6-Hour Study Progress</h3>
+          <div class="muted">Tick each step as you finish. Predictions are based on PYQ repetition across 8 papers, not guaranteed.</div>
+        </div>
+        <span class="badge badge-accent" id="plan-pct">0%</span>
+      </div>
+      <div class="prog-outer"><div class="prog-inner" id="plan-prog"></div></div>
+    </div>
+
+    <div class="card">
+      <h3>Realistic Marks Reachable (Stop-Point Roadmap)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Stop Point</th><th>Cum. Time</th><th>Added</th><th>Realistic Score</th><th>Coverage</th></tr></thead>
+          <tbody id="cum-body"></tbody>
+        </table>
+      </div>
+    </div>
+    <div id="plan-steps-container"></div>
+  </section>
+
+  <!-- TAB 2: STEP GUIDE + CALCULATOR GUIDE -->
+  <section id="tab-guide" class="tab-panel">
+    <div class="card">
+      <h2>General Problem-Solving Step Guides</h2>
+      <p class="muted">Use these general methods on any exam question—even if the numbers or wording differ from the PYQs.</p>
+    </div>
+    <div id="guides-container"></div>
+    <div class="card" id="calc-guide-card"></div>
+  </section>
+
+  <!-- TAB 3: FORMULA SHEET -->
+  <section id="tab-formulas" class="tab-panel">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h2>Formula &amp; Fact Sheet</h2>
+          <p class="muted">Toggle Self-Test to blur answers, then click any hidden formula to peek and verify recall.</p>
+        </div>
+        <button class="btn btn-primary" id="toggle-formula-test">Self-Test: Hide Answers</button>
+      </div>
+    </div>
+    <div id="formulas-container"></div>
+  </section>
+
+  <!-- TAB 4: MCQ QUIZ -->
+  <section id="tab-mcq" class="tab-panel">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h2>Part A MCQ Practice (All 160 Real Questions)</h2>
+          <div class="muted" id="mcq-stats-line">Answered: 0 | Correct: 0 | Retry Queue: 0</div>
+        </div>
+        <button class="btn btn-sm" id="mcq-reset-stats">Reset Progress</button>
+      </div>
+      <div class="filter-row">
+        <select id="mcq-unit-filter">
+          <option value="all">All Units (1-5)</option>
+          <option value="1">Unit 1: Number Systems &amp; Gates</option>
+          <option value="2">Unit 2: Structure, Formats &amp; Modes</option>
+          <option value="3">Unit 3: Arithmetic, Booth &amp; IEEE 754</option>
+          <option value="4">Unit 4: Control Unit &amp; Pipelining</option>
+          <option value="5">Unit 5: Parallelism, Cache &amp; ARM</option>
+        </select>
+        <select id="mcq-paper-filter">
+          <option value="all">All 8 Papers</option>
+        </select>
+        <button class="btn" id="mcq-mode-wrong">Retry Wrong Only (0)</button>
+      </div>
+    </div>
+    <div id="mcq-stage"></div>
+  </section>
+
+  <!-- TAB 5: FLASHCARDS -->
+  <section id="tab-flashcards" class="tab-panel">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h2>Spaced-Repetition Flashcards (30 High-Yield Facts)</h2>
+          <div class="muted" id="fc-status">Due now: 30 | Mastered: 0</div>
+        </div>
+        <button class="btn btn-sm" id="fc-reset">Reset Deck</button>
+      </div>
+    </div>
+    <div id="fc-stage"></div>
+  </section>
+
+  <!-- TAB 6: PYQ BANK -->
+  <section id="tab-pyqs" class="tab-panel">
+    <div class="card">
+      <h2>Paper Pattern (21CSS201T — 75 Marks, 3 Hours)</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Part</th><th>Questions</th><th>Marks</th><th>Choice / Rule</th><th>Unit Split</th></tr></thead>
+          <tbody>
+            <tr><td><b>Part A</b></td><td>Q1 – Q20 (20 x 1)</td><td>20</td><td>Compulsory OMR (first 40 mins)</td><td>4 MCQs per Unit (Q1-4 U1, Q5-8 U2, Q9-12 U3, Q13-16 U4, Q17-20 U5)</td></tr>
+            <tr><td><b>Part B</b></td><td>Q21 – Q25 (5 x 8)</td><td>40</td><td>Answer all 5; each has internal (a) OR (b)</td><td>Q21=U1, Q22=U2, Q23=U3, Q24=U4, Q25=U5</td></tr>
+            <tr><td><b>Part C</b></td><td>Q26 OR Q27 (1 x 15)</td><td>15</td><td>Answer ANY ONE of two questions</td><td>7/8 papers include U2 or U3 (Jul 24 was U1 vs U5)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 style="margin-top:14px;">Topic Frequency Table (Across 8 Papers: May 2023 – May 2026)</h3>
+      <p class="muted">Note: Predictions reflect historical repetition across these 8 papers and are not guaranteed.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Topic</th><th>Unit</th><th>Count</th><th>Papers</th><th>Max Marks</th><th>Tier</th></tr></thead>
+          <tbody id="freq-body"></tbody>
+        </table>
+      </div>
+      <h3 style="margin-top:14px;">Unit Difficulty Ranking (Easiest to Hardest)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Rank</th><th>Unit</th><th>Difficulty</th><th>Marks</th><th>Reason</th></tr></thead>
+          <tbody id="unit-rank-body"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="filter-row">
+        <strong style="margin-right:6px;">Filter PYQ Bank:</strong>
+        <select id="pyq-unit-filter">
+          <option value="all">All Units (95 items)</option>
+          <option value="1">Unit 1 (CO1)</option>
+          <option value="2">Unit 2 (CO2)</option>
+          <option value="3">Unit 3 (CO3)</option>
+          <option value="4">Unit 4 (CO4)</option>
+          <option value="5">Unit 5 (CO5)</option>
+        </select>
+      </div>
+    </div>
+    <div id="pyq-container"></div>
+  </section>
+
+  <!-- TAB 7: VIDEOS -->
+  <section id="tab-videos" class="tab-panel">
+    <div class="card">
+      <h2>YouTube Watch Plan (Gate Smashers &amp; Neso Academy)</h2>
+      <p class="muted"><b>Must Watch Total:</b> 4h 19m 43s at 1.0x &nbsp;|&nbsp; <b>2h 53m 08s at 1.5x</b> (leaves over 3 hours for solving PYQs &amp; MCQs).<br>
+      <b>With 'If Time':</b> 6h 31m 36s at 1.0x &nbsp;|&nbsp; 4h 21m 04s at 1.5x.</p>
+    </div>
+    <div id="videos-container"></div>
+  </section>
+
+  <!-- TAB 8: LEARN FAST -->
+  <section id="tab-learn" class="tab-panel">
+    <div class="card">
+      <h2>How to Learn Fast in 6 Hours</h2>
+      <ul class="step-list">
+        <li><b>Active Recall over Passive Watching:</b> Watch a Must-Watch video at 1.5x, pause, and immediately solve one PYQ on paper without looking. Reading notes feels productive; writing Booth or Division tables from memory builds exam speed.</li>
+        <li><b>Micro-Spacing Inside 6 Hours:</b> Use the 25/5 Pomodoro bar above. Do Unit 1 + Unit 5 first, revisit 10 Part A MCQs during break recovery, then tackle Unit 2 + Unit 3. Re-testing a formula 90 minutes later doubles retention.</li>
+        <li><b>Interleaving Sums:</b> Don't solve 5 Booth sums in a row. Alternate 1 Booth, 1 Non-Restoring Division, 1 EA problem, and 1 IEEE 754 problem so your brain practices recognizing which rule to apply on exam day.</li>
+        <li><b>Sleep &amp; Cognitive Endurance:</b> Even a 90-minute sleep cycle (or full night before the 26th) consolidates trace-table procedures far better than pushing past exhaustion at 4 AM with sloppy arithmetic errors.</li>
+        <li><b>Exam Anxiety &amp; 40-Minute OMR Strategy:</b> Part A is collected at minute 40. Answer the sure-shot 14–16 MCQs in the first 20 minutes, mark calculation MCQs (opcode bits, Gray code, base conversion) cleanly in the next 15, and verify bubbles before minute 40. In Part B/C, always write the formula and draw the labeled diagram first for method marks.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<script id="coa-data-json" type="application/json">{"freqTable": [{"topic": "Booth's Algorithm & Bit-Pair Recoding", "unit": 3, "papers": "May 23 (23b), May 24 (23a), Jul 24 (23a), Nov 24 (23b), Jul 25 (23b), Nov 25 (26i), May 26 (23a)", "count": "7 of 8", "max_marks": "8 (15 w/ Div)", "tier": "Medium + High Marks"}, {"topic": "Addressing Modes & EA Calculation", "unit": 2, "papers": "May 24 (22b, 26), Jul 24 (22b), Nov 24 (22a), Jun 25 (26), Jul 25 (22b), Nov 25 (22b), May 26 (27)", "count": "7 of 8", "max_marks": "8 or 15", "tier": "Easy + Highest Marks"}, {"topic": "Number Conversions & Complement / BCD Arithmetic", "unit": 1, "papers": "May 23 (21a), May 24 (21a, 21b), Jul 24 (21a, 21b), Nov 24 (21b), Jun 25 (21a), Jul 25 (21b), Nov 25 (21a, 21b), May 26 (21a)", "count": "8 of 8", "max_marks": "8", "tier": "Easiest + Guaranteed"}, {"topic": "Pipelining Stages, Hazards & Branch Prediction", "unit": 4, "papers": "May 24 (24b), Jul 24 (24a), Nov 24 (24b), Jun 25 (24b), Jul 25 (24b), May 26 (24a, 24b)", "count": "6 of 8", "max_marks": "8", "tier": "Easy-Med + High Marks"}, {"topic": "Logic Gates & Universal Gates (NAND/NOR)", "unit": 1, "papers": "May 23 (21b), Jul 24 (26), Nov 24 (21a), Jun 25 (21b), Jul 25 (21a), May 26 (21b)", "count": "6 of 8", "max_marks": "8 (15 once)", "tier": "Easiest + High Marks"}, {"topic": "Flynn's Classification & Parallelism Types", "unit": 5, "papers": "May 23 (25a), May 24 (25b), Jul 24 (27), Nov 24 (25a), Jun 25 (25a), Nov 25 (25a), May 26 (25a)", "count": "7 of 8", "max_marks": "8 (15 once)", "tier": "Easy + High Marks"}, {"topic": "Control Sequences (Single/Multi-Bus) & Control Units (Hardwired/MCU)", "unit": 4, "papers": "May 23 (24a, 24b), May 24 (24a, 27), Jul 24 (24b), Nov 24 (24a), Jun 25 (24a), Jul 25 (24a), Nov 25 (24a, 24b, 27)", "count": "7 of 8", "max_marks": "8 or 15", "tier": "Hard + High Marks"}, {"topic": "Restoring & Non-Restoring Binary Division", "unit": 3, "papers": "Jul 24 (23b), Jun 25 (27), Jul 25 (23a), Nov 25 (26ii), May 26 (26)", "count": "5 of 8", "max_marks": "8 or 15", "tier": "Medium + Highest Marks"}, {"topic": "ARM Architecture (Load/Store, Thumb, Features, Pipeline)", "unit": 5, "papers": "Nov 24 (25b, 27), Jun 25 (25b), Jul 25 (25b), Nov 25 (25b), May 26 (25b)", "count": "5 of 8", "max_marks": "8 (15 once)", "tier": "Easy-Med + High Marks"}, {"topic": "Cache Coherence & MESI Protocol", "unit": 5, "papers": "May 23 (25b), May 24 (25a), Jul 24 (25b), Jul 25 (25a)", "count": "4 of 8", "max_marks": "8", "tier": "Medium + Medium Marks"}, {"topic": "Basic Computer Blocks, Buses & Operational Concepts", "unit": 2, "papers": "May 23 (22a, 22b), May 24 (22a), Nov 24 (22b), Jul 25 (22a, 27ii), Nov 25 (27ii), May 26 (22a)", "count": "6 of 8", "max_marks": "8", "tier": "Easy + High Marks"}, {"topic": "4-Bit Parallel Adder/Subtractor & Carry Look-Ahead Adder (CLA)", "unit": 3, "papers": "May 23 (23a, 26), Nov 24 (23a), Jul 25 (26), Nov 25 (23a), May 26 (23b)", "count": "5 of 8", "max_marks": "8 or 15", "tier": "Med-Hard + High Marks"}, {"topic": "Instruction Formats (0, 1, 2, 3-Address) & Assembly Types", "unit": 2, "papers": "May 23 (22b), Jul 24 (22a), Jun 25 (22b), Jul 25 (27i), Nov 25 (22a), May 26 (22b)", "count": "6 of 8", "max_marks": "8", "tier": "Easy-Med + High Marks"}, {"topic": "IEEE 754 Floating Point & FP Add/Sub", "unit": 3, "papers": "May 23 (27), May 24 (23b), Jun 25 (23b)", "count": "3 of 8 (+8/8 MCQs)", "max_marks": "8 (15 once)", "tier": "Easy-Med + Steady"}, {"topic": "One-Off Topics (Big/Little Endian, CSA 60x40, 8086, Multithreading)", "unit": 2, "papers": "Jul 24 (25a), Nov 24 (26), Jun 25 (22a, 23a), Nov 25 (23b)", "count": "1 of 8 each", "max_marks": "8 or 15", "tier": "Low Priority (OR covers)"}], "unitRanking": [{"rank": 1, "unit": "Unit 1 (CO1): Number Systems, Complements, BCD & Logic Gates", "difficulty": "Easiest", "marks": "12 marks (4 MCQ + 8 Part B)", "why": "Pure arithmetic & 7 gate truth tables. Guaranteed 10-12/12 in 45 mins."}, {"rank": 2, "unit": "Unit 5 (CO5): Parallelism, Flynn's, Cache Coherence & ARM", "difficulty": "Easy", "marks": "12 marks (+ rare 15 Part C)", "why": "Almost pure theory with fixed block diagrams (Flynn's 4 boxes, ARM Load/Store, MESI)."}, {"rank": 3, "unit": "Unit 2 (CO2): Computer Blocks, Instruction Formats & Addressing Modes", "difficulty": "Easy-Medium", "marks": "12 marks (+ 15 Part C in 5/8 papers)", "why": "Short theory + super-scoring numericals (EA table, 0/1/2/3-address expression)."}, {"rank": 4, "unit": "Unit 3 (CO3): Booth, Division, Adders/CLA & IEEE 754", "difficulty": "Medium", "marks": "12 marks (+ 15 Part C in 5/8 papers)", "why": "Mechanical step-by-step tables. Once you practice 2 sums each, full 15 marks in Part C."}, {"rank": 5, "unit": "Unit 4 (CO4): Control Sequences, MCU/Hardwired & Pipelining", "difficulty": "Hardest", "marks": "12 marks (+ 15 Part C in 2/8 papers)", "why": "Micro-step control signals (PCout, MARin, WMFC) are easy to mix up; hazards OR-option is much safer!"}], "cumulativeMarks": [{"stop": "Step 1: Unit 1 (Conversions, 1's/2's Comp, BCD, Gates)", "time": "45m", "added": "+12", "realistic": "10-12 / 75", "note": "4 MCQs + Q21 (8m). Zero-risk foundation."}, {"stop": "Step 2: Unit 5 (Flynn's, ARM Load/Store, Cache Coherence)", "time": "+50m (1h 35m)", "added": "+12", "realistic": "20-23 / 75", "note": "4 MCQs + Q25 (8m). Fast theory scoring."}, {"stop": "Step 3: Unit 2 (Addressing Modes + EA + 0/1/2/3-Addr + Blocks)", "time": "+65m (2h 40m)", "added": "+12 (+15 Part C)", "realistic": "38-46 / 75", "note": "Unlocks Q22 (8m), 4 MCQs, and Part C (15m) in 5/8 papers!"}, {"stop": "Step 4: Unit 3 (Booth, Restoring/Non-Restoring Div, IEEE 754, CLA)", "time": "+95m (4h 15m)", "added": "+12 (locks Part C)", "realistic": "52-60 / 75", "note": "Unlocks Q23 (8m), 4 MCQs, and guarantees Part C (Unit 2 or 3 covered 7/8 papers)."}, {"stop": "Step 5: Unit 4 (Pipeline Hazards, Forwarding, MCU/Hardwired)", "time": "+55m (5h 10m)", "added": "+12", "realistic": "61-68 / 75", "note": "Pick Pipeline/Hazards or MCU side of Q24 OR choice + 4 MCQs."}, {"stop": "Step 6: Full Part A 160-MCQ Sprint + Final Formula Sweep", "time": "+50m (6h 00m)", "added": "Accuracy boost", "realistic": "65-72 / 75", "note": "Part A repeats verbatim across papers; locks 17-20/20 on OMR."}], "studySteps": [{"id": "plan-1", "title": "Unit 1: Number Systems, Complements, BCD & Universal Gates", "marks": "12 marks (4 MCQ + Q21 8m)", "time": "45 min", "why": "Appears in 8/8 papers as Q21 + 4 MCQs. Fastest guaranteed 12 marks in the entire paper.", "how": "Learn base conversions (including fractional multiply-by-base), 1's/2's complement subtraction, BCD +6 rule, and NAND/NOR universal gate realizations.", "expected": "Convert decimal/octal/hex; 1's/2's comp subtract; BCD addition (375+648); implement AND/OR/NOT/XOR using NAND/NOR.", "practice": [{"q": "[May 2026 Q21a] Perform BCD addition step by step: (375 + 648)_10. Write in BCD, Binary, Octal, and Hex.", "a": "1. Write BCD: \\(375 = 0011\\;0111\\;0101\\), \\(648 = 0110\\;0100\\;1000\\).<br>2. Units: \\(0101 + 1000 = 1101\\;(13 > 9) \\xrightarrow{+0110} 1\\,0011\\) (digit 3, carry 1).<br>3. Tens: \\(0111 + 0100 + 1 = 1100\\;(12 > 9) \\xrightarrow{+0110} 1\\,0010\\) (digit 2, carry 1).<br>4. Hundreds: \\(0011 + 0110 + 1 = 1010\\;(10 > 9) \\xrightarrow{+0110} 1\\,0000\\) (digit 0, carry 1 to thousands \\(0001\\)).<br><b>BCD:<\/b> \\(0001\\;0000\\;0010\\;0011\\) (= 1023).<br><b>Binary:<\/b> \\((1111111111)_2\\). <b>Octal:<\/b> \\((1777)_8\\). <b>Hex:<\/b> \\((\\text{3FF})_{16}\\)."}, {"q": "[May 2023 Q21a] 6-bit 2's complement: (i) 101011 + 111000, (ii) 001110 + 110010, (iii) 111001 - 001010, (iv) 101011 - 100110.", "a": "(i) \\((-21) + (-8) = -29 \\implies 100011_2\\) (discard carry out, no overflow).<br>(ii) \\(14 + (-14) = 0 \\implies 000000_2\\) (carry out 1 discarded).<br>(iii) \\((-7) - 10 = -7 + (-10) = 111001 + 110110 = 101111_2\\;(-17)\\).<br>(iv) \\((-21) - (-26) = -21 + 26 = 101011 + 011010 = 000101_2\\;(+5)\\)."}, {"q": "[Nov 2024 Q21a / May 2026 Q21b] Implement NOT, AND, OR using Universal Gates (NAND & NOR).", "a": "<b>Using NAND only:<\/b> NOT: \\(\\overline{A\\cdot A}\\); AND: \\(\\overline{(\\overline{A\\cdot B})\\cdot(\\overline{A\\cdot B})}\\); OR: \\(\\overline{(\\overline{A\\cdot A})\\cdot(\\overline{B\\cdot B})}\\).<br><b>Using NOR only:<\/b> NOT: \\(\\overline{A+A}\\); OR: \\(\\overline{(\\overline{A+B})+(\\overline{A+B})}\\); AND: \\(\\overline{(\\overline{A+A})+(\\overline{B+B})}\\)."}]}, {"id": "plan-2", "title": "Unit 5: Flynn's Classification, ARM Load/Store & Cache Coherence", "marks": "12 marks (4 MCQ + Q25 8m)", "time": "50 min", "why": "Pure conceptual diagrams with huge repetition: Flynn's (5/8 Part B/C), ARM Load/Store (5/8), Cache Coherence/MESI (4/8).", "how": "Memorize Flynn's 4 blocks + examples, ARM's 7 modes + 32-bit/16-bit Thumb + LDR/STR addressing, and MESI's 4 states.", "expected": "Draw & explain SISD/SIMD/MISD/MIMD; ARM Load/Store instructions & Thumb features; Cache coherence problem & MESI protocol.", "practice": [{"q": "[Jun 2025 Q25a / Nov 2025 Q25a / May 2026 Q25a] Explain Flynn's Classification with neat diagrams.", "a": "1. <b>SISD:<\/b> 1 CU, 1 PU, 1 Memory (uniprocessor Von Neumann).<br>2. <b>SIMD:<\/b> 1 CU broadcasts 1 instruction to N PUs on N data streams (vector processors, GPUs).<br>3. <b>MISD:<\/b> Multiple CUs operate on 1 data stream (theoretical / fault-tolerant systolic arrays).<br>4. <b>MIMD:<\/b> Multiple independent CUs & PUs on separate data streams (modern multi-core CPUs, clusters)."}, {"q": "[May 2024 Q25a / Jul 2025 Q25a] Explain Cache Coherence problem and MESI protocol.", "a": "<b>Problem:<\/b> Multiple CPU caches hold copies of the same shared memory block; if CPU-1 writes to its copy, CPU-2 sees stale data.<br><b>MESI States:<\/b> <b>M<\/b>odified (dirty, only here), <b>E<\/b>xclusive (clean, only here), <b>S<\/b>hared (clean, in multiple caches), <b>I<\/b>nvalid (stale). Uses bus snooping (Write-Invalidate) to invalidate other copies on write."}]}, {"id": "plan-3", "title": "Unit 2: Addressing Modes, Effective Address & Instruction Formats", "marks": "12 marks + 15m Part C (5/8 papers)", "time": "65 min", "why": "Appears in 7/8 papers in Part B and 5/8 papers as 15-mark Part C (Effective Address or 0/1/2/3-address formats).", "how": "Master the 5 EA formulas (Direct, Immediate, Relative, Register Indirect, Indexed) and practice converting (A+B)*(C+D) into 3, 2, 1, 0-address code.", "expected": "Evaluate EA table (15m); write 0/1/2/3-address instructions (8m); basic functional blocks & buses (8m).", "practice": [{"q": "[May 2024 Q26 / May 2026 Q27] Instruction at 300, address field at 301 = 400, R1 = 200. Find EA for Direct, Immediate, Relative, Register Indirect, Indexed (R1).", "a": "After fetching this 2-word instruction (300 & 301), \\(\\text{PC} = 302\\).<br>• <b>Direct:<\/b> \\(\\text{EA} = 400\\)<br>• <b>Immediate:<\/b> \\(\\text{EA} = 301\\) (operand value \\(= 400\\))<br>• <b>Relative:<\/b> \\(\\text{EA} = \\text{PC} + \\text{offset} = 302 + 400 = 702\\)<br>• <b>Register Indirect:<\/b> \\(\\text{EA} = [R1] = 200\\)<br>• <b>Indexed (R1):<\/b> \\(\\text{EA} = 400 + [R1] = 400 + 200 = 600\\)"}, {"q": "[Jun 2025 Q22b / Nov 2025 Q22a] Evaluate X = (A - B) * (C - D) in 3, 2, 1, and 0-address formats.", "a": "• <b>3-Addr:<\/b> <code>SUB R1,A,B<\/code>; <code>SUB R2,C,D<\/code>; <code>MUL X,R1,R2<\/code><br>• <b>2-Addr:<\/b> <code>MOV R1,A<\/code>; <code>SUB R1,B<\/code>; <code>MOV R2,C<\/code>; <code>SUB R2,D<\/code>; <code>MUL R1,R2<\/code>; <code>MOV X,R1<\/code><br>• <b>1-Addr (AC):<\/b> <code>LOAD C<\/code>; <code>SUB D<\/code>; <code>STORE T<\/code>; <code>LOAD A<\/code>; <code>SUB B<\/code>; <code>MUL T<\/code>; <code>STORE X<\/code><br>• <b>0-Addr (Stack):<\/b> <code>PUSH A<\/code>; <code>PUSH B<\/code>; <code>SUB<\/code>; <code>PUSH C<\/code>; <code>PUSH D<\/code>; <code>SUB<\/code>; <code>MUL<\/code>; <code>POP X<\/code>"}]}, {"id": "plan-4", "title": "Unit 3 (Part 1): Booth's Algorithm & Bit-Pair Recoding", "marks": "8-15 marks", "time": "45 min", "why": "Asked in 7/8 papers! Mechanical trace table — once you know the 01/10 rule and arithmetic shift right, you get full marks.", "how": "Always represent M and Q in n-bit 2's complement (5 bits for numbers up to +/-15). Follow (Q0, Q-1): 01 -> A+M, 10 -> A-M, then ASR.", "expected": "Multiply (+8)x(+5), (+13)x(-6), (-7)x(+3); Bit-pair recoding (+13)x(-6).", "practice": [{"q": "[May 2024 Q23a / May 2026 Q23a] Multiply A=(+8) and B=(+5) using Booth's algorithm (5-bit).", "a": "\\(M=01000,\\; -M=11000,\\; Q=00101,\\; A=00000,\\; Q_{-1}=0\\).<br>1. \\((10)\\): \\(A\\leftarrow A-M = 11000\\), ASR \\(\\to A=11100, Q=00010, Q_{-1}=1\\).<br>2. \\((01)\\): \\(A\\leftarrow A+M = 00100\\), ASR \\(\\to A=00010, Q=00001, Q_{-1}=0\\).<br>3. \\((10)\\): \\(A\\leftarrow A-M = 11010\\), ASR \\(\\to A=11101, Q=00000, Q_{-1}=1\\).<br>4. \\((01)\\): \\(A\\leftarrow A+M = 00101\\), ASR \\(\\to A=00010, Q=10000, Q_{-1}=0\\).<br>5. \\((00)\\): ASR \\(\\to A=00001, Q=01000, Q_{-1}=0\\).<br><b>Product:<\/b> \\(0000101000_2 = +40\\)."}]}, {"id": "plan-5", "title": "Unit 3 (Part 2): Restoring/Non-Restoring Division, CLA & IEEE 754", "marks": "8-15 marks + 4 MCQs", "time": "50 min", "why": "Division (13/3) was 15-mark Part C in BOTH Jun 2025 and May 2026! CLA was 15-mark Part C in May 2023 & Jul 2025.", "how": "Practice 13/3 in both Restoring and Non-Restoring (4-bit Q, 5-bit A). Memorize CLA equations Pi=Ai^Bi, Gi=AiBi, Ci+1=Gi+PiCi, and IEEE 754 bias 127/1023.", "expected": "Restoring & Non-Restoring Division (13/3, 14/5, 10/3); 4-bit CLA diagram; IEEE 754 10.25.", "practice": [{"q": "[Jun 2025 Q27 / May 2026 Q26] Divide 13 by 3 using Restoring and Non-Restoring Division (4-bit).", "a": "\\(Q=1101\\;(13),\\; M=00011\\;(3),\\; -M=11101,\\; A=00000\\).<br><b>Restoring:<\/b> Step 1: SHL \\(\\to A=00001, Q=101\\_\\), \\(A-M < 0 \\to Q_0=0\\), Restore \\(A=00001, Q=1010\\). Step 2: SHL \\(\\to A=00011, Q=010\\_\\), \\(A-M=00000 \\ge 0 \\to Q_0=1, Q=0101\\). Step 3: SHL \\(\\to A=00000, Q=101\\_\\), \\(A-M<0 \\to Q_0=0\\), Restore \\(A=00000, Q=1010\\). Step 4: SHL \\(\\to A=00001, Q=010\\_\\), \\(A-M<0 \\to Q_0=0\\), Restore \\(A=00001, Q=0100\\). <b>Q=4, R=1.<\/b><br><b>Non-Restoring:<\/b> Step 1 (\\(A-M\\)): \\(A=11110, Q=1010\\). Step 2 (\\(A+M\\)): \\(A=00000, Q=0101\\). Step 3 (\\(A-M\\)): \\(A=11101, Q=1010\\). Step 4 (\\(A+M\\)): \\(A=11110, Q=0100\\). Final restore \\(A<0 \\implies A+M = 00001\\). <b>Q=4, R=1.<\/b>"}, {"q": "[May 2024 Q23b] Represent 10.25 in IEEE 754 Single Precision.", "a": "\\(10.25_{10} = 1010.01_2 = +1.01001 \\times 2^3\\).<br>Sign \\(S = 0\\). Biased exponent \\(E' = 3 + 127 = 130 = 10000010_2\\). Mantissa \\(M = 01001000000000000000000\\).<br><b>32-bit:<\/b> <code>0 10000010 01001000000000000000000<\/code> (Hex: <code>0x41240000<\/code>)."}]}, {"id": "plan-6", "title": "Unit 4: Pipelining, Hazards & Control Unit (Hardwired vs MCU)", "marks": "12 marks (4 MCQ + Q24 8m)", "time": "55 min", "why": "Q24 almost always pairs Control Sequence/MCU (harder) OR Pipelining/Hazards (easier). Learn Pipelining + Hazards deeply, plus MCU block diagram & Add (R3), R1 steps.", "how": "Learn the 4/5 pipeline stages, the 3 hazards (Structural, Data RAW/WAR/WAW, Control) + Operand Forwarding & Stalling, and draw the MCU block diagram.", "expected": "Process of pipelining & stages; Data hazards & how to overcome; Single/Multi-bus control sequence; MCU block diagram.", "practice": [{"q": "[Jun 2025 Q24b / May 2026 Q24b] What is a Data Hazard? Side effects and how to overcome them.", "a": "<b>Definition:<\/b> Occurs when an instruction depends on the result of a previous in-flight instruction.<br><b>Types/Side effects:<\/b> RAW (Read After Write - true dependency), WAR (anti-dependency), WAW (output dependency); causes wrong/stale reads if unmitigated.<br><b>Solutions:<\/b> (1) <b>Operand Forwarding (Bypassing)<\/b> from EX/MEM output directly to ALU input, (2) <b>Pipeline Stalling / Bubbles (NOPs)<\/b>, (3) <b>Register Renaming<\/b> (fixes WAR/WAW), (4) <b>Instruction Scheduling<\/b> by compiler."}, {"q": "[May 2023 Q24a / May 2024 Q24a] Control sequence for Add (R3), R1 on single-bus CPU.", "a": "T1: \\(\\text{PC}_{out}, \\text{MAR}_{in}, \\text{Read}, \\text{Select4}, \\text{Add}, \\text{Z}_{in}\\)<br>T2: \\(\\text{Z}_{out}, \\text{PC}_{in}, \\text{Y}_{in}, \\text{WMFC}\\)<br>T3: \\(\\text{MDR}_{out}, \\text{IR}_{in}\\)<br>T4: \\(\\text{R3}_{out}, \\text{MAR}_{in}, \\text{Read}\\)<br>T5: \\(\\text{R1}_{out}, \\text{Y}_{in}, \\text{WMFC}\\)<br>T6: \\(\\text{MDR}_{out}, \\text{SelectY}, \\text{Add}, \\text{Z}_{in}\\)<br>T7: \\(\\text{Z}_{out}, \\text{R1}_{in}, \\text{End}\\)"}]}, {"id": "plan-7", "title": "Part C 15-Mark Drill (Addressing Modes / Division / CLA)", "marks": "15 marks (1 x 15)", "time": "25 min", "why": "Part C is 20% of the entire paper in ONE question. 7 of 8 papers had Unit 2 or Unit 3 in Part C.", "how": "Solve one full 15-mark question on paper under timed conditions (20 mins) and check every line against the solutions.", "expected": "13/3 Restoring + Non-Restoring, OR 5-mode EA calculation, OR 4-bit CLA construction + equations.", "practice": [{"q": "[May 2023 Q26 / Jul 2025 Q26] Explain Carry Look-Ahead Adder (CLA) with equations and diagram.", "a": "Define Propagate \\(P_i = A_i \\oplus B_i\\) and Generate \\(G_i = A_i \\cdot B_i\\).<br>\\(S_i = P_i \\oplus C_i\\), and carry look-ahead equations:<br>\\(C_1 = G_0 + P_0 C_0\\)<br>\\(C_2 = G_1 + P_1 G_0 + P_1 P_0 C_0\\)<br>\\(C_3 = G_2 + P_2 G_1 + P_2 P_1 G_0 + P_2 P_1 P_0 C_0\\)<br>\\(C_4 = G_3 + P_3 G_2 + P_3 P_2 G_1 + P_3 P_2 P_1 G_0 + P_3 P_2 P_1 P_0 C_0\\).<br>Every carry computes in constant 2-gate-level delay instead of rippling through 4 full adders."}]}, {"id": "plan-8", "title": "Full Part A 160-MCQ Sprint & Formula Self-Test", "marks": "20 marks (20 x 1)", "time": "30 min", "why": "OMR is collected in the first 40 minutes! Many MCQs repeat verbatim across papers (check May 2026 vs Jul 2024/Jun 2025).", "how": "Use the MCQ Quiz tab filtered to each unit, then clear your Retry Wrong queue until 0 wrong remain.", "expected": "20 MCQs (4 per unit): conversions, complements, Gray code, opcode bits, Booth/IEEE 754 bits, WMFC/RUN/End, Flynn/ARM/Hit rate.", "practice": [{"q": "[Jul 2024 Q6 / May 2026 Q5] 12 registers, 6 addressing modes, 64K x 32 RAM, 1 reg + 1 mem operand. Max opcode bits?", "a": "\\(\\lceil\\log_2 12\\rceil = 4\\), \\(\\lceil\\log_2 6\\rceil = 3\\), \\(64\\text{K}=2^{16}\\implies 16\\) addr bits. Opcode \\(= 32 - (4+3+16) = 9\\) bits."}]}], "stepGuides": [{"title": "1. Base Conversions (Including Fractions)", "when": "Any Q21a or Part A Q1-Q3 asking Decimal <-> Binary, Octal, Hex, or BCD.", "formulas": "\\((N)_{10} = \\sum d_i b^i\\), integer part by repeated \\(\\div b\\) (read remainders bottom-to-top), fraction by repeated \\(\\times b\\) (take integer parts top-to-bottom).", "steps": ["Split the number into Integer part and Fractional part at the decimal point.", "Integer part: Divide repeatedly by target base \\(b\\) (2, 8, or 16) and record remainders bottom-to-top.", "Fractional part: Multiply fraction repeatedly by \\(b\\); record integer carry (0 or 1, or 0..7/0..F) top-to-bottom for 4-6 digits.", "Shortcut Binary <-> Octal: group 3 bits from decimal point; Binary <-> Hex: group 4 bits from decimal point.", "For BCD: replace EACH decimal digit (0-9) independently with its 4-bit binary code."], "variants": "If given Hex/Octal to Binary or vice versa (e.g., Nov 2025 Q21a/b: 4D.56_16 to Bin, or Binary to Octal), convert via 3-bit (Oct) / 4-bit (Hex) grouping directly—do NOT go through decimal!", "tips": "Common mistake: reading remainders top-to-bottom (backwards!), or forgetting to pad fractional groups with trailing zeros on the right (e.g., .0101_2 -> .010 100_2 = .24_8).", "calc": "Casio fx-991MS: Press [MODE][MODE][3] (BASE) -> [DEC] enter integer -> [=] -> press [BIN], [OCT], or [HEX] to verify integer part instantly! (BASE mode only handles integers, not fractions.)"}, {"title": "2. 1's/2's Complement Subtraction & BCD Addition", "when": "Q21a/b asking signed arithmetic, 1's/2's complement subtraction, or BCD addition.", "formulas": "\\(A - B = A + (\\overline{B} + 1)\\) in 2's complement. BCD fix: if 4-bit sum \\(> 9\\) or \\(C_{out}=1\\), add \\(0110_2\\;(6)\\).", "steps": ["Pad both binary numbers to the SAME bit-width \\(n\\).", "<b>2's Complement (A - B):<\/b> Take 2's complement of B (flip bits + 1), add to A. If carry-out = 1, discard it (answer is positive). If carry-out = 0, answer is negative (take 2's complement of sum and put a minus sign).", "<b>1's Complement (A - B):<\/b> Flip all bits of B, add to A. If carry-out = 1, add that end-around carry (EAC) to LSB. If carry-out = 0, answer is negative (flip all bits of sum and put minus sign).", "<b>BCD Addition:<\/b> Encode each decimal digit into 4 bits, add right-to-left. Whenever any 4-bit column sum \\(> 1001_2\\) (9) OR generates a carry out, add \\(0110_2\\) (+6) to that column and propagate the carry."], "variants": "Signed 2's complement addition (May 2023 Q21a): Do NOT discard negative sign; check overflow: overflow occurs only if two numbers of the SAME sign produce a result of the OPPOSITE sign.", "tips": "Never forget the End-Around Carry (EAC) in 1's complement, and never forget to add 0110 when a BCD digit sum is 10-15 even without carry-out (e.g., 5+6=11=1011 has no carry yet, still needs +0110!).", "calc": "Casio fx-991MS: Verify regular decimal subtraction (e.g., 60 - 11 = 49), convert 49 in [BASE] -> [BIN] = 110001 to verify your bit result."}, {"title": "3. Booth's Signed Multiplication & Bit-Pair Recoding", "when": "Q23a/b or Q26 asking to multiply signed numbers using Booth's algorithm or Bit-Pair Recoding.", "formulas": "Pair \\((Q_0, Q_{-1})\\): \\(00\\to\\text{nop},\\; 01\\to A\\leftarrow A+M,\\; 10\\to A\\leftarrow A-M,\\; 11\\to\\text{nop}\\), followed by Arithmetic Shift Right (ASR).", "steps": ["Choose bit-width \\(n\\) so both \\(M\\) and \\(Q\\) fit in \\(n\\)-bit signed 2's complement (e.g., 5 bits for \\(-16\\) to \\(+15\\)). Compute \\(M\\) and \\(-M\\) (2's complement of \\(M\\)).", "Initialize \\(A = 0\\dots 0\\) (\\(n\\) bits), \\(Q = \\text{multiplier}\\), \\(Q_{-1} = 0\\), Count \\(= n\\).", "In each of the \\(n\\) cycles: inspect \\((Q_0, Q_{-1})\\): if \\(01\\), set \\(A \\leftarrow A + M\\); if \\(10\\), set \\(A \\leftarrow A - M\\); if \\(00\\) or \\(11\\), do nothing.", "Perform Arithmetic Shift Right (ASR) on \\((A, Q, Q_{-1})\\): preserve \\(A\\)'s MSB (sign bit) as it shifts right into \\(Q\\) and \\(Q_0\\) into \\(Q_{-1}\\).", "After \\(n\\) cycles, final \\(2n\\)-bit product is \\(A\\,Q\\). If MSB is 1, take 2's complement to check negative magnitude.", "<b>Bit-Pair Recoding:<\/b> Pad \\(Q\\) to even width + trailing 0; group \\((Q_{2i+1}, Q_{2i}, Q_{2i-1})\\) using table: \\(000/111\\to 0,\\; 001/010\\to +1,\\; 011\\to +2,\\; 100\\to -2,\\; 101/110\\to -1\\)."], "variants": "If asked 'advantages of bit-pair recoding' (3m): it halves the maximum number of summands from \\(n\\) to \\(n/2\\), speeding up multiplication.", "tips": "Biggest mark-loser: doing a Logical Shift Right (filling 0 into A's MSB) instead of Arithmetic Shift Right (copying A's sign bit!). Also remember to ignore carry-out when adding \\(A+M\\) or \\(A-M\\).", "calc": "Casio fx-991MS: Multiply in normal [COMP] mode (e.g., \\(13\\times(-6) = -78\\)), then in [BASE] convert 78 to binary (`1001110`), take 10-bit 2's complement (`1110110010`), and check it matches your final \\(AQ\\)!"}, {"title": "4. Restoring & Non-Restoring Binary Division", "when": "Q23 or Part C Q26/Q27 asking Restoring and/or Non-Restoring division (e.g., 13/3, 14/5, 10/3, 8/3).", "formulas": "\\(\\text{Dividend } Q = \\text{Quotient}\\times M + \\text{Remainder } A\\). \\(A\\) uses \\(n+1\\) bits (includes sign bit); \\(Q\\) uses \\(n\\) bits.", "steps": ["Convert positive dividend \\(Q\\) to \\(n\\) bits (4 bits for 8-15), divisor \\(M\\) to \\(n+1\\) bits, and compute \\(-M\\) (2's complement). Set \\(A = 0\\dots 0\\) (\\(n+1\\) bits).", "<b>Restoring Division (repeat \\(n\\) times):<\/b> (1) Shift left \\((A, Q)\\) by 1 bit. (2) \\(A \\leftarrow A - M\\). (3) If \\(A < 0\\) (MSB of \\(A\\) is 1): set \\(Q_0 = 0\\) and <b>Restore<\/b> \\(A \\leftarrow A + M\\). Else (\\(A \\ge 0\\)): set \\(Q_0 = 1\\).", "<b>Non-Restoring Division (repeat \\(n\\) times):<\/b> (1) Check sign of \\(A\\): if \\(A \\ge 0\\), shift left \\((A,Q)\\) and do \\(A \\leftarrow A - M\\); if \\(A < 0\\), shift left \\((A,Q)\\) and do \\(A \\leftarrow A + M\\). (2) After operation, if \\(A \\ge 0\\) set \\(Q_0 = 1\\), else set \\(Q_0 = 0\\).", "<b>Final Step (Non-Restoring ONLY):<\/b> After \\(n\\) cycles, if \\(A < 0\\), perform one final \\(A \\leftarrow A + M\\) so remainder is positive.", "Read Quotient \\(= Q\\) and Remainder \\(= A\\)."], "variants": "If question gives signed numbers, convert to magnitudes first, divide, and set signs at the end (Quotient negative if signs differ; Remainder takes dividend's sign).", "tips": "Biggest mark-loser: using \\(n\\) bits instead of \\(n+1\\) bits for \\(A\\) and \\(M\\), which makes the sign bit disappear! Also never forget the final restore step in Non-Restoring when \\(A < 0\\).", "calc": "Casio fx-991MS: Verify \\(13 \\div 3 = 4.333...\\), \\(13 - 4\\times 3 = 1\\). Check \\(Q = 0100_2\\) (4) and \\(R = 00001_2\\) (1)."}, {"title": "5. IEEE 754 Floating Point & FP Add/Sub Flowchart", "when": "Q23b or Q27 asking single/double precision IEEE 754 format, representing a decimal (like 10.25), or FP add/sub flowchart.", "formulas": "Single (32-bit): \\(1\\text{S} + 8\\text{E} + 23\\text{M}\\), Bias \\(= 127\\), Value \\(= (-1)^S \\times (1.M) \\times 2^{E'-127}\\). Double (64-bit): \\(1\\text{S} + 11\\text{E} + 52\\text{M}\\), Bias \\(= 1023\\).", "steps": ["Write Sign bit \\(S\\) (0 if positive, 1 if negative).", "Convert magnitude to binary (e.g., \\(10.25 = 1010.01_2\\)).", "Normalize to \\(1.xxxx \\times 2^e\\) by shifting the binary point (\\(1010.01 = 1.01001 \\times 2^3 \\implies e = 3\\)).", "Compute biased exponent \\(E' = e + 127\\) (single) or \\(e + 1023\\) (double), and convert \\(E'\\) to 8-bit (or 11-bit) binary.", "Drop the leading implicit `1.` and pad fractional bits on the right with zeros to 23 bits (or 52 bits) for Mantissa \\(M\\).", "<b>FP Add/Sub Flowchart (May 2023 Q27):<\/b> (1) Check zeros -> (2) Compare exponents & align mantissa of smaller exponent (shift right) -> (3) Add/subtract mantissas -> (4) Normalize result & adjust exponent -> (5) Round & check overflow/underflow."], "variants": "Reverse direction (Part A Jul 2024 Q11): Given \\(0.0010110 \\times 2^9\\), shift right/left to \\(1.0110 \\times 2^6\\), then \\(E'=127+6=133\\).", "tips": "Always drop the implicit leading `1` before writing the 23-bit mantissa—keeping it is the #1 error!", "calc": "Casio fx-991MS: Convert \\(E' = e + 127\\) using [DEC] -> [BIN] in [BASE] mode to avoid binary conversion errors."}, {"title": "6. Carry Look-Ahead Adder (CLA) & 4-Bit Parallel Adder/Subtractor", "when": "Q23 or Q26 (15m) asking fast adder / CLA construction or 4-bit parallel adder/subtractor.", "formulas": "\\(P_i = A_i \\oplus B_i,\\; G_i = A_i B_i,\\; S_i = P_i \\oplus C_i,\\; C_{i+1} = G_i + P_i C_i\\).", "steps": ["Explain why Ripple-Carry Adder is slow (\\(O(n)\\) carry propagation delay across \\(n\\) full adders).", "Define Propagate \\(P_i = A_i \\oplus B_i\\) and Generate \\(G_i = A_i \\cdot B_i\\) for bit \\(i\\).", "Expand \\(C_1, C_2, C_3, C_4\\) completely in terms of \\(C_0, P_i, G_i\\) (all depend ONLY on \\(C_0\\)!).", "Draw the 4-bit CLA block diagram: 4 B-cell/Half-Adder stages feeding \\(P_i, G_i\\) into the CLA Carry Logic block, which feeds \\(C_0..C_3\\) back to XOR gates for \\(S_0..S_3\\).", "<b>4-Bit Parallel Adder/Subtractor:<\/b> Connect 4 Full Adders in cascade; feed \\(B_i \\oplus M\\) to the B inputs and connect mode line \\(M\\) to \\(C_0\\). When \\(M=0\\): \\(A+B\\); when \\(M=1\\): \\(A+\\overline{B}+1 = A-B\\)."], "variants": "If asked 'how full adder differs from half adder' (May 2026 Q23b): Half adder adds 2 bits (no Cin), Full adder adds 3 bits (A, B, Cin) and can be built from 2 Half Adders + 1 OR gate.", "tips": "In 15-mark CLA questions, write ALL FOUR carry equations \\(C_1..C_4\\) explicitly and label \\(S_i = P_i \\oplus C_i\\) on your diagram.", "calc": "No calculator needed—pure logic equations and neat labeled block diagram."}, {"title": "7. Addressing Modes, Effective Address (EA) & Instruction Formats", "when": "Q22 or Part C Q26/Q27 asking Addressing Modes, EA calculation, or evaluating an arithmetic expression in 0/1/2/3-address format.", "formulas": "Direct: \\(\\text{EA}=A\\); Indirect: \\(\\text{EA}=[A]\\); Immediate: \\(\\text{Op}=A\\); Relative: \\(\\text{EA}=\\text{PC}+A\\); Reg Indirect: \\(\\text{EA}=[R]\\); Indexed: \\(\\text{EA}=A+[R]\\).", "steps": ["<b>For EA Numericals:<\/b> First find \\(\\text{PC}\\) after fetching the instruction (e.g., if opcode at 300 and address field at 301, \\(\\text{PC} = 302\\)).", "Compute each mode cleanly with formula + substitution + final EA value (and operand value if given).", "<b>For 0/1/2/3-Address Expression (e.g., \\(X=(A+B)*(C+D)\\)):<\/b> Break into left sub-expression, right sub-expression, then combine.", "3-Addr allows 3 operands (`ADD R1,A,B`); 2-Addr overwrites destination (`MOV R1,A; ADD R1,B`); 1-Addr uses implicit Accumulator (`LOAD/ADD/STORE T`); 0-Addr uses Stack (`PUSH` operands, `ADD/MUL`, `POP X`)."], "variants": "If Relative mode doesn't state instruction size, state your assumption clearly: 'Assuming 2-word instruction at 300-301, next PC = 302, so EA = 302 + 400 = 702' (also note 300+400=700 if 1-word).", "tips": "In 0-address subtraction like `(A-B)` or `(R-S)`, push in left-to-right order (`PUSH A; PUSH B; SUB`) and note `SUB` computes `(second-from-top) - (top) = A - B`.", "calc": "Casio fx-991MS: Double-check EA additions in [COMP] mode."}, {"title": "8. Control Sequences & Hardwired vs Microprogrammed Control", "when": "Q24 or Q27 asking Single-Bus / Multi-Bus control sequences (`Add (R3), R1`, `ADD R4,R5,R6`) or Hardwired/Microprogrammed Control Unit.", "formulas": "Single-bus step rule: Only ONE register output (`_out`) may be placed on the bus per clock step!", "steps": ["<b>Steps 1-3 (Instruction Fetch - SAME for every single-bus instruction!):<\/b> T1: `PCout, MARin, Read, Select4, Add, Zin`; T2: `Zout, PCin, Yin, WMFC`; T3: `MDRout, IRin`.", "<b>Execution Steps for `Add (R3), R1` (Single Bus):<\/b> T4: `R3out, MARin, Read` (send address in R3 to memory); T5: `R1out, Yin, WMFC` (wait for memory while loading R1 into Y); T6: `MDRout, SelectY, Add, Zin` (add loaded operand + Y); T7: `Zout, R1in, End`.", "<b>Multi-Bus `ADD R4, R5, R6`:<\/b> Fetch uses Bus A/B/C; Execution takes ONE step: `R5outA, R6outB, Add, R4inC, End` (because multi-bus reads two registers + writes result in 1 cycle!).", "<b>Microprogrammed Control Unit (MCU):<\/b> Draw 5 boxes: `IR` -> `Starting Address Generator` -> `uPC` -> `Control Store (ROM)` -> `CW (Control Word)` + `Condition Flags + Step Counter`."], "variants": "If asked `Unconditional branching` (May 2023 Q24a.ii): T1-T3 fetch, T4: `Offset-field-of-IRout, Add, Zin` (with `PCout` into Y first: T4 `PCout, Yin`, T5 `Offset-IRout, SelectY, Add, Zin`, T6 `Zout, PCin, End`).", "tips": "Memorizing T1-T3 + the 4-step pattern for `Add (R3), R1` automatically earns 4-6/8 marks even if the target instruction changes slightly!", "calc": "Conceptual / RTL steps."}, {"title": "9. Pipelining, Hazards, Flynn's & ARM Load/Store", "when": "Q24 (Pipelining/Hazards) and Q25 (Flynn's, MESI, ARM).", "formulas": "Ideal Speedup \\(S = k\\) (for \\(k\\) stages). Actual \\(S = \\frac{n \\cdot k}{k + (n - 1) + \\text{stalls}}\\).", "steps": ["Draw the space-time pipeline diagram (Instructions I1..I4 vs Clock Cycles C1..C7) showing 4 or 5 stages (IF, ID, EX, MEM, WB).", "For Hazards: state all 3 classes—Structural (hardware conflict), Data (RAW/WAR/WAW), Control (branches)—and fixes (Forwarding, Stalling, Branch Prediction, Register Renaming).", "For Flynn's: draw the 4 architecture block diagrams (SISD, SIMD, MISD, MIMD) with Instruction Stream (IS) & Data Stream (DS) arrows.", "For ARM: state RISC, 32-bit Load/Store architecture (`LDR`, `STR`, `LDM`, `STM`, pre/post-indexed), 37 registers, 7 modes, and 16-bit Thumb compressed set."], "variants": "If asked 'Branch Prediction' (May 2024 Q24b): explain Static (predict always taken / not taken) vs Dynamic (1-bit and 2-bit saturating counter predictors with loop example).", "tips": "Always include a clean labeled diagram (space-time grid for pipelining, 4-box diagram for Flynn's, state diagram M-E-S-I for cache coherence) — diagrams lock in half the marks!", "calc": "Casio fx-991MS: Verify speedup ratios if a numerical asks cycle counts."}], "calcGuide": {"model": "Casio fx-991MS (with fx-991ES Plus notes where identical)", "disclaimer": "IMPORTANT: In 21CSS201T, the calculator is strictly for CHECKING your final binary/octal/hex/decimal/Booth/division values. Written step-by-step tables and conversions earn the marks.", "sections": [{"title": "1. Setup & Base-N Mode (Essential for Unit 1 & Unit 3)", "keys": "[MODE] -> [MODE] -> [3] (BASE)", "detail": "Switches the calculator into number-base conversion mode (shows `d`, `h`, `b`, or `o` at the right). Press [DEC] (`x^2`), [HEX] (`^`), [BIN] (`log`), or [OCT] (`ln`) to pick input/output base. Press [MODE] -> [1] (COMP) to return to normal arithmetic."}, {"title": "2. Instant Integer Conversions & Bitwise Logic", "keys": "[DEC] 234 [=] -> [BIN] / [OCT] / [HEX]", "detail": "Converts integers instantly (e.g., 234 -> `11101010` bin, `352` oct, `EA` hex). Press [LOGIC] (shifted or dedicated menu in BASE mode: `AND`, `OR`, `XOR`, `XNOR`, `NOT`) to verify logic-gate truth values and 2's complement bit patterns! Note: 2's complement in fx-991MS uses 32-bit signed integers, so `-6` in BIN displays leading 1s; read the rightmost 5 or 8 bits."}, {"title": "3. Store & Recall (STO / RCL) for Multi-Step Checks", "keys": "[SHIFT] [RCL] (STO) -> [A]..[F], [M]   |   [RCL] -> [A]", "detail": "Store intermediate values like `PC = 302`, `R1 = 200`, or `Bias = 127` into variables `A`–`F` so you don't mistype during Part C Effective Address or IEEE 754 checks."}, {"title": "4. CALC Mode (Formula Evaluation)", "keys": "Type expression with [ALPHA] [A], [ALPHA] [B] -> press [CALC]", "detail": "Useful for checking octal/hex polynomial expansions like `A*64 + B*8 + C + D/8` or pipeline speedup `(N*K)/(K+N-1+S)`. Note: fx-991MS has [CALC] via [ALPHA] variables (`=` or expression evaluation; on fx-991ES Plus/EX, dedicated [CALC] key)."}, {"title": "5. Equation Solving & Integration (General Capability Check)", "keys": "SOLVE: [ALPHA] [=] -> [SHIFT] [CALC] (SOLVE)  |  EQN: [MODE]x3 -> [1]  |  Integration: [∫dx]", "detail": "fx-991MS supports linear/quadratic equations (`MODE x3 -> 1`), numerical `SOLVE`, and definite integration (`[∫dx]`). Not heavily needed for COA (since COA is discrete/binary), except `SOLVE` for checking memory-bit log equations like `2^x = 32*1024*1024` (`x * log(2) = log(33554432)` -> `x = 25`)."}]}, "formulas": [{"unit": 1, "name": "Binary / Octal / Hex Positional Value", "prompt": "Value of base-\\(b\\) number \\((d_n\\dots d_0 . d_{-1}\\dots d_{-m})_b\\)", "ans": "\\(\\sum_{i=-m}^{n} d_i \\cdot b^i\\)"}, {"unit": 1, "name": "Signed \\(n\\)-bit 2's Complement Range", "prompt": "Minimum and maximum signed integer in \\(n\\) bits", "ans": "\\(-2^{n-1} \\;\\text{to}\\; +(2^{n-1} - 1)\\)"}, {"unit": 1, "name": "1's & 2's Complement Formula", "prompt": "Relation between 1's and 2's complement of \\(N\\) (\\(n\\) bits)", "ans": "\\(\\text{2's}(N) = (2^n - 1 - N) + 1 = \\overline{N} + 1\\)"}, {"unit": 1, "name": "Binary to Gray Code", "prompt": "Gray bits \\(G_{n-1}\\dots G_0\\) from Binary \\(B_{n-1}\\dots B_0\\)", "ans": "\\(G_{n-1} = B_{n-1},\\quad G_i = B_{i+1} \\oplus B_i\\)"}, {"unit": 1, "name": "BCD Addition Correction Rule", "prompt": "When and what to add in 8421 BCD addition?", "ans": "If 4-bit sum \\(> 9\\) or \\(C_{out}=1\\), add \\(0110_2\\;(6)\\)"}, {"unit": 1, "name": "De Morgan's Laws (Universal Gates)", "prompt": "\\(\\overline{A\\cdot B}\\) and \\(\\overline{A + B}\\)", "ans": "\\(\\overline{A\\cdot B} = \\bar{A} + \\bar{B}\\) (Bubbled OR),\\(\\quad \\overline{A+B} = \\bar{A}\\cdot\\bar{B}\\) (Bubbled AND)"}, {"unit": 2, "name": "Address Bits for Memory Size", "prompt": "Address lines needed for \\(M = 2^k\\) bytes", "ans": "\\(k = \\log_2(M)\\) bits (e.g., \\(32\\text{ MB} = 2^{25} \\implies 25\\) bits)"}, {"unit": 2, "name": "Instruction Format Opcode Bits", "prompt": "Max opcode bits in \\(W\\)-bit word with \\(R\\) regs, \\(M\\) modes, \\(A\\) addr bits", "ans": "\\(W - (\\lceil\\log_2 R\\rceil + \\lceil\\log_2 M\\rceil + A)\\)"}, {"unit": 2, "name": "Addressing Modes EA Summary", "prompt": "EA for Direct, Relative, Reg Indirect, Indexed", "ans": "Direct: \\(A\\); Relative: \\(\\text{PC}+A\\); RegInd: \\([R]\\); Indexed: \\(A+[R]\\)"}, {"unit": 2, "name": "Big Endian vs Little Endian", "prompt": "Where is MSB stored in Big vs Little Endian?", "ans": "Big Endian: MSB at lowest byte address. Little Endian: LSB at lowest byte address."}, {"unit": 3, "name": "Half Adder & Full Adder Equations", "prompt": "Sum & Carry of Half Adder and Full Adder", "ans": "HA: \\(S=A\\oplus B,\\; C=AB\\). FA: \\(S=A\\oplus B\\oplus C_{in},\\; C_{out}=AB+BC_{in}+AC_{in}\\)"}, {"unit": 3, "name": "Carry Look-Ahead Adder (CLA)", "prompt": "\\(P_i,\\; G_i,\\; C_{i+1},\\; S_i\\)", "ans": "\\(P_i = A_i\\oplus B_i,\\; G_i = A_i B_i,\\; C_{i+1} = G_i + P_i C_i,\\; S_i = P_i\\oplus C_i\\)"}, {"unit": 3, "name": "Booth's Algorithm Rule", "prompt": "Action for \\((Q_0, Q_{-1}) = 00, 01, 10, 11\\)", "ans": "\\(00,11\\to\\text{ASR only};\\; 01\\to A\\leftarrow A+M,\\;\\text{ASR};\\; 10\\to A\\leftarrow A-M,\\;\\text{ASR}\\)"}, {"unit": 3, "name": "Bit-Pair Recoding Reduction", "prompt": "Factor by which bit-pair recoding reduces summands", "ans": "Factor of \\(2\\) (max summands \\(n/2\\); values \\(\\{0,\\pm 1,\\pm 2\\}\\))"}, {"unit": 3, "name": "IEEE 754 Single & Double Precision", "prompt": "Bit split (S / E / M) and Bias for 32-bit and 64-bit", "ans": "32-bit: \\(1/8/23\\), Bias \\(=127\\). 64-bit: \\(1/11/52\\), Bias \\(=1023\\)."}, {"unit": 4, "name": "Pipeline Speedup & Cycles", "prompt": "Total cycles for \\(n\\) instructions on \\(k\\)-stage pipeline (no stalls)", "ans": "\\(T_{\\text{pipe}} = k + (n - 1)\\) cycles; Speedup \\(S = \\frac{n\\cdot k}{k + n - 1} \\to k\\)"}, {"unit": 4, "name": "Data Hazard Classification", "prompt": "Three types of data hazards", "ans": "RAW (True dependency), WAR (Anti-dependency), WAW (Output dependency)"}, {"unit": 4, "name": "Control Signals: WMFC, RUN, End", "prompt": "Meaning of WMFC, RUN, and End in single-bus CPU", "ans": "WMFC: Wait for Memory Function Completed; RUN: increments step counter; End: resets step counter to T1"}, {"unit": 5, "name": "Cache Hit Rate & AMAT", "prompt": "Hit Rate \\(h\\) and Average Memory Access Time", "ans": "\\(h = \\frac{\\text{Hits}}{\\text{Total Accesses}},\\quad T_{\\text{avg}} = h\\,T_c + (1-h)(T_c + T_m)\\)"}, {"unit": 5, "name": "MESI Cache Coherence States", "prompt": "Four states of MESI protocol", "ans": "Modified (dirty, sole), Exclusive (clean, sole), Shared (clean, multi), Invalid (stale)"}, {"unit": 5, "name": "ARM Core Key Numbers", "prompt": "ARM word width, instruction sets, and operating modes", "ans": "32-bit RISC; 2 instruction sets (32-bit ARM, 16-bit Thumb); 7 operating modes"}], "flashcards": [{"id": 0, "q": "Which register holds the instruction currently being executed?", "a": "Instruction Register (IR). (PC holds the address of the NEXT instruction.)"}, {"id": 1, "q": "Which register interfaces directly with the unidirectional address bus?", "a": "Memory Address Register (MAR)."}, {"id": 2, "q": "What does WMFC stand for and do?", "a": "Wait for Memory Function Completed: holds the step counter until memory sets MFC = 1."}, {"id": 3, "q": "What does the End control signal do?", "a": "Resets the control step counter back to T1 so the next instruction fetch starts."}, {"id": 4, "q": "What does the RUN signal do?", "a": "When RUN = 1, it increments the step counter by 1 on each clock cycle."}, {"id": 5, "q": "How many bits are needed to address 32 MB of byte-addressable memory?", "a": "25 bits (since 32 MB = 2^5 * 2^20 = 2^25 bytes)."}, {"id": 6, "q": "Formula for 24-bit address space size?", "a": "2^24 = 16,777,216 locations."}, {"id": 7, "q": "What is the 4-step BCD addition correction rule?", "a": "If a 4-bit BCD sum > 9 (1001) or produces a carry out, add 6 (0110) and pass carry to next digit."}, {"id": 8, "q": "Which gates are called Universal Gates and why?", "a": "NAND and NOR, because every basic gate (NOT, AND, OR) and any Boolean function can be built using only NAND or only NOR."}, {"id": 9, "q": "Which gates are called Arithmetic Gates?", "a": "XOR and XNOR (used for binary sum and equality comparison)."}, {"id": 10, "q": "According to De Morgan's theorem, NAND equals what?", "a": "Bubbled OR (OR gate with inverted inputs). NOR equals Bubbled AND."}, {"id": 11, "q": "Half Adder vs Full Adder: input & output count?", "a": "Half Adder: 2 inputs (A, B), 2 outputs (Sum, Carry). Full Adder: 3 inputs (A, B, Cin), 2 outputs."}, {"id": 12, "q": "What are the Propagate and Generate equations in CLA?", "a": "P_i = A_i XOR B_i; G_i = A_i AND B_i; C_{i+1} = G_i + P_i C_i."}, {"id": 13, "q": "Booth's Algorithm: action for (Q0, Q-1) = 01 vs 10?", "a": "01 -> A <- A + M, then ASR. 10 -> A <- A - M, then ASR. (00 and 11 -> ASR only.)"}, {"id": 14, "q": "What shift is used in Booth's Algorithm vs Division?", "a": "Booth uses Arithmetic Shift Right (preserves sign bit). Division uses Shift Left (A, Q)."}, {"id": 15, "q": "In Non-Restoring Division, when is a final restore needed?", "a": "At the very end after n steps, ONLY if A < 0 (set A <- A + M)."}, {"id": 16, "q": "IEEE 754 Single Precision (32-bit) bit layout & bias?", "a": "1 Sign + 8 Exponent + 23 Mantissa; Bias = 127."}, {"id": 17, "q": "IEEE 754 Double Precision (64-bit) bit layout & bias?", "a": "1 Sign + 11 Exponent + 52 Mantissa; Bias = 1023."}, {"id": 18, "q": "What is the other name for Mantissa in IEEE 754?", "a": "Significand."}, {"id": 19, "q": "What is Bit-Pair Recoding's key advantage?", "a": "Halves the maximum number of summands (factor of 2) compared to standard Booth."}, {"id": 20, "q": "Where are microroutines stored?", "a": "In the Control Store (control memory) inside a Microprogrammed Control Unit."}, {"id": 21, "q": "Main disadvantage of Hardwired Control Unit?", "a": "Less flexible to modify and impractical for complex (CISC) instruction sets."}, {"id": 22, "q": "What are the 3 classes of Pipeline Hazards?", "a": "Structural (resource conflict), Data (RAW/WAR/WAW operand not ready), Control / Instruction (branches)."}, {"id": 23, "q": "How does pipelining affect single-instruction latency vs throughput?", "a": "Throughput increases significantly; single-instruction latency remains roughly the same."}, {"id": 24, "q": "What is the difference between Hardware Forwarding and Software NOP?", "a": "Operand forwarding routes ALU/MEM results in hardware; NOP insertion is done by the compiler in software."}, {"id": 25, "q": "Flynn's 4 classes—which one is theoretical with no practical system?", "a": "MISD (Multiple Instruction, Single Data). Classic Von Neumann is SISD."}, {"id": 26, "q": "What do the 4 letters of MESI stand for?", "a": "Modified, Exclusive, Shared, Invalid (snooping cache-coherence protocol)."}, {"id": 27, "q": "ARM architecture: ISA type, bit-width, and Thumb width?", "a": "RISC architecture; 32-bit core (ARM instructions = 32 bits; Thumb instructions = 16 bits)."}, {"id": 28, "q": "How many basic operating modes does ARM have?", "a": "7 modes (User, FIQ, IRQ, Supervisor, Abort, Undefined, System)."}, {"id": 29, "q": "What is the approximate frequency of Load/Store instructions in RISC/ARM?", "a": "Around 40% (which is why ARM optimizes LDR/STR and LDM/STM)."}], "pyqBank": [{"unit": 1, "paper": "May 2023", "q": "Q21a (8m)", "text": "Signed 6-bit 2's complement: (i) \\(101011+111000\\), (ii) \\(001110+110010\\), (iii) \\(111001-001010\\), (iv) \\(101011-100110\\).", "ans": "(i) \\(-21 + (-8) = -29 \\implies 100011_2\\). (ii) \\(14 + (-14) = 0 \\implies 000000_2\\). (iii) \\(-7 - 10 = -17 \\implies 101111_2\\). (iv) \\(-21 - (-26) = +5 \\implies 000101_2\\)."}, {"unit": 1, "paper": "May 2023", "q": "Q21b (8m)", "text": "Draw graphic symbol, algebraic function and truth table for AND, OR, NAND, EX-OR.", "ans": "AND: \\(Y=AB\\); OR: \\(Y=A+B\\); NAND: \\(Y=\\overline{AB}\\); EX-OR: \\(Y=A\\oplus B = A\\bar{B}+\\bar{A}B\\) (1 when inputs differ)."}, {"unit": 1, "paper": "May 2024", "q": "Q21a (8m)", "text": "Differentiate between decimal, binary, octal and hexadecimal number systems.", "ans": "Compare base (10, 2, 8, 16), digit set (0-9, 0-1, 0-7, 0-9 & A-F), bits per digit (-, 1, 3, 4), and typical computing use (human, hardware logic, compact permissions, memory addresses)."}, {"unit": 1, "paper": "May 2024", "q": "Q21b (8m)", "text": "(i) Subtract \\(111001_2\\) from \\(101011_2\\) using 1's comp (4m). (ii) Subtract \\(101011_2\\) from \\(111001_2\\) using 2's comp (4m).", "ans": "(i) \\(101011 + 000110 = 110001\\) (no carry \\(\\implies\\) negative; 1's comp \\(= -001110_2 = -14\\)).<br>(ii) \\(111001 + 010101 = (1)001110 \\implies +001110_2 = +14\\)."}, {"unit": 1, "paper": "Jul 2024", "q": "Q21a (8m)", "text": "Convert decimal \\(234_{10}\\) to (i) Binary, (ii) BCD, (iii) Octal, (iv) Hexadecimal.", "ans": "Binary: \\(11101010_2\\); BCD: \\(0010\\;0011\\;0100\\); Octal: \\(352_8\\); Hex: \\(\\text{EA}_{16}\\)."}, {"unit": 1, "paper": "Jul 2024", "q": "Q21b (8m)", "text": "(i) 2's comp of \\((1001)_2\\) and \\((1010\\,0011)_2\\). (ii) Subtract \\(101011_2\\) from \\(111001_2\\) using 1's comp.", "ans": "(i) \\(0111_2\\) and \\(0101\\,1101_2\\). (ii) \\(111001 + 010100 = (1)001101 + 1\\text{ (EAC)} = 001110_2 = +14\\)."}, {"unit": 1, "paper": "Jul 2024", "q": "Q26 (15m - Part C)", "text": "(i) Define Boolean algebra (2m). (ii) Working of logic gate (2m). (iii) List types with diagram (2m). (iv) Explain any two gates in detail (9m).", "ans": "Boolean algebra: algebra of binary variables {0,1} with AND, OR, NOT and laws (Commutative, Associative, Distributive, De Morgan). List all 7 gates (AND, OR, NOT, NAND, NOR, XOR, XNOR) with symbols, truth tables, Boolean formulas, and detailed timing/applications for two (e.g., NAND & XOR)."}, {"unit": 1, "paper": "Nov 2024", "q": "Q21a (8m)", "text": "Describe Universal Gates and implement basic gates using Universal Gates.", "ans": "NAND & NOR can implement NOT, AND, OR. Write expressions & draw tied-input NOT, double-NAND AND, De Morgan OR-using-NAND, and NOR equivalents."}, {"unit": 1, "paper": "Nov 2024", "q": "Q21b (8m)", "text": "Add \\(101101_2\\) and \\(110110_2\\); convert result to Decimal, Octal, and Hexadecimal.", "ans": "Sum \\(= 1100011_2\\). Decimal \\(= 99_{10}\\). Octal \\(= 143_8\\). Hexadecimal \\(= 63_{16}\\)."}, {"unit": 1, "paper": "Jun 2025", "q": "Q21a (8m)", "text": "Convert \\(105.15_{10}\\) into Binary, Octal, Hexadecimal and BCD forms.", "ans": "Binary: \\(1101001.00100110_2\\); Octal: \\(151.1146_8\\); Hex: \\(69.2666_{16}\\); BCD: \\(0001\\;0000\\;0101\\,.\\,0001\\;0101\\)."}, {"unit": 1, "paper": "Jun 2025", "q": "Q21b (8m)", "text": "Describe all logic gates with symbols and truth table.", "ans": "Cover all 7 gates: AND, OR, NOT, NAND, NOR, XOR, XNOR with symbol, equation, and 2-input truth table."}, {"unit": 1, "paper": "Jul 2025", "q": "Q21a (8m)", "text": "Draw graphic symbol, algebraic function and truth table for AND, OR, NAND, EX-OR.", "ans": "Exact repeat of May 2023 Q21b."}, {"unit": 1, "paper": "Jul 2025", "q": "Q21b (8m)", "text": "(i) BCD Addition for \\(175\\) and \\(326\\) (4m). (ii) \\((111100) - (001011)\\) using 1's and 2's comp (4m).", "ans": "(i) \\(0001\\;0111\\;0101 + 0011\\;0010\\;0110\\): units \\(1011 (+6) \\to 0001, c=1\\); tens \\(1010 (+6) \\to 0000, c=1\\); hundreds \\(0101 \\implies 0101\\;0000\\;0001\\) (501).<br>(ii) \\(60-11=49 = 110001_2\\) in both 1's comp (with EAC) and 2's comp (discard carry)."}, {"unit": 1, "paper": "Nov 2025", "q": "Q21a (8m)", "text": "Convert \\((163.789)_{10}\\) to Octal (4m) and \\((11001101.0101)_2\\) to base 8 (4m).", "ans": "\\(163.789_{10} \\approx 243.6237_8\\). Grouping 3 bits: \\(011\\,001\\,101\\,.\\,010\\,100_2 = 315.24_8\\)."}, {"unit": 1, "paper": "Nov 2025", "q": "Q21b (8m)", "text": "Convert \\((4567)_{10}\\) to base 2 (4m) and \\((\\text{4D.56})_{16}\\) to Binary (4m).", "ans": "\\(4567_{10} = 1000111010111_2\\). \\(\\text{4D.56}_{16} = 0100\\,1101\\,.\\,0101\\,0110_2\\)."}, {"unit": 1, "paper": "May 2026", "q": "Q21a (8m)", "text": "Perform BCD addition \\((375 + 648)_{10}\\): write in BCD, Binary, Octal, and Hex.", "ans": "BCD: \\(0001\\;0000\\;0010\\;0011\\) (= 1023); Binary: \\(1111111111_2\\); Octal: \\(1777_8\\); Hex: \\(\\text{3FF}_{16}\\)."}, {"unit": 1, "paper": "May 2026", "q": "Q21b (8m)", "text": "Illustrate Universal Gates and implement basic gates using Universal Gates.", "ans": "Exact repeat of Nov 2024 Q21a."}, {"unit": 2, "paper": "May 2023", "q": "Q22a (8m)", "text": "(i) Define instructions and data (2m). (ii) Operational concepts of <code>Add R0, LOCA<\/code>, <code>Load R2, LOC<\/code>, <code>Store R4, LOC<\/code> (6m).", "ans": "Instructions specify operations (opcode + operands); data are operands processed. Show step-by-step PC->MAR->Memory->MDR->IR->ALU->Register transfers for each."}, {"unit": 2, "paper": "May 2023", "q": "Q22b (8m)", "text": "(i) 32 MB memory -> bits to address a byte (2m). (ii) Instruction types with example (Data transfer, Manipulation, Arithmetic) (6m).", "ans": "(i) \\(32\\text{ MB} = 2^{25}\\text{ B} \\implies 25\\) bits. (ii) Data Transfer (`LOAD`, `MOV`), Data Manipulation/Logical (`AND`, `SHL`), Arithmetic (`ADD`, `SUB`)."}, {"unit": 2, "paper": "May 2024", "q": "Q22a (8m)", "text": "Give the control sequence for execution of instruction.", "ans": "Explain the Fetch-Decode-Execute cycle with PC, MAR, MDR, IR, ALU, and register control steps."}, {"unit": 2, "paper": "May 2024", "q": "Q22b (8m)", "text": "Describe the importance of different addressing modes in computer architecture.", "ans": "Explain Immediate, Direct, Indirect, Register, Register Indirect, Indexed, Base-Register, Auto-inc/dec—enable pointers, arrays, relocatable code, compact instructions."}, {"unit": 2, "paper": "May 2024", "q": "Q26 (15m - Part C)", "text": "Instruction at 300, address field at 301 = 400, R1 = 200. Evaluate EA for Direct, Immediate, Relative, Register Indirect, Indexed (R1).", "ans": "PC = 302. Direct: 400; Immediate: 301 (op=400); Relative: 302+400=702; Reg Indirect: 200; Indexed: 400+200=600."}, {"unit": 2, "paper": "Jul 2024", "q": "Q22a (8m)", "text": "Describe the basic instruction types in assembly language programming.", "ans": "Data Transfer, Arithmetic, Logical/Bit Manipulation, Shift/Rotate, Program Control (Branch/Jump/Call/Return), and I/O instructions with syntax examples."}, {"unit": 2, "paper": "Jul 2024", "q": "Q22b (8m)", "text": "Describe addressing mode with example.", "ans": "Define EA; explain 6+ modes (Immediate, Direct, Indirect, Register, Reg Indirect, Indexed, Relative) with syntax and EA calculation."}, {"unit": 2, "paper": "Nov 2024", "q": "Q22a (8m)", "text": "List and discuss different addressing modes with suitable examples.", "ans": "Same core addressing modes table + examples."}, {"unit": 2, "paper": "Nov 2024", "q": "Q22b (8m)", "text": "Basic functional blocks of computer system and functions of ALU and Memory Unit (MU).", "ans": "Draw 5 functional units (Input, Output, Memory, ALU, Control Unit). Detail ALU (arithmetic/logic + status flags) and MU (Primary RAM/ROM, Secondary, MAR/MDR interface)."}, {"unit": 2, "paper": "Nov 2024", "q": "Q26 (15m - Part C)", "text": "Explain the architecture of 8086 microprocessor and briefly describe its operations.", "ans": "Draw BIU (Bus Interface Unit: CS/DS/SS/ES, IP, 6-byte instruction queue, address adder) and EU (Execution Unit: AX/BX/CX/DX, SP/BP/SI/DI, ALU, Flags) working in 2-stage fetch-execute pipeline."}, {"unit": 2, "paper": "Jun 2025", "q": "Q22a (8m)", "text": "Byte and word addressing in Big Endian and Little Endian (32-bit word) with diagrams.", "ans": "For 32-bit word `0x12345678` at word 0 (bytes 0..3): Big Endian stores `12` at byte 0 (`78` at byte 3); Little Endian stores `78` at byte 0 (`12` at byte 3)."}, {"unit": 2, "paper": "Jun 2025", "q": "Q22b (8m)", "text": "Evaluate \\(X = (A - B) * (C - D)\\) in zero, one, two and three address formats.", "ans": "3-Addr: 3 instr (`SUB, SUB, MUL`); 2-Addr: 6 instr; 1-Addr: 7 instr via AC; 0-Addr: `PUSH A, PUSH B, SUB, PUSH C, PUSH D, SUB, MUL, POP X`."}, {"unit": 2, "paper": "Jul 2025", "q": "Q22a (8m)", "text": "Different types of bus structures connected between CPU and Memory.", "ans": "Single-bus vs Multi-bus (Two-bus / Three-bus) structures, plus Address/Data/Control bus functions and speed-vs-cost trade-offs."}, {"unit": 2, "paper": "Jul 2025", "q": "Q22b (8m)", "text": "Discuss Addressing modes with suitable examples.", "ans": "Same addressing modes classification + EA formulas + assembly examples."}, {"unit": 2, "paper": "Jul 2025", "q": "Q27 (15m - Part C)", "text": "(i) Evaluate \\((A+B)*(C+D)\\) using all 4 addressing instruction types (8m). (ii) Operational concepts of computer system (7m).", "ans": "(i) 3, 2, 1, 0-address programs. (ii) Functional units + instruction fetch/execute steps using PC, IR, MAR, MDR, ALU, Control Unit."}, {"unit": 2, "paper": "Nov 2025", "q": "Q22a (8m)", "text": "Compute \\(X = (P + Q) * (R - S)\\) in Zero, One, Two, Three Address formats.", "ans": "Exact same pattern as Jun 2025 Q22b with variables P, Q, R, S."}, {"unit": 2, "paper": "Nov 2025", "q": "Q22b (8m)", "text": "Explain various Addressing Modes with suitable examples.", "ans": "Repeat addressing modes classification + examples."}, {"unit": 2, "paper": "May 2026", "q": "Q22a (8m)", "text": "Basic functional blocks of computer system, functions of ALU and Memory Unit (MU).", "ans": "Exact repeat of Nov 2024 Q22b."}, {"unit": 2, "paper": "May 2026", "q": "Q22b (8m)", "text": "Importance of assembly language + simple assembly program to add two numbers.", "ans": "Importance: human-readable mnemonics, direct hardware/register control, tight timing/size. Example: `LOAD R1, NUM1; LOAD R2, NUM2; ADD R3, R1, R2; STORE R3, SUM; HALT`."}, {"unit": 2, "paper": "May 2026", "q": "Q27 (15m - Part C)", "text": "Instruction at 300, address field at 301 = 400, R1 = 200. Find EA for Direct, Immediate, Relative, Reg Indirect, Indexed (R1).", "ans": "Exact repeat of May 2024 Q26 (400, 301, 702, 200, 600)."}, {"unit": 3, "paper": "May 2023", "q": "Q23a (8m)", "text": "Write about 4-bit binary parallel adder/subtractor with its diagram.", "ans": "4 Full Adders cascaded; mode input M=0 adds (A+B), M=1 subtracts via XOR gates (`B XOR 1 = ~B`) and Cin=M=1 (`A + ~B + 1`)."}, {"unit": 3, "paper": "May 2023", "q": "Q23b (8m)", "text": "(i) Advantages of bit pair recoding (3m). (ii) Multiply \\((+13)\\times(-6)\\) using bit pair recoding (5m).", "ans": "(i) Halves partial products (\\(n/2\\)), faster & simpler hardware. (ii) \\(Q = -6 = 11010_2\\) recodes to \\((0, -1, -2)\\); \\((-2\\times 13) + (-1\\times 13\\times 4) = -26 - 52 = -78 = 1110110010_2\\)."}, {"unit": 3, "paper": "May 2023", "q": "Q26 (15m - Part C)", "text": "Procedure of constructing a fast adder, carry look-ahead adder (CLA) with diagram.", "ans": "Derive \\(P_i=A_i\\oplus B_i,\\; G_i=A_i B_i\\), expand \\(C_1..C_4\\) in terms of \\(C_0\\), draw 4-bit CLA circuit + compare delay against ripple carry."}, {"unit": 3, "paper": "May 2023", "q": "Q27 (15m - Part C)", "text": "Explain floating point arithmetic addition / subtraction with its flow chart.", "ans": "Draw 5-block flowchart: Check zero -> Compare exponents -> Shift smaller mantissa right -> Add/Sub mantissas -> Normalize & round -> Check overflow/underflow."}, {"unit": 3, "paper": "May 2024", "q": "Q23a (8m)", "text": "Multiply \\(A=(+8)\\) and \\(B=(+5)\\) using Booth's algorithm step-by-step.", "ans": "5-bit: \\(M=01000, -M=11000, Q=00101\\). After 5 steps: \\(AQ = 0000101000_2 = +40\\)."}, {"unit": 3, "paper": "May 2024", "q": "Q23b (8m)", "text": "IEEE 754 single & double precision format + represent \\(10.25\\) in single precision.", "ans": "Single (1/8/23, bias 127), Double (1/11/52, bias 1023). \\(10.25 = 0\\;10000010\\;010010\\dots0_2\\) (`0x41240000`)."}, {"unit": 3, "paper": "Jul 2024", "q": "Q23a (8m)", "text": "Apply Booth's algorithm to multiply \\(+13\\) and \\(-6\\).", "ans": "5-bit: \\(M=01101, -M=10011, Q=11010\\). After 5 steps: \\(AQ = 1110110010_2 = -78\\)."}, {"unit": 3, "paper": "Jul 2024", "q": "Q23b (8m)", "text": "Divide \\(14 \\div 5\\) using non-restoring division algorithm.", "ans": "\\(Q=1110\\;(14),\\; M=00101\\;(5)\\). 4 steps + final restore \\(A \\leftarrow A+M\\): \\(Q = 0010_2\\;(2),\\; R = 00100_2\\;(4)\\)."}, {"unit": 3, "paper": "Nov 2024", "q": "Q23a (8m)", "text": "Circuit diagram of 4-bit full adder circuit and explain its operations.", "ans": "Draw 4 Full Adders connected in ripple-carry chain (`C0 -> C1 -> C2 -> C3 -> C4`), show FA internal Sum/Carry logic."}, {"unit": 3, "paper": "Nov 2024", "q": "Q23b (8m)", "text": "Describe the significance of Booth algorithm for performing signed multiplication.", "ans": "Handles both positive & negative 2's complement numbers uniformly without converting signs; skips runs of 1s & 0s; include flowchart/example."}, {"unit": 3, "paper": "Jun 2025", "q": "Q23a (8m)", "text": "Solve \\(60 \\times 40\\) using Carry-Save Addition of Summands.", "ans": "\\(60=111100_2,\\; 40=101000_2\\). Generate partial products (non-zero at \\(2^3\\) and \\(2^5\\)), compress 3 vectors at a time into Sum & Carry vectors via full adders without carry propagation, then final CPA adds \\(480 + 1920 = 2400\\;(100101100000_2)\\)."}, {"unit": 3, "paper": "Jun 2025", "q": "Q23b (8m)", "text": "Express how floating point numbers are represented by IEEE Standard.", "ans": "Explain IEEE 754 Single (32-bit, bias 127) and Double (64-bit, bias 1023), normalized \\(1.M \\times 2^{E'-Bias}\\), plus special cases (0, Inf, NaN)."}, {"unit": 3, "paper": "Jun 2025", "q": "Q27 (15m - Part C)", "text": "Divide \\(13\\) by \\(3\\) using BOTH Restoring and Non-Restoring Division step-by-step.", "ans": "4-bit: \\(Q=1101, M=00011\\). Both methods yield \\(Q = 0100_2\\;(4)\\) and \\(R = 00001_2\\;(1)\\) (Non-Restoring needs final \\(A \\leftarrow A+M\\))."}, {"unit": 3, "paper": "Jul 2025", "q": "Q23a (8m)", "text": "Divide \\(10 / 3\\) using Non-Restoring Method.", "ans": "\\(Q=1010, M=00011\\). Step 1 (\\(A-M\\)): \\(A=11110, Q=0100\\); Step 2 (\\(A+M\\)): \\(A=11111, Q=1000\\); Step 3 (\\(A+M\\)): \\(A=00010, Q=0001\\); Step 4 (\\(A-M\\)): \\(A=00001, Q=0011\\). \\(Q=3, R=1\\)."}, {"unit": 3, "paper": "Jul 2025", "q": "Q23b (8m)", "text": "(i) Advantages of bit pair recoding; (ii) Multiply \\((+13)\\times(-6)\\) using bit pair recoding.", "ans": "Exact repeat of May 2023 Q23b (-78)."}, {"unit": 3, "paper": "Jul 2025", "q": "Q26 (15m - Part C)", "text": "Construct a fast adder and carry look-ahead adder (CLA) with diagram.", "ans": "Exact repeat of May 2023 Q26."}, {"unit": 3, "paper": "Nov 2025", "q": "Q23a (8m)", "text": "Briefly explain Carry Look Ahead Adder with neat sketch.", "ans": "Equations for \\(P_i, G_i, C_1..C_4\\) + 4-bit CLA diagram."}, {"unit": 3, "paper": "Nov 2025", "q": "Q23b (8m)", "text": "Discuss in detail Shift and Add multiplier with example.", "ans": "Hardware block diagram (Registers A, Q, M, C, Control Sequencer) + algorithm flowchart + 4-bit unsigned example (e.g., \\(11 \\times 13 = 143\\))."}, {"unit": 3, "paper": "Nov 2025", "q": "Q26 (15m - Part C)", "text": "(i) Multiply \\((-7)\\times(+3)\\) using Booth's algorithm (8m). (ii) Divide \\(+8/+3\\) using Restoring method (7m).", "ans": "(i) 5-bit Booth: \\(M=11001, Q=00011 \\implies AQ = 1111101011_2 = -21\\). (ii) Restoring \\(8/3\\): \\(Q = 0010_2\\;(2),\\; R = 00010_2\\;(2)\\)."}, {"unit": 3, "paper": "May 2026", "q": "Q23a (8m)", "text": "Multiply \\(A=(+8)\\) and \\(B=(+5)\\) using Booth's algorithm.", "ans": "Exact repeat of May 2024 Q23a (+40)."}, {"unit": 3, "paper": "May 2026", "q": "Q23b (8m)", "text": "4-bit full adder circuit diagram and how it differs from half adder.", "ans": "Draw 4-bit ripple-carry full adder + comparison table (Half Adder: 2 inputs, no Cin; Full Adder: 3 inputs, handles Cin)."}, {"unit": 3, "paper": "May 2026", "q": "Q26 (15m - Part C)", "text": "Divide \\(13\\) by \\(3\\) using BOTH Restoring and Non-Restoring Division step-by-step.", "ans": "Exact repeat of Jun 2025 Q27 (Q=4, R=1)."}, {"unit": 4, "paper": "May 2023", "q": "Q24a (8m)", "text": "Control signals generated by control unit to execute (i) Add (R3), R1 and (ii) Unconditional branching.", "ans": "(i) T1-T3 Fetch, T4: `R3out, MARin, Read`, T5: `R1out, Yin, WMFC`, T6: `MDRout, SelectY, Add, Zin`, T7: `Zout, R1in, End`. (ii) T1-T3 Fetch, T4: `PCout, Yin`, T5: `Offset-IRout, SelectY, Add, Zin`, T6: `Zout, PCin, End`."}, {"unit": 4, "paper": "May 2023", "q": "Q24b (8m)", "text": "(i) Define control word, control variables, microinstructions, microprogram (4m). (ii) Microinstruction format & fields with diagram (4m).", "ans": "CW = pattern of 0/1 control signals; Microinstruction = stored CW in control store; Microprogram = sequence of microinstructions. Draw horizontal/vertical format (Condition | Branch Addr | Control Field)."}, {"unit": 4, "paper": "May 2024", "q": "Q24a (8m)", "text": "Complete control sequence for execution of Add (R3), R1 for single bus CPU.", "ans": "Exact 7-step T1-T7 sequence (see May 2023 Q24a.i)."}, {"unit": 4, "paper": "May 2024", "q": "Q24b (8m)", "text": "Discuss about branch prediction with example.", "ans": "Static prediction (always not taken / taken) vs Dynamic 1-bit & 2-bit branch history table with a loop branch example."}, {"unit": 4, "paper": "May 2024", "q": "Q27 (15m - Part C)", "text": "General configuration of microprogrammed control unit with neat block diagram.", "ans": "Draw MCU diagram (IR -> Starting/Branch Address Generator -> uPC -> Control Store -> CW Register -> Control Signals + External/Condition Flags + Clock/Step Counter), explain Horizontal vs Vertical microprogramming, pros/cons."}, {"unit": 4, "paper": "Jul 2024", "q": "Q24a (8m)", "text": "Explain the types of hazards.", "ans": "1. Structural (hardware resource conflict), 2. Data (RAW, WAR, WAW — solved via forwarding/stalling/renaming), 3. Control/Instruction (branches — solved via branch prediction/delayed branching)."}, {"unit": 4, "paper": "Jul 2024", "q": "Q24b (8m)", "text": "Characteristics of hardwired control and advantages/disadvantages of microprogrammed control unit.", "ans": "Hardwired: combinational logic + step counter, very fast, rigid, good for RISC. MCU: flexible, supports complex CISC, easier to debug, slower due to control store access."}, {"unit": 4, "paper": "Nov 2024", "q": "Q24a (8m)", "text": "Illustrate micro-programmed control unit (MCU) with diagram and instruction processing.", "ans": "MCU block diagram + fetch/decode via Starting Address Generator -> sequential uPC stepping -> CW execution -> End resets uPC."}, {"unit": 4, "paper": "Nov 2024", "q": "Q24b (8m)", "text": "Process of pipelining in computer architecture, stages and role in execution.", "ans": "Assembly-line overlapping of IF, ID, EX, MEM, WB stages; draw space-time diagram showing throughput = 1 instr/cycle after fill."}, {"unit": 4, "paper": "Jun 2025", "q": "Q24a (8m)", "text": "Draw Multiple Bus Organization and construct control signal sequence for ADD R4, R5, R6.", "ans": "Draw 3-bus CPU (Bus A, Bus B, Bus C + Register File + ALU + Incrementer). Fetch in T1-T3, Execute in T4: `R5outA, R6outB, SelectB, Add, R4inC, End`."}, {"unit": 4, "paper": "Jun 2025", "q": "Q24b (8m)", "text": "What is a data hazard? Side effects of data hazard and how to overcome them.", "ans": "RAW/WAR/WAW hazards; side effect = stale operand read / wrong program result; overcome via Operand Forwarding, Pipeline Bubbles/Stalls, Compiler Scheduling, Register Renaming."}, {"unit": 4, "paper": "Jul 2025", "q": "Q24a (8m)", "text": "Draw Single Bus Organization and explain execution of an instruction.", "ans": "Draw Single Bus with PC, MAR, MDR, IR, Y, Z, Temp, R0..Rn-1, ALU; trace Fetch (T1-T3) + Execute."}, {"unit": 4, "paper": "Jul 2025", "q": "Q24b (8m)", "text": "Classes of Hazards that degrade the performance of Pipelining.", "ans": "Structural, Data, and Control hazards with examples and mitigations (exact core of Jul 2024 Q24a)."}, {"unit": 4, "paper": "Nov 2025", "q": "Q24a (8m)", "text": "Control sequences for execution of ADD R4, R5, R6 in multi-bus environment with diagram.", "ans": "Exact repeat of Jun 2025 Q24a."}, {"unit": 4, "paper": "Nov 2025", "q": "Q24b (8m)", "text": "Hardwired control unit with neat sketch and list out control signals.", "ans": "Draw Hardwired CU (CLK -> Control Step Counter -> Step Decoder + IR -> Instruction Decoder + Condition Flags -> Encoder Matrix -> Control Signals + RUN/End)."}, {"unit": 4, "paper": "Nov 2025", "q": "Q27 (15m - Part C)", "text": "(i) Microprogrammed control unit with sketch & control signals (10m). (ii) Single Bus Organization processors (5m).", "ans": "Combine May 2024 Q27 (MCU) + Jul 2025 Q24a (Single Bus architecture)."}, {"unit": 4, "paper": "May 2026", "q": "Q24a (8m)", "text": "Process of pipelining, different stages of pipeline and its role in execution.", "ans": "Exact repeat of Nov 2024 Q24b."}, {"unit": 4, "paper": "May 2026", "q": "Q24b (8m)", "text": "What is a data hazard? Side effects and how to overcome them.", "ans": "Exact repeat of Jun 2025 Q24b."}, {"unit": 5, "paper": "May 2023", "q": "Q25a (8m)", "text": "Write in detail about any two types of software parallelism.", "ans": "Explain Data Parallelism (same op across dataset, e.g., loop/vector) and Task-Level / Transaction-Level Parallelism (independent tasks/threads across cores)."}, {"unit": 5, "paper": "May 2023", "q": "Q25b (8m)", "text": "Explain cache coherence problem and give solutions for this problem.", "ans": "Stale copies across private caches in multiprocessors. Solutions: Write-through/Write-invalidate, Snooping protocols (MSI/MESI), Directory-based protocols."}, {"unit": 5, "paper": "May 2024", "q": "Q25a (8m)", "text": "Explain in detail about MESI protocol with a neat diagram.", "ans": "Draw 4-state transition diagram (Modified, Exclusive, Shared, Invalid) with Read Hit/Miss, Write Hit/Miss, and Bus Read/Invalidate transitions."}, {"unit": 5, "paper": "May 2024", "q": "Q25b (8m)", "text": "Justify need of parallelism & compare types of parallelism needed for real-time scenario.", "ans": "Single-core power/frequency wall -> multi-core parallelism needed; compare Data, Task, ILP, and TLP with real-time examples (video/sensor pipelines)."}, {"unit": 5, "paper": "Jul 2024", "q": "Q25a (8m)", "text": "Short notes on memory in multiprocessor system and hardware multithreading.", "ans": "UMA (SMP) vs NUMA shared memory; Hardware multithreading: Fine-grained (switch every cycle), Coarse-grained (switch on stall), Simultaneous (SMT/Hyper-Threading)."}, {"unit": 5, "paper": "Jul 2024", "q": "Q25b (8m)", "text": "Cache coherence problem and protocol used to overcome cache coherence.", "ans": "Explain coherence problem + MESI snooping protocol (and directory-based alternative)."}, {"unit": 5, "paper": "Jul 2024", "q": "Q27 (15m - Part C)", "text": "Explain in detail about parallelism and its types.", "ans": "Hardware parallelism (ILP, TLP, Flynn's SISD/SIMD/MISD/MIMD, multicore) + Software parallelism (Data, Task, Transaction-level) with diagrams."}, {"unit": 5, "paper": "Nov 2024", "q": "Q25a (8m)", "text": "Briefly write about architecture of parallel systems and its types.", "ans": "Flynn's taxonomy (SISD, SIMD, MISD, MIMD) + Shared-memory vs Distributed-memory systems."}, {"unit": 5, "paper": "Nov 2024", "q": "Q25b (8m)", "text": "Various memory load and store instructions available in ARM architecture.", "ans": "Single-register (`LDR`, `STR`, byte/halfword `LDRB`/`LDRH`), Pre-indexed (`LDR R0, [R1, #4]!`), Post-indexed (`LDR R0, [R1], #4`), Block transfer (`LDMIA`, `STMDB`)."}, {"unit": 5, "paper": "Nov 2024", "q": "Q27 (15m - Part C)", "text": "Architecture of ARM processors, focusing on how pipeline stages contribute to instruction execution.", "ans": "ARM7 3-stage pipeline (Fetch-Decode-Execute, PC = current + 8) and ARM9 5-stage pipeline (Fetch-Decode-Execute-Memory-Writeback), plus Load/Store RISC datapath, 37 registers, CPSR."}, {"unit": 5, "paper": "Jun 2025", "q": "Q25a (8m)", "text": "Explain Flynn's Classification and its four architectures in detail.", "ans": "Draw SISD, SIMD, MISD, MIMD diagrams + characteristics + real-world examples."}, {"unit": 5, "paper": "Jun 2025", "q": "Q25b (8m)", "text": "Illustrate the Thumb Instruction Set and features of the ARM Processor.", "ans": "Thumb = 16-bit compressed subset of 32-bit ARM instructions (saves ~30-40% code density; switched via `BX` and CPSR T-bit). Key ARM features: RISC, Load/Store, conditional execution, barrel shifter."}, {"unit": 5, "paper": "Jul 2025", "q": "Q25a (8m)", "text": "Write about cache coherence problem and give solutions.", "ans": "Exact repeat of May 2023 Q25b."}, {"unit": 5, "paper": "Jul 2025", "q": "Q25b (8m)", "text": "Features, advantages and disadvantages of ARM Processor.", "ans": "Features: RISC, low power, Load/Store, barrel shifter, 32-bit/Thumb. Pros: energy efficiency, high code density. Cons: limited legacy x86 compat, more instructions for complex ops."}, {"unit": 5, "paper": "Nov 2025", "q": "Q25a (8m)", "text": "Discuss in detail Flynn's classification with suitable sketch.", "ans": "Exact repeat of Jun 2025 Q25a."}, {"unit": 5, "paper": "Nov 2025", "q": "Q25b (8m)", "text": "Operations of Memory Load and Store instructions in ARM processors and impact on data handling.", "ans": "LDR/STR single & multiple (`LDM`/`STM`), pre/post indexing; impact: separates memory access from ALU ops, simplifies pipeline and improves predictability."}, {"unit": 5, "paper": "May 2026", "q": "Q25a (8m)", "text": "Explain Flynn's Classification and its four architectures in detail.", "ans": "Exact repeat of Jun 2025 Q25a & Nov 2025 Q25a."}, {"unit": 5, "paper": "May 2026", "q": "Q25b (8m)", "text": "Various memory load and store instructions available in ARM architecture.", "ans": "Exact repeat of Nov 2024 Q25b."}], "ytPlan": [{"unit": "Unit 1 (CO1): Number Systems, Complements, BCD & Logic Gates", "must_1x": "34m 59s", "must_15x": "23m 19s", "videos": [{"tier": "MUST", "ch": "Gate Smashers DE #59", "title": "Lec-17: Binary Addition and Subtraction | Number System", "len": "8:46", "url": "https://www.youtube.com/watch?v=4cjs2GrOf6Y&list=PLxCzCOWd7aiGmXg4NoX6R31AsC5LeCPHe&index=59", "why": "1's/2's complement subtraction & binary arithmetic (4/8 papers)"}, {"tier": "MUST", "ch": "Neso Academy COA #54", "title": "Conversion from Decimal Number System", "len": "8:55", "url": "https://www.youtube.com/watch?v=hCvAW_5-cJE&list=PLBlnK6fEyqRgLLlzdgiTUKULKJPYc0A4q&index=54", "why": "Base conversions incl. fractions like 105.15 & 163.789 (5/8 papers)"}, {"tier": "MUST", "ch": "Neso Academy COA #72", "title": "BCD Addition", "len": "11:28", "url": "https://www.youtube.com/watch?v=xmJVtDm333I&list=PLBlnK6fEyqRgLLlzdgiTUKULKJPYc0A4q&index=72", "why": "Step-by-step +6 (0110) BCD correction rule (Jul 2025, May 2026)"}, {"tier": "MUST", "ch": "Gate Smashers DE #4", "title": "Lec-4: Implement all Gates using NAND & NOR Gate | Universal Gates", "len": "5:50", "url": "https://www.youtube.com/watch?v=w2hK0JVKmJc&list=PLxCzCOWd7aiGmXg4NoX6R31AsC5LeCPHe&index=4", "why": "Universal gates & gate realizations (6/8 papers across Part A/B/C)"}, {"tier": "IF TIME", "ch": "Gate Smashers DE #3", "title": "Lec-3: Types of Logic Gates | Symbols | Truth Tables", "len": "8:59", "url": "https://www.youtube.com/watch?v=47u7b2yh7s8&list=PLxCzCOWd7aiGmXg4NoX6R31AsC5LeCPHe&index=3", "why": "Quick revision of basic gate symbols & truth tables"}, {"tier": "IF TIME", "ch": "Neso Academy COA #75", "title": "Gray Code", "len": "8:17", "url": "https://www.youtube.com/watch?v=Pai6toNcI1I&list=PLBlnK6fEyqRgLLlzdgiTUKULKJPYc0A4q&index=75", "why": "Guaranteed 1-mark Part A MCQ (4/8 papers)"}], "skip": "Gate Smashers DE #7-#58 (K-Maps, Flip-Flops, Counters, MUX) & Neso COA #69-#71, #76-#80 (Hamming/Excess-3): 0 Part B/C questions."}, {"unit": "Unit 2 (CO2): Computer Structure, Instruction Formats & Addressing Modes", "must_1x": "43m 43s", "must_15x": "29m 08s", "videos": [{"tier": "MUST", "ch": "Gate Smashers COA #19", "title": "L-2.1: What is Addressing Mode | Various Types of Addressing Modes", "len": "11:45", "url": "https://www.youtube.com/watch?v=_CH4cm5PhK8&list=PLxCzCOWd7aiHMonh3G6QNKq53C6oNXGrX&index=19", "why": "Most repeated Unit 2 topic: 6/8 papers in Part B/C (up to 15 marks)"}, {"tier": "MUST", "ch": "Gate Smashers COA #30", "title": "L-2.12: Question on Addressing Modes | Computer Organization", "len": "4:46", "url": "https://www.youtube.com/watch?v=fGnMnGyfZVs&list=PLxCzCOWd7aiHMonh3G6QNKq53C6oNXGrX&index=30", "why": "EA numerical like May 2024 Q26 & May 2026 Q27 (15 marks)"}, {"tier": "MUST", "ch": "Gate Smashers COA #15", "title": "L-1.15: Single Accumulator CPU Organisation | Single Address", "len": "8:03", "url": "https://www.youtube.com/watch?v=k5YMLXPy1SE&list=PLxCzCOWd7aiHMonh3G6QNKq53C6oNXGrX&index=15", "why": "1-address format for (A+B)*(C+D) (3/8 papers)"}, {"tier": "MUST", "ch": "Gate Smashers COA #16", "title": "L-1.16: General Register CPU Organisation | Two and Three Address", "len": "7:19", "url": "https://www.youtube.com/watch?v=Za7ozdjE8VI&list=PLxCzCOWd7aiHMonh3G6QNKq53C6oNXGrX&index=16", "why": "2-address and 3-address formats (3/8 papers)"}, {"tier": "MUST", "ch": "Gate Smashers COA #17", "title": "L-1.17: Register Stack Organisation | Zero Address Instructions", "len": "11:50", "url": "https://www.youtube.com/watch?v=u-sp4gBAJKI&list=PLxCzCOWd7aiHMonh3G6QNKq53C6oNXGrX&index=17", "why": "Zero-address PUSH/POP format (Jun 2025, Jul 2025, Nov 2025)"}, {"tier": "IF TIME", "ch": "Gate Smashers COA #2", "title": "L-1.2: Von Neumann's Architecture | Stored Memory Concept", "len": "9:40", "url": "https://www.youtube.com/watch?v=j8NnE1YeSN0&list=PLxCzCOWd7aiHMonh3G6QNKq53C6oNXGrX&index=2", "why": "Functional blocks, ALU & Memory Unit (Nov 2024, May 2026)"}, {"tier": "IF TIME", "ch": "Gate Smashers COA #14", "title": "L-1.14: Question on Instruction Format", "len": "8:51", "url": "https://www.youtube.com/watch?v=GZz9nz7Vgb0&list=PLxCzCOWd7aiHMonh3G6QNKq53C6oNXGrX&index=14", "why": "Opcode bit-length MCQ numerical (Jul 2024 Q6, May 2026 Q5)"}, {"tier": "IF TIME", "ch": "Learning Simplified", "title": "Gate CO-13 | Byte Ordering (Big Endian & Little Endian)", "len": "10:54", "url": "https://www.youtube.com/watch?v=B50mNoVw21k", "why": "Big vs Little Endian (Jun 2025 Q22a)"}, {"tier": "IF TIME", "ch": "Gate Smashers", "title": "Lec-13: Architecture of 8086 Microprocessor", "len": "18:27", "url": "https://www.youtube.com/watch?v=W1DMmuunJZU", "why": "8086 architecture (Nov 2024 Q26 variant)"}], "skip": "Gate Smashers COA #20-#29 (10 individual mode videos covered by L-2.1) & #8-#12."}, {"unit": "Unit 3 (CO3): Computer Arithmetic (Booth, Division, Adders, IEEE 754)", "must_1x": "1h 14m 21s", "must_15x": "49m 34s", "videos": [{"tier": "MUST", "ch": "Neso Academy COA #90", "title": "The Concept of Booth's Algorithm", "len": "11:51", "url": "https://www.youtube.com/watch?v=meSn0UXmgac&list=PLBlnK6fEyqRgLLlzdgiTUKULKJPYc0A4q&index=90", "why": "Signed multiplication rule (5/8 papers)"}, {"tier": "MUST", "ch": "Neso Academy COA #91", "title": "The Implementation of Booth's Algorithm", "len": "16:34", "url": "https://www.youtube.com/watch?v=tnLKU07b-HA&list=PLBlnK6fEyqRgLLlzdgiTUKULKJPYc0A4q&index=91", "why": "Exact A, Q, Q-1 trace table for 8/15m"}, {"tier": "MUST", "ch": "Neso Academy COA #93", "title": "The Concept of Restoring Division", "len": "19:41", "url": "https://www.youtube.com/watch?v=kGYA3rvnWdU&list=PLBlnK6fEyqRgLLlzdgiTUKULKJPYc0A4q&index=93", "why": "Restoring division (Jun 2025 15m, Nov 2025 7m, May 2026 15m)"}, {"tier": "MUST", "ch": "Neso Academy COA #96", "title": "Non-Restoring Division", "len": "10:34", "url": "https://www.youtube.com/watch?v=ge09GjFUmKg&list=PLBlnK6fEyqRgLLlzdgiTUKULKJPYc0A4q&index=96", "why": "Non-restoring division (4/8 papers, 15m Part C twice)"}, {"tier": "MUST", "ch": "Neso Academy COA #85", "title": "IEEE Standard for Floating-Point Arithmetic (IEEE 754)", "len": "9:16", "url": "https://www.youtube.com/watch?v=_NFaYk9R9jI&list=PLBlnK6fEyqRgLLlzdgiTUKULKJPYc0A4q&index=85", "why": "Single/Double precision bias 127/1023 (3/8 papers + 8/8 MCQs)"}, {"tier": "MUST", "ch": "Neso Academy", "title": "Carry Lookahead Adder (Part 1) | CLA Generator", "len": "6:25", "url": "https://www.youtube.com/watch?v=6Z1WikEWxH0", "why": "Pi, Gi and Ci+1 equations (15m Part C twice)"}, {"tier": "IF TIME", "ch": "Neso Academy", "title": "Carry Lookahead Adder (Part 2) | CLA Adder", "len": "11:19", "url": "https://www.youtube.com/watch?v=9lyqSVKbyz8", "why": "Full 4-bit CLA block diagram for 15-mark Part C"}, {"tier": "IF TIME", "ch": "Engineering Funda", "title": "4 bit Adder Subtractor: Circuit Design and Logic Explained", "len": "8:23", "url": "https://www.youtube.com/watch?v=8w1yDlDCA6Q", "why": "4-bit full adder/subtractor with XOR mode (3/8 papers)"}, {"tier": "IF TIME", "ch": "Strive Study Learn", "title": "Booth Pair Recoding | Computer Architecture", "len": "6:44", "url": "https://www.youtube.com/watch?v=1UDh2oLKFts", "why": "Bit-pair recoding (+13 x -6, May 2023 & Jul 2025 + MCQs)"}, {"tier": "IF TIME", "ch": "Dr Padmini S", "title": "CARRY SAVE ADDITION OF SUMMANDS CSA", "len": "8:35", "url": "https://www.youtube.com/watch?v=k5jOJNI5Tko", "why": "CSA multiplication 60x40 (Jun 2025 Q23a)"}], "skip": "Neso COA #81-#84 (55m pre-IEEE intro) and #94-#95 (VHDL/hardware optimization)."}, {"unit": "Unit 4 (CO4): Control Unit & Pipelining", "must_1x": "52m 00s", "must_15x": "34m 40s", "videos": [{"tier": "MUST", "ch": "Gate Smashers COA #48", "title": "L-4.1: Pipelining with real life example | Need of Pipelining", "len": "8:18", "url": "https://www.youtube.com/watch?v=Al95Owan9Ck&list=PLxCzCOWd7aiHMonh3G6QNKq53C6oNXGrX&index=48", "why": "Pipeline stages & role (Nov 2024, May 2026 + MCQs)"}, {"tier": "MUST", "ch": "Gate Smashers COA #53", "title": "L-4.6: What is Hazard in Pipelining | various types of Hazards", "len": "10:29", "url": "https://www.youtube.com/watch?v=srlgaJgaxRE&list=PLxCzCOWd7aiHMonh3G6QNKq53C6oNXGrX&index=53", "why": "Structural, Data & Control hazards (5/8 papers + 8/8 MCQs)"}, {"tier": "MUST", "ch": "Gate Smashers COA #60", "title": "L-4.13: Operand Forwarding in COA | Data Hazard", "len": "11:11", "url": "https://www.youtube.com/watch?v=gkgqVEPi3Fk&list=PLxCzCOWd7aiHMonh3G6QNKq53C6oNXGrX&index=60", "why": "How to overcome data hazards (Jun 2025, May 2026)"}, {"tier": "MUST", "ch": "Engineering Funda", "title": "Hardwired Control Unit vs Microprogrammed Control Unit", "len": "13:25", "url": "https://www.youtube.com/watch?v=l1vBkZWyELk", "why": "Hardwired & MCU block diagrams (5/8 papers, 15m twice)"}, {"tier": "MUST", "ch": "Jobin Thomas", "title": "control sequence to execute a complete instruction", "len": "8:37", "url": "https://www.youtube.com/watch?v=94p9g0qhOSM", "why": "Single/multi-bus control steps Add (R3), R1 (5/8 papers)"}, {"tier": "IF TIME", "ch": "AllAboutCSIT", "title": "Branch Prediction Technique Introduction | lec 58", "len": "5:52", "url": "https://www.youtube.com/watch?v=zdbyzJJCEbI", "why": "Branch prediction with example (May 2024 Q24b)"}, {"tier": "IF TIME", "ch": "Gate Smashers COA #50", "title": "L-4.3: Pipelining Vs Non-Pipelining | Speedup, Efficiency", "len": "13:04", "url": "https://www.youtube.com/watch?v=R9s34-lnd9k&list=PLxCzCOWd7aiHMonh3G6QNKq53C6oNXGrX&index=50", "why": "Speedup/latency formulas for pipeline MCQs"}], "skip": "Gate Smashers COA #54-#59 (individual hazard deep-dives) and #61-#66 (I/O, DMA, Daisy Chaining: 0 Part B/C questions)."}, {"unit": "Unit 5 (CO5): Parallelism, Cache Coherence & ARM Processor", "must_1x": "54m 40s", "must_15x": "36m 26s", "videos": [{"tier": "MUST", "ch": "Engineering Funda", "title": "Flynn's Classification: SISD, SIMD, MISD, and MIMD", "len": "14:34", "url": "https://www.youtube.com/watch?v=BHD7qhZRoXQ", "why": "Flynn's 4 architectures (5/8 papers + 8/8 MCQs)"}, {"tier": "MUST", "ch": "Neso Academy COA #29", "title": "Cache Coherence Problem & Cache Coherency Protocols", "len": "11:58", "url": "https://www.youtube.com/watch?v=r_ZE1XVT8Ao&list=PLBlnK6fEyqRgLLlzdgiTUKULKJPYc0A4q&index=29", "why": "Cache coherence & snooping/MESI (4/8 papers)"}, {"tier": "MUST", "ch": "Embedded System Creations", "title": "Load and Store Process in ARM | LDR | STR", "len": "11:39", "url": "https://www.youtube.com/watch?v=PiWIIeTgpyw", "why": "ARM memory Load & Store instructions (Nov 24, Nov 25, May 26)"}, {"tier": "MUST", "ch": "Education 4u", "title": "ARM Architecture | ES | Embedded Systems | Lec-09", "len": "16:29", "url": "https://www.youtube.com/watch?v=JPfG0UQd3x4", "why": "ARM RISC features, modes & pipeline (Nov 24, Jun/Jul 25)"}, {"tier": "IF TIME", "ch": "Education 4u", "title": "Thumb instruction set in ARM | Lec-15", "len": "6:02", "url": "https://www.youtube.com/watch?v=0eJU9EzyNUo", "why": "16-bit Thumb state vs 32-bit ARM state (Jun 2025 Q25b)"}, {"tier": "IF TIME", "ch": "Ziara calls", "title": "Multithreading DECODED: Fine-Grained vs. Coarse-Grained", "len": "6:46", "url": "https://www.youtube.com/watch?v=CR_vKqXQfP0", "why": "Hardware multithreading (Jul 2024 Q25a)"}], "skip": "Neso COA #8-#28 & #32-#48 (Cache Mapping numericals, ROM internals, Hard Disk geometry): 0 Part B/C questions."}], "mcqs": [{"id": 0, "paper": "May 2023", "qnum": 1, "unit": 1, "q": "The binary equivalent of the decimal number \\(26.2\\) is ____.", "opts": ["\\(10010.1101\\)", "\\(11010.0011\\)", "\\(11110.1110\\)", "\\(01110.0011\\)"], "ans": 1, "why": "\\(26_{10} = 16+8+2 = 11010_2\\). Fractional part: \\(0.2\\times2=0.4\\,(0),\\;0.4\\times2=0.8\\,(0),\\;0.8\\times2=1.6\\,(1),\\;0.6\\times2=1.2\\,(1)\\implies 11010.0011_2\\)."}, {"id": 1, "paper": "May 2023", "qnum": 2, "unit": 1, "q": "Find the hexadecimal value for the decimal number \\(264\\).", "opts": ["\\(128\\)", "\\(108\\)", "\\(\\text{2A1}\\)", "\\(761\\)"], "ans": 1, "why": "\\(264 \\div 16 = 16\\) rem \\(8\\); \\(16 \\div 16 = 1\\) rem \\(0\\); \\(1 \\div 16 = 0\\) rem \\(1 \\implies 108_{16}\\)."}, {"id": 2, "paper": "May 2023", "qnum": 3, "unit": 1, "q": "The 2's complement of the binary number \\(101101\\) is ____.", "opts": ["\\(011010\\)", "\\(100010\\)", "\\(001010\\)", "\\(010011\\)"], "ans": 3, "why": "1's complement of \\(101101\\) is \\(010010\\). Adding \\(1\\) gives \\(010011\\)."}, {"id": 3, "paper": "May 2023", "qnum": 4, "unit": 1, "q": "Signed 2's complement of \\(-16\\) in 8-bit representation is ____.", "opts": ["\\(10111011\\)", "\\(10001100\\)", "\\(01110000\\)", "\\(00110101\\)"], "ans": 2, "why": "True 8-bit 2's complement of \\(-16\\) is \\(11110000_2\\) (\\(+16 = 00010000 \\to 11101111+1\\)). Note: the printed May 2023 paper has a leading-bit typo in option (C) \\(01110000\\)."}, {"id": 4, "paper": "May 2023", "qnum": 5, "unit": 2, "q": "____ performs the desired operations on the input information.", "opts": ["Arithmetic and logic unit", "Input unit", "Output unit", "Control unit"], "ans": 0, "why": "The ALU executes all arithmetic and logical operations on operands."}, {"id": 5, "paper": "May 2023", "qnum": 6, "unit": 2, "q": "____ convert the information in binary form to a form understood by user.", "opts": ["Input unit", "ALU", "Output unit", "Memory unit"], "ans": 2, "why": "The Output unit translates internal binary results into human-readable form (display/print)."}, {"id": 6, "paper": "May 2023", "qnum": 7, "unit": 2, "q": "____ holds the instructions that is currently being executed.", "opts": ["Program counter", "Instruction register", "Registers", "Memory address register"], "ans": 1, "why": "IR (Instruction Register) holds the current instruction; PC holds the address of the next instruction."}, {"id": 7, "paper": "May 2023", "qnum": 8, "unit": 2, "q": "____ operations are required in memory access.", "opts": ["Add", "Move", "Load and store", "Halt"], "ans": 2, "why": "Load (Read from memory) and Store (Write to memory) are the memory-access operations."}, {"id": 8, "paper": "May 2023", "qnum": 9, "unit": 3, "q": "____ is a combinational logic circuit with two input and two output.", "opts": ["Full adder", "Half adder", "Multiplexer", "Decoder"], "ans": 1, "why": "A Half Adder takes 2 inputs (A, B) and produces 2 outputs (Sum, Carry). Full adder takes 3 inputs."}, {"id": 9, "paper": "May 2023", "qnum": 10, "unit": 3, "q": "____ reduces the number of summands by a factor of 2.", "opts": ["Bit pair recoding", "Binary pair recoding", "Single bit recoding", "Multiple bit recoding"], "ans": 0, "why": "Bit-pair recoding (modified Booth) pairs adjacent multiplier bits, halving the number of summands."}, {"id": 10, "paper": "May 2023", "qnum": 11, "unit": 3, "q": "Where does the multiplier operand is stored?", "opts": ["Cache", "Instruction register", "Program counter", "Shift register"], "ans": 3, "why": "In hardware multipliers, the multiplier is loaded into a shift register so bits can be shifted out sequentially."}, {"id": 11, "paper": "May 2023", "qnum": 12, "unit": 3, "q": "How many bits are needed to represent floating point number in a single precision form?", "opts": ["16", "32", "64", "50"], "ans": 1, "why": "IEEE 754 Single Precision uses 32 bits (1 sign + 8 exponent + 23 mantissa); Double Precision uses 64 bits."}, {"id": 12, "paper": "May 2023", "qnum": 13, "unit": 4, "q": "A set of microinstructions for a single machine instruction is called ____.", "opts": ["Application program", "Command", "Micro program", "System files"], "ans": 2, "why": "A sequence of microinstructions implementing one machine instruction is a microroutine / microprogram."}, {"id": 13, "paper": "May 2023", "qnum": 14, "unit": 4, "q": "What approach is used to identify the data dependencies when dealing with software?", "opts": ["Operand forwarding", "Bubbling", "NOP", "Wait signal"], "ans": 2, "why": "The compiler inserts NOP (No-Operation) instructions in software when resolving data dependencies; forwarding is hardware."}, {"id": 14, "paper": "May 2023", "qnum": 15, "unit": 4, "q": "Branch instruction 'JUMP IF ZERO' is an example of ____.", "opts": ["Transferring the control", "Conditional branch", "Unconditional branch", "Arithmetic branch"], "ans": 1, "why": "'JUMP IF ZERO' branches only when the Zero flag Z=1, so it is a conditional branch."}, {"id": 15, "paper": "May 2023", "qnum": 16, "unit": 4, "q": "____ memory is used in pipelining to increase the memory access speed.", "opts": ["Special memory locations", "Special purpose register", "Cache", "Buffers"], "ans": 2, "why": "Cache memory (separate I-cache and D-cache) keeps instruction/data fetch fast enough to match pipeline stages."}, {"id": 16, "paper": "May 2023", "qnum": 17, "unit": 5, "q": "In ____ parallelism the computer architecture has multiple nodes, multiple CPUs and multiple threads.", "opts": ["Processor", "Memory", "Control", "Data"], "ans": 0, "why": "Processor (hardware/thread-level) parallelism spans multiple CPUs, nodes, and threads."}, {"id": 17, "paper": "May 2023", "qnum": 18, "unit": 5, "q": "____ is a measure of how many operations can be performed in parallel at the same time.", "opts": ["Data parallelism", "Task level parallelism", "Instruction level parallelism", "Transaction level parallelism"], "ans": 2, "why": "ILP (Instruction-Level Parallelism) measures how many instructions/operations execute simultaneously inside a processor."}, {"id": 18, "paper": "May 2023", "qnum": 19, "unit": 5, "q": "Type of computer where a single instruction would operate or execute on multiple data values is called ____.", "opts": ["Single instruction and multiple data stream", "Single instruction and single data stream", "Multiple instruction and single data stream", "Multiple instruction and multiple data stream"], "ans": 0, "why": "SIMD (Single Instruction, Multiple Data) executes the same instruction across multiple data items (e.g., vector/GPU units)."}, {"id": 19, "paper": "May 2023", "qnum": 20, "unit": 5, "q": "____ method is used to design the control unit of ARM processor.", "opts": ["Hardwired", "Microprogrammed", "State machine", "Combinational circuit"], "ans": 0, "why": "ARM is a RISC processor; its fixed-length instructions are decoded with a fast Hardwired control unit."}, {"id": 20, "paper": "May 2024", "qnum": 1, "unit": 1, "q": "The representation of hexadecimal number \\((\\text{6DE})_{16}\\) in decimal is ____.", "opts": ["\\(6\\times 16^2 + 13\\times 16^1 + 14\\times 16^0\\)", "\\(6\\times 16^2 + 12\\times 16^1 + 13\\times 16^0\\)", "\\(6\\times 16^2 + 11\\times 16^1 + 14\\times 16^0\\)", "\\(6\\times 16^2 + 14\\times 16^1 + 15\\times 16^0\\)"], "ans": 0, "why": "In hex, \\(D = 13\\) and \\(E = 14\\), so \\(6\\times 16^2 + 13\\times 16^1 + 14\\times 16^0\\)."}, {"id": 21, "paper": "May 2024", "qnum": 2, "unit": 1, "q": "1's complement of \\(1011101\\) is ____.", "opts": ["\\(0101110\\)", "\\(1001101\\)", "\\(0100010\\)", "\\(1100101\\)"], "ans": 2, "why": "Flipping every bit of \\(1011101\\) gives \\(0100010\\)."}, {"id": 22, "paper": "May 2024", "qnum": 3, "unit": 1, "q": "Which of the following gate will give a \\(0\\) when both of its inputs are \\(1\\)?", "opts": ["AND", "OR", "NAND", "EXOR"], "ans": 2, "why": "\\(\\overline{1\\cdot 1} = 0\\) for NAND (note: EXOR also gives 0 for (1,1), but in basic universal-gate syllabus keys NAND is the standard answer; EXOR is 0 whenever inputs are equal)."}, {"id": 23, "paper": "May 2024", "qnum": 4, "unit": 1, "q": "____ are universal gates.", "opts": ["NOT", "NAND & NOR", "AND", "NOT, AND & OR"], "ans": 1, "why": "Any Boolean function or basic gate can be built using only NAND gates or only NOR gates."}, {"id": 24, "paper": "May 2024", "qnum": 5, "unit": 2, "q": "____ is the sequence of operation performed by CPU in processing an instruction.", "opts": ["Execute cycle", "Fetch cycle", "Decode", "Instruction cycle"], "ans": 3, "why": "One complete Fetch-Decode-Execute sequence is called an Instruction Cycle."}, {"id": 25, "paper": "May 2024", "qnum": 6, "unit": 2, "q": "A register capable of shifting its binary information either to the right or the left is called a ____.", "opts": ["Parallel register", "Serial register", "Shift register", "Storage register"], "ans": 2, "why": "A shift register shifts stored bits left or right on each clock pulse."}, {"id": 26, "paper": "May 2024", "qnum": 7, "unit": 2, "q": "Which interrupt services save all the register and flags?", "opts": ["Save interrupt", "Input / output interrupt", "Service interrupt", "Save and service interrupt"], "ans": 3, "why": "Save and service interrupt saves CPU registers and status flags before running the ISR."}, {"id": 27, "paper": "May 2024", "qnum": 8, "unit": 2, "q": "In multiple bus organization, the registers are collectively placed and referred as ____.", "opts": ["Set registers", "Register file", "Register block", "Map registers"], "ans": 1, "why": "General-purpose registers are grouped into a multi-port Register File."}, {"id": 28, "paper": "May 2024", "qnum": 9, "unit": 3, "q": "Which of the following is used for binary multiplication?", "opts": ["Restoring multiplication", "Booth's algorithm", "Pascal's rule", "Digit-by-digit multiplication"], "ans": 1, "why": "Booth's algorithm multiplies signed binary numbers in 2's complement form."}, {"id": 29, "paper": "May 2024", "qnum": 10, "unit": 3, "q": "According to De-Morgan's theorem: \\(\\text{NAND} =\\) ____.", "opts": ["Bubbled AND", "Bubbled NOR", "Bubbled XOR", "Bubbled OR"], "ans": 3, "why": "\\(\\overline{A \\cdot B} = \\bar{A} + \\bar{B}\\), which is an OR gate with inverted (bubbled) inputs = Bubbled OR."}, {"id": 30, "paper": "May 2024", "qnum": 11, "unit": 3, "q": "The sign followed by the string of digits is called as ____.", "opts": ["Significant", "Determinant", "Mantissa", "Exponent"], "ans": 2, "why": "In floating-point representation, the signed fractional digit string is the Mantissa (significand)."}, {"id": 31, "paper": "May 2024", "qnum": 12, "unit": 3, "q": "In 32 bit representation the scale factor has a range of ____.", "opts": ["\\(-128\\) to \\(127\\)", "\\(-256\\) to \\(255\\)", "\\(0\\) to \\(255\\)", "\\(-128\\) to \\(255\\)"], "ans": 2, "why": "In 32-bit IEEE 754, the 8-bit biased exponent (scale factor field \\(E'\\)) spans \\(0\\) to \\(255\\) (unbiased \\(-126\\) to \\(+127\\); exam key uses \\(0\\) to \\(255\\))."}, {"id": 32, "paper": "May 2024", "qnum": 13, "unit": 4, "q": "What does the RUN signal do?", "opts": ["It causes the termination of a signal", "It causes a particular signal to performs its operation", "It causes a particular signal to end", "It increments the step counter by one"], "ans": 3, "why": "In hardwired control, when RUN = 1, the step counter increments by 1 on each clock pulse (held at 0 when waiting for MFC)."}, {"id": 33, "paper": "May 2024", "qnum": 14, "unit": 4, "q": "The disadvantage/s of the hardwired approach is ____.", "opts": ["It is less flexible", "It cannot be used for complex instructions", "It is costly", "Less flexible and cannot be used for complex instructions"], "ans": 3, "why": "Hardwired control is fast but rigid (hard to modify) and impractical for large CISC instruction sets."}, {"id": 34, "paper": "May 2024", "qnum": 15, "unit": 4, "q": "In pipelining each stage is given ____ time for the operation.", "opts": ["Equal", "Different", "Infinite", "No / zero"], "ans": 0, "why": "Synchronous pipelines use a single clock, so every stage gets an equal clock period."}, {"id": 35, "paper": "May 2024", "qnum": 16, "unit": 4, "q": "The instruction processing unit fetches and decodes ____ and ____ instructions.", "opts": ["Vector, sub vector", "Pipelines, parallel task", "Scalar, vector", "Pipelines, scalar"], "ans": 2, "why": "Vector/array architectures fetch and decode both scalar and vector instructions."}, {"id": 36, "paper": "May 2024", "qnum": 17, "unit": 5, "q": "MIMD stands for ____.", "opts": ["Multiple input multiple data", "Memory input multiple data", "Multiple instruction multiple data", "Memory instruction multiple data"], "ans": 2, "why": "Flynn's 4th class: Multiple Instruction streams, Multiple Data streams."}, {"id": 37, "paper": "May 2024", "qnum": 18, "unit": 5, "q": "When the processor is executing in ARM stage, then all instructions are ____ wide.", "opts": ["8 bits", "16 bits", "32 bits", "64 bits"], "ans": 2, "why": "In ARM state, instructions are fixed 32 bits wide; in Thumb state, they are 16 bits wide."}, {"id": 38, "paper": "May 2024", "qnum": 19, "unit": 5, "q": "The frequency of load / store instruction is around ____.", "opts": ["20%", "10%", "40%", "67%"], "ans": 2, "why": "In typical RISC/ARM instruction mixes, Load/Store instructions account for ~30–40% of executed instructions (exam key: 40%)."}, {"id": 39, "paper": "May 2024", "qnum": 20, "unit": 5, "q": "During a write operation if the required block is not present in the cache then ____ occurs.", "opts": ["Write miss", "Write latency", "Write hit", "Write delay"], "ans": 0, "why": "When the target block is absent from cache on a write, it is a Write miss."}, {"id": 40, "paper": "Jul 2024", "qnum": 1, "unit": 1, "q": "The representation of octal number \\((532.2)_8\\) in decimal is ____.", "opts": ["\\((346.25)_{10}\\)", "\\((532.864)_{10}\\)", "\\((340.67)_{10}\\)", "\\((531.668)_{10}\\)"], "ans": 0, "why": "\\(5\\times 64 + 3\\times 8 + 2 + 2/8 = 320 + 24 + 2 + 0.25 = (346.25)_{10}\\)."}, {"id": 41, "paper": "Jul 2024", "qnum": 2, "unit": 1, "q": "2's complement of \\(11001011\\) is ____.", "opts": ["\\(01010111\\)", "\\(11010100\\)", "\\(00110101\\)", "\\(11100010\\)"], "ans": 2, "why": "1's complement of \\(11001011\\) is \\(00110100\\); adding \\(1\\) gives \\(00110101\\)."}, {"id": 42, "paper": "Jul 2024", "qnum": 3, "unit": 1, "q": "The gate which is used to reverse the output obtained is ____.", "opts": ["NOR", "NAND", "EXOR", "NOT"], "ans": 3, "why": "NOT (inverter) complements/reverses its input."}, {"id": 43, "paper": "Jul 2024", "qnum": 4, "unit": 1, "q": "____ are arithmetic gates.", "opts": ["NOT", "NAND & NOR", "X-OR & X-NOR", "NOT, AND & OR"], "ans": 2, "why": "XOR (modulo-2 sum) and XNOR (equivalence) are used to build adders/comparators and are called arithmetic gates."}, {"id": 44, "paper": "Jul 2024", "qnum": 5, "unit": 2, "q": "In register transfer the processor register as ____.", "opts": ["MAR", "PC", "IR", "RI"], "ans": 0, "why": "MAR (Memory Address Register) interfaces directly with the memory bus during register transfers (wait: PC/IR are also registers, MAR is the standard textbook key here)."}, {"id": 45, "paper": "Jul 2024", "qnum": 6, "unit": 2, "q": "A CPU has 12 registers and uses 6 addressing modes. RAM is \\(64\\text{K}\\times 32\\). What is the maximum size of the op-code field if the instruction has a register operand and a memory address operand?", "opts": ["8 bits", "9 bits", "10 bits", "11 bits"], "ans": 1, "why": "Word size = 32 bits. Registers: \\(\\lceil\\log_2 12\\rceil = 4\\) bits; Modes: \\(\\lceil\\log_2 6\\rceil = 3\\) bits; Memory address (\\(64\\text{K} = 2^{16}\\)): \\(16\\) bits. Opcode \\(= 32 - (4 + 3 + 16) = 9\\) bits."}, {"id": 46, "paper": "Jul 2024", "qnum": 7, "unit": 2, "q": "Which of the following acts as a temporary storage location to hold an intermediate result in mathematical and logical calculations?", "opts": ["RAM", "Accumulator", "Program counter", "Memory address register"], "ans": 1, "why": "The Accumulator (AC) holds intermediate ALU results."}, {"id": 47, "paper": "Jul 2024", "qnum": 8, "unit": 2, "q": "The bus used to connect the monitor to the CPU is ____.", "opts": ["PCI bus", "SCSI bus", "Memory bus", "RAM bus"], "ans": 0, "why": "PCI (Peripheral Component Interconnect) connects display/graphics adapters to the system."}, {"id": 48, "paper": "Jul 2024", "qnum": 9, "unit": 3, "q": "Booth's algorithm is applied on ____.", "opts": ["Decimal numbers", "Binary numbers", "Hexadecimal numbers", "Octal numbers"], "ans": 1, "why": "Booth's algorithm multiplies signed binary numbers in 2's complement form."}, {"id": 49, "paper": "Jul 2024", "qnum": 10, "unit": 3, "q": "In IEEE 32-bit representation, the mantissa of the fraction is said to occupy ____ bits.", "opts": ["24", "23", "20", "16"], "ans": 1, "why": "32-bit IEEE 754 has 1 sign bit, 8 exponent bits, and 23 mantissa/fraction bits."}, {"id": 50, "paper": "Jul 2024", "qnum": 11, "unit": 3, "q": "The normalized representation of \\(0.0010110 \\times 2^9\\) is ____.", "opts": ["\\(0\\;\\;10001000\\;\\;0010110\\)", "\\(0\\;\\;10000101\\;\\;0110\\)", "\\(0\\;\\;10101010\\;\\;1110\\)", "\\(0\\;\\;11110100\\;\\;11100\\)"], "ans": 1, "why": "Shift left 3 places: \\(1.0110 \\times 2^6\\). Biased exponent \\(= 127 + 6 = 133 = 10000101_2\\), mantissa \\(= 0110\\dots\\), sign \\(= 0\\)."}, {"id": 51, "paper": "Jul 2024", "qnum": 12, "unit": 3, "q": "The difference between half adder and full adder is ____.", "opts": ["Half adder has two inputs while full adder has focus inputs", "Half adder has one input while full adder has two outputs", "Half adder has two inputs while full adder has three inputs", "Half adder has three inputs while full adder has two inputs"], "ans": 2, "why": "Half adder adds 2 bits (A, B); Full adder adds 3 bits (A, B, Cin)."}, {"id": 52, "paper": "Jul 2024", "qnum": 13, "unit": 4, "q": "____ are the different type/s of generating control signals.", "opts": ["Micro-programmed", "Hardwired", "Micro-instruction", "Both micro-programmed and hardwired"], "ans": 3, "why": "Control units are designed using either Hardwired or Microprogrammed control."}, {"id": 53, "paper": "Jul 2024", "qnum": 14, "unit": 4, "q": "What does the end instruction do?", "opts": ["It ends the generation of a signal", "It ends the complete generation process", "It starts a new instruction fetch cycle and resets the counter", "It is used to shift the control to the processor"], "ans": 2, "why": "The `End` control signal resets the control step counter to start fetching the next instruction."}, {"id": 54, "paper": "Jul 2024", "qnum": 15, "unit": 4, "q": "By using pipelining, the latency of the instructions ____.", "opts": ["Increase", "Remains the same", "Decrease", "It is unity"], "ans": 1, "why": "Pipelining increases throughput, while the latency of a single instruction remains roughly the same (or slightly higher due to latch overhead)."}, {"id": 55, "paper": "Jul 2024", "qnum": 16, "unit": 4, "q": "Which specific task is not included in super scalar processing?", "opts": ["Parallel decoding", "Super scale instructions", "Parallel instructions", "Pipelines"], "ans": 1, "why": "'Super scale instructions' is not a real superscalar term; superscalar uses parallel decoding, pipelines, and parallel instruction issue."}, {"id": 56, "paper": "Jul 2024", "qnum": 17, "unit": 5, "q": "SIMD stands for ____.", "opts": ["System instruction multiple data", "Single instruction multiple data", "Symmetric instruction multiple data", "Scale instruction multiple data"], "ans": 1, "why": "SIMD = Single Instruction Multiple Data."}, {"id": 57, "paper": "Jul 2024", "qnum": 18, "unit": 5, "q": "How many instruction sets does ARM have?", "opts": ["One", "Two", "Three", "Four"], "ans": 1, "why": "Classic ARMv4–v6 cores support two instruction sets: 32-bit ARM and 16-bit Thumb (some newer architectures add Thumb-2/Jazelle, but SRM COA textbook key = Two)."}, {"id": 58, "paper": "Jul 2024", "qnum": 19, "unit": 5, "q": "Virtual memory consists of ____.", "opts": ["Static RAM", "Dynamic RAM", "Magnetic memory", "Virtual RAM"], "ans": 1, "why": "In SRM COA MCQ bank, main memory supporting virtual memory mapping is Dynamic RAM (DRAM) + disk backing (key: Dynamic RAM)."}, {"id": 59, "paper": "Jul 2024", "qnum": 20, "unit": 5, "q": "The number successful accesses to memory stated as a fraction is called as ____.", "opts": ["Access rate", "Success rate", "Hit rate", "Miss rate"], "ans": 2, "why": "Hit rate = (Number of cache hits) / (Total memory accesses)."}, {"id": 60, "paper": "Nov 2024", "qnum": 1, "unit": 1, "q": "Reflected binary code is also known as ____.", "opts": ["BCD Code", "Binary Code", "ASCII Code", "Grey Code"], "ans": 3, "why": "Gray code (spelled Grey Code in the paper) is a reflected binary code where consecutive numbers differ by 1 bit."}, {"id": 61, "paper": "Nov 2024", "qnum": 2, "unit": 1, "q": "Which of the following is the correct hexadecimal representation for the decimal number \\(255\\)?", "opts": ["\\(\\text{FF}\\)", "\\(\\text{F0}\\)", "\\(\\text{FE}\\)", "\\(\\text{F1}\\)"], "ans": 0, "why": "\\(255 = 15\\times 16 + 15 = \\text{FF}_{16}\\)."}, {"id": 62, "paper": "Nov 2024", "qnum": 3, "unit": 1, "q": "What is the 2's complement of the binary number \\(00001101\\)?", "opts": ["\\(11110010\\)", "\\(11110011\\)", "\\(11110001\\)", "\\(11101101\\)"], "ans": 1, "why": "Invert \\(00001101 \\to 11110010\\), add \\(1 \\to 11110011\\)."}, {"id": 63, "paper": "Nov 2024", "qnum": 4, "unit": 1, "q": "What is the gray code equivalent of the binary number \\(11011\\)?", "opts": ["\\(10110\\)", "\\(10001\\)", "\\(11101\\)", "\\(10010\\)"], "ans": 0, "why": "MSB stays \\(1\\); XOR adjacent bits: \\(1\\oplus 1=0,\\; 1\\oplus 0=1,\\; 0\\oplus 1=1,\\; 1\\oplus 1=0 \\implies 10110\\)."}, {"id": 64, "paper": "Nov 2024", "qnum": 5, "unit": 2, "q": "Which of the register/s of the processor is/are connected to Memory Bus?", "opts": ["Personal Computer", "Memory Address Register", "Instruction Register", "Program Counter"], "ans": 1, "why": "MAR (and MDR) interface directly with the memory bus; MAR drives the address bus."}, {"id": 65, "paper": "Nov 2024", "qnum": 6, "unit": 2, "q": "Data is transferred to and from memory in groups of bits called ____.", "opts": ["Words", "Address", "Logic gates", "Bit Number"], "ans": 0, "why": "A fixed-size group of bits handled as a unit by memory/CPU is a Word."}, {"id": 66, "paper": "Nov 2024", "qnum": 7, "unit": 2, "q": "\\(1\\text{ GB}\\) is equivalent to how many bytes?", "opts": ["\\(2^{10}\\text{ bytes}\\)", "\\(2^{20}\\text{ bytes}\\)", "\\(2^{50}\\text{ bytes}\\)", "\\(2^{30}\\text{ bytes}\\)"], "ans": 3, "why": "\\(1\\text{ KB} = 2^{10},\\; 1\\text{ MB} = 2^{20},\\; 1\\text{ GB} = 2^{30}\\) bytes."}, {"id": 67, "paper": "Nov 2024", "qnum": 8, "unit": 2, "q": "A computer has \\(32\\text{ MB}\\) (megabytes) of memory. How many bits are needed to address any single byte in memory?", "opts": ["30 bits", "25 bits", "26 bits", "20 bits"], "ans": 1, "why": "\\(32\\text{ MB} = 2^5 \\times 2^{20} = 2^{25}\\) bytes, so 25 address bits are needed."}, {"id": 68, "paper": "Nov 2024", "qnum": 9, "unit": 3, "q": "Mention the adder circuit which can add two binary numbers and also take into account an input carry?", "opts": ["Half Adder", "Full Adder", "Ripple Adder", "Look-Ahead Adder"], "ans": 1, "why": "A Full Adder takes A, B, and Carry-in (Cin)."}, {"id": 69, "paper": "Nov 2024", "qnum": 10, "unit": 3, "q": "Which algorithm is commonly used for binary multiplication in digital circuits?", "opts": ["Booth's algorithm", "De Morgan's theorem", "Ripple-carry multiplication", "Carry-lookahead multiplication"], "ans": 0, "why": "Booth's algorithm handles signed binary multiplication in hardware."}, {"id": 70, "paper": "Nov 2024", "qnum": 11, "unit": 3, "q": "What is the primary disadvantage of using a straight forward shift-and-add multiplier?", "opts": ["High complexity", "High speed", "Large area usage", "Long computation time"], "ans": 3, "why": "A sequential shift-and-add multiplier takes n cycles (one add+shift per multiplier bit), resulting in long computation time."}, {"id": 71, "paper": "Nov 2024", "qnum": 12, "unit": 3, "q": "How many bits are used for the exponent in IEEE 754 standard for single-precision floating-point number representation?", "opts": ["8", "11", "23", "32"], "ans": 0, "why": "Single precision = 1 sign + 8 exponent + 23 mantissa (Double precision uses 11 exponent bits)."}, {"id": 72, "paper": "Nov 2024", "qnum": 13, "unit": 4, "q": "The stages of 3 stage pipelining are ____.", "opts": ["Decode, Fetch, Execute", "Execute, Fetch, Decode", "Fetch, Decode, Execute", "Address generation, Fetch, Execute"], "ans": 2, "why": "Classic 3-stage pipeline: Fetch -> Decode -> Execute."}, {"id": 73, "paper": "Nov 2024", "qnum": 14, "unit": 4, "q": "Control Hazard is otherwise called as ____.", "opts": ["Data Hazard", "Instruction Hazard", "Structural Hazard", "Information Hazard"], "ans": 1, "why": "Control hazards (caused by branches/jumps changing PC) are also called Instruction Hazards."}, {"id": 74, "paper": "Nov 2024", "qnum": 15, "unit": 4, "q": "A set of microinstructions for a single machine instruction is called ____.", "opts": ["Program", "Command", "Micro program", "Micro command"], "ans": 2, "why": "A sequence of microinstructions for one machine instruction is a microprogram (microroutine)."}, {"id": 75, "paper": "Nov 2024", "qnum": 16, "unit": 4, "q": "The disadvantage/s of the hardwired approach is ____.", "opts": ["It is less flexible", "It cannot be used for complex instructions", "It is costly", "Less flexible & cannot be used for complex instructions"], "ans": 3, "why": "Hardwired control is less flexible and impractical for complex CISC instructions."}, {"id": 76, "paper": "Nov 2024", "qnum": 17, "unit": 5, "q": "Which of the following is a primary reason for using parallelism in computing?", "opts": ["To improve software compatibility", "To decrease the power consumption", "To increase number of processor cores for better performance", "To increase the complexity"], "ans": 2, "why": "Parallelism uses multiple cores/units concurrently to boost throughput and performance."}, {"id": 77, "paper": "Nov 2024", "qnum": 18, "unit": 5, "q": "In Flynn's classification, MIMD refers to ____.", "opts": ["Single Instruction stream, Single Data stream", "Multiple Instruction streams, Single fragment stream", "Single Instruction stream, Multiple Data streams", "Multiple Instruction streams, Multiple Data streams"], "ans": 3, "why": "MIMD = Multiple Instruction streams, Multiple Data streams."}, {"id": 78, "paper": "Nov 2024", "qnum": 19, "unit": 5, "q": "Instruction level Parallelism achieves more than one instruction at a time through ____.", "opts": ["Dynamic scheduling", "Priority scheduling", "Time-slot scheduling", "Double scheduling"], "ans": 0, "why": "Superscalar/out-of-order processors use dynamic scheduling (hardware) to exploit ILP."}, {"id": 79, "paper": "Nov 2024", "qnum": 20, "unit": 5, "q": "Which instruction set architecture is typically used in ARM processors?", "opts": ["Complex Instruction Set Computer", "Reduced Instruction Set Computer", "Very Long Instruction Word", "Explicitly Parallel Instruction Computing"], "ans": 1, "why": "ARM is based on RISC (Reduced Instruction Set Computer) principles."}, {"id": 80, "paper": "Jun 2025", "qnum": 1, "unit": 1, "q": "How many bits are used to represent each decimal digit in BCD?", "opts": ["2 bits", "3 bits", "4 bits", "8 bits"], "ans": 2, "why": "8421 BCD encodes each decimal digit (0–9) using 4 bits."}, {"id": 81, "paper": "Jun 2025", "qnum": 2, "unit": 1, "q": "Convert the binary number \\(0110011\\) into its 2's complement.", "opts": ["\\(1001000\\)", "\\(1001101\\)", "\\(1001100\\)", "\\(0110011\\)"], "ans": 1, "why": "1's complement of \\(0110011\\) is \\(1001100\\); adding \\(1\\) gives \\(1001101\\)."}, {"id": 82, "paper": "Jun 2025", "qnum": 3, "unit": 1, "q": "High level design is exhibited in ____.", "opts": ["Computer Architecture", "Computer Organization", "Computer BIOS", "Computer Architecture and Organization"], "ans": 0, "why": "Computer Architecture covers programmer-visible high-level attributes (ISA, addressing); Organization covers hardware implementation."}, {"id": 83, "paper": "Jun 2025", "qnum": 4, "unit": 1, "q": "Generate the gray code for the binary number \\(1010\\).", "opts": ["\\(1111\\)", "\\(1001\\)", "\\(1100\\)", "\\(1000\\)"], "ans": 0, "why": "\\(g_3=1,\\; g_2=1\\oplus 0=1,\\; g_1=0\\oplus 1=1,\\; g_0=1\\oplus 0=1 \\implies 1111\\)."}, {"id": 84, "paper": "Jun 2025", "qnum": 5, "unit": 2, "q": "The program should be in ____ memory at the time of execution.", "opts": ["Primary", "Secondary", "Floppy Disk", "Pen drive"], "ans": 0, "why": "By the stored-program concept, instructions must reside in Primary (main) memory during execution."}, {"id": 85, "paper": "Jun 2025", "qnum": 6, "unit": 2, "q": "The instruction \\(\\text{Store R4, LOC}\\) will do which of the following?", "opts": ["copies the operand in memory location LOC to processor register R4", "copies the operand in processor register R4 to memory location LOC", "copies the operand in memory location LOC", "copies the operand in processor register R4"], "ans": 1, "why": "`Store R4, LOC` writes the contents of register R4 into memory location LOC."}, {"id": 86, "paper": "Jun 2025", "qnum": 7, "unit": 2, "q": "The control line of the Bus is ____.", "opts": ["uni-directional", "bi-directional", "multi-directional", "un-directional"], "ans": 1, "why": "Wait: Address bus is uni-directional; Data bus and Control bus carry signals in both directions (bi-directional, e.g., Read/Write vs Ready/IRQ)."}, {"id": 87, "paper": "Jun 2025", "qnum": 8, "unit": 2, "q": "The instruction to be currently executed is stored in ____.", "opts": ["MDR", "IR", "PC", "MAR"], "ans": 1, "why": "IR (Instruction Register) holds the instruction currently being decoded/executed."}, {"id": 88, "paper": "Jun 2025", "qnum": 9, "unit": 3, "q": "In booth recoding, the bits pair \\((1, 0)\\) are recoded by ____.", "opts": ["\\(0\\)", "\\(+1\\)", "\\(-1\\)", "\\(-2\\)"], "ans": 2, "why": "In Booth's table, \\((0,0)\\to 0,\\; (0,1)\\to +1,\\; (1,0)\\to -1,\\; (1,1)\\to 0\\)."}, {"id": 89, "paper": "Jun 2025", "qnum": 10, "unit": 3, "q": "The mantissa is also called as ____.", "opts": ["Mnemonics", "Significand", "Symbols", "Numbers"], "ans": 1, "why": "Mantissa is also termed Significand in IEEE 754."}, {"id": 90, "paper": "Jun 2025", "qnum": 11, "unit": 3, "q": "The full adder can add a maximum of ____ bits.", "opts": ["1", "2", "3", "0"], "ans": 2, "why": "A Full Adder adds 3 single-bit inputs: A, B, and Cin."}, {"id": 91, "paper": "Jun 2025", "qnum": 12, "unit": 3, "q": "The double precision of the IEEE floating point number can be represented by ____.", "opts": ["16 bits", "24 bits", "32 bits", "64 bits"], "ans": 3, "why": "IEEE 754 Double Precision uses 64 bits (1 sign + 11 exponent + 52 mantissa)."}, {"id": 92, "paper": "Jun 2025", "qnum": 13, "unit": 4, "q": "The micro routine for all instructions are stored in special memory called ____.", "opts": ["Micro instructions", "Control store", "Instruction store", "Control word"], "ans": 1, "why": "Microprograms/microroutines reside in the Control Store (control memory)."}, {"id": 93, "paper": "Jun 2025", "qnum": 14, "unit": 4, "q": "The ____ signal permits the processor to hold off until the memory operation is completed.", "opts": ["MFC", "WFMC", "WMFC", "ALB"], "ans": 2, "why": "WMFC = Wait for Memory Function Completed."}, {"id": 94, "paper": "Jun 2025", "qnum": 15, "unit": 4, "q": "The situation wherein the data of operands are not available is called ____.", "opts": ["Structural hazard", "Deadlock", "Stall", "Data hazard"], "ans": 3, "why": "When a needed operand has not yet been produced/written by an earlier instruction, a Data hazard occurs."}, {"id": 95, "paper": "Jun 2025", "qnum": 16, "unit": 4, "q": "The pipelining process is also called as ____.", "opts": ["Superscalar operation", "Assembly line operation", "Von Neumann Cycle", "Instruction Sequencing"], "ans": 1, "why": "Pipelining works just like a factory assembly line where stages overlap."}, {"id": 96, "paper": "Jun 2025", "qnum": 17, "unit": 5, "q": "MIMD stands for ____.", "opts": ["Multiple Instruction Multiple Decoding", "Multiple Instruction Multiple Data", "Multiple Information Multiple Decoding", "Multiple Information Multiple Data"], "ans": 1, "why": "MIMD = Multiple Instruction Multiple Data."}, {"id": 97, "paper": "Jun 2025", "qnum": 18, "unit": 5, "q": "The Von Neumann architecture is based on ____.", "opts": ["SIMD", "SISD", "MIMD", "MISD"], "ans": 1, "why": "Classic single-CPU Von Neumann machine executes one instruction stream on one data stream: SISD."}, {"id": 98, "paper": "Jun 2025", "qnum": 19, "unit": 5, "q": "The ARM core uses ____ architecture.", "opts": ["EPIC", "CPIC", "RISC", "CISC"], "ans": 2, "why": "ARM uses RISC (Reduced Instruction Set Computer) architecture."}, {"id": 99, "paper": "Jun 2025", "qnum": 20, "unit": 5, "q": "ARM processor core is of ____ bits.", "opts": ["24", "32", "48", "128"], "ans": 1, "why": "Standard ARM core studied in 21CSS201T is a 32-bit processor."}, {"id": 100, "paper": "Jul 2025", "qnum": 1, "unit": 1, "q": "Identify The Binary Representation of Decimal Number \\(42\\).", "opts": ["\\(101010\\)", "\\(101111\\)", "\\(111100\\)", "\\(1110000\\)"], "ans": 0, "why": "\\(42 = 32 + 8 + 2 = 101010_2\\)."}, {"id": 101, "paper": "Jul 2025", "qnum": 2, "unit": 1, "q": "Find the grey code for binary value \\(1011110\\).", "opts": ["\\(1100111\\)", "\\(1100110\\)", "\\(1110001\\)", "\\(1110000\\)"], "ans": 2, "why": "MSB \\(=1\\); XOR pairs: \\(1\\oplus 0=1,\\;0\\oplus 1=1,\\;1\\oplus 1=0,\\;1\\oplus 1=0,\\;1\\oplus 1=0,\\;1\\oplus 0=1 \\implies 1110001\\)."}, {"id": 102, "paper": "Jul 2025", "qnum": 3, "unit": 1, "q": "The 2's complement of the binary number \\(101101\\) is ____.", "opts": ["\\(011010\\)", "\\(100010\\)", "\\(100010\\)", "\\(010011\\)"], "ans": 3, "why": "1's comp \\(010010 + 1 = 010011\\). Exact repeat of May 2023 Q3."}, {"id": 103, "paper": "Jul 2025", "qnum": 4, "unit": 1, "q": "Parity code is used for the purpose of ____.", "opts": ["Code Conversion", "Correcting Errors", "Detecting Errors", "Decoding"], "ans": 2, "why": "A single parity bit detects single-bit (odd number of bit) errors; Hamming code corrects them."}, {"id": 104, "paper": "Jul 2025", "qnum": 5, "unit": 2, "q": "RTN stands for ____.", "opts": ["Register Transmission Notation", "Register Transfer Notation", "Regular Transmission Notation", "Regular Transfer Notation"], "ans": 1, "why": "RTN = Register Transfer Notation (e.g., `R1 <- [LOC]`)."}, {"id": 105, "paper": "Jul 2025", "qnum": 6, "unit": 2, "q": "____ holds the instructions that is currently being executed.", "opts": ["Program counter", "Instruction register", "Registers", "Memory address register"], "ans": 1, "why": "Instruction Register (IR) holds the current instruction."}, {"id": 106, "paper": "Jul 2025", "qnum": 7, "unit": 2, "q": "In which addressing mode the operand value is directly specified?", "opts": ["Direct", "Definite", "Relative", "Immediate"], "ans": 3, "why": "In Immediate mode, the operand value itself is inside the instruction (not its address)."}, {"id": 107, "paper": "Jul 2025", "qnum": 8, "unit": 2, "q": "____ operations are required in memory access.", "opts": ["Add", "Move", "Load and store", "Halt"], "ans": 2, "why": "Load and store access memory (exact repeat of May 2023 Q8)."}, {"id": 108, "paper": "Jul 2025", "qnum": 9, "unit": 3, "q": "____ is a combinational logic circuit with two input and two output.", "opts": ["Full adder", "Half adder", "Multiplexer", "Decoder"], "ans": 1, "why": "Half adder has 2 inputs (A, B) and 2 outputs (Sum, Carry). Repeat of May 2023 Q9."}, {"id": 109, "paper": "Jul 2025", "qnum": 10, "unit": 3, "q": "An \\(24\\) bit address generates an address space of ____ locations.", "opts": ["16,777,216", "1,048,576", "4096", "1024"], "ans": 0, "why": "\\(2^{24} = 16\\times 2^{20} = 16,777,216\\) locations."}, {"id": 110, "paper": "Jul 2025", "qnum": 11, "unit": 3, "q": "Where does the multiplier operand is stored?", "opts": ["Instruction register", "Shift register", "Cache", "Program counter"], "ans": 1, "why": "Multiplier is stored in a Shift register (repeat of May 2023 Q11)."}, {"id": 111, "paper": "Jul 2025", "qnum": 12, "unit": 3, "q": "How many bits are needed to represent floating point number in a single precision form?", "opts": ["16", "50", "32", "64"], "ans": 2, "why": "32 bits (repeat of May 2023 Q12)."}, {"id": 112, "paper": "Jul 2025", "qnum": 13, "unit": 4, "q": "Which register in the processor is single-directional?", "opts": ["MDR", "PC", "MAR", "Temp"], "ans": 2, "why": "MAR (Memory Address Register) only sends addresses out onto the unidirectional address bus."}, {"id": 113, "paper": "Jul 2025", "qnum": 14, "unit": 4, "q": "The Program Counter gets incremented ____.", "opts": ["After the instruction decoding", "After the fetch cycle", "After the IR instruction gets executed", "After the read cycle executed"], "ans": 1, "why": "PC is incremented during/right after instruction fetch so it points to the next instruction."}, {"id": 114, "paper": "Jul 2025", "qnum": 15, "unit": 4, "q": "In multiple bus organization, the registers are collectively placed and referred to as ____.", "opts": ["Register file", "Set registers", "Register Block", "Map registers"], "ans": 0, "why": "Register file (repeat of May 2024 Q8)."}, {"id": 115, "paper": "Jul 2025", "qnum": 16, "unit": 4, "q": "____ memory is used in pipelining to increase the memory access speed.", "opts": ["Special memory locations", "Special purpose register", "Cache", "Buffers"], "ans": 2, "why": "Cache memory (repeat of May 2023 Q16)."}, {"id": 116, "paper": "Jul 2025", "qnum": 17, "unit": 5, "q": "____ gives the measure of how many operations can be performed in parallel at the same time.", "opts": ["Data parallelism", "Task level parallelism", "Instruction level parallelism", "Transaction level parallelism"], "ans": 2, "why": "Instruction level parallelism (repeat of May 2023 Q18)."}, {"id": 117, "paper": "Jul 2025", "qnum": 18, "unit": 5, "q": "SIMD stands for ____.", "opts": ["Simple Instruction Multiple Decoding", "Single Instruction Multiple Data", "Sequential Instruction Multiple Decoding", "System Information Mutable Data"], "ans": 1, "why": "Single Instruction Multiple Data."}, {"id": 118, "paper": "Jul 2025", "qnum": 19, "unit": 5, "q": "Processor which is complex and expensive to produce is ____.", "opts": ["RISC", "EPIC", "Multi-core", "CISC"], "ans": 3, "why": "CISC processors have complex decoding/microcode hardware, making them more complex and expensive."}, {"id": 119, "paper": "Jul 2025", "qnum": 20, "unit": 5, "q": "The cost of a parallel processing is primarily determined by ____.", "opts": ["time complexity", "switching complexity", "circuit complexity", "power complexity"], "ans": 1, "why": "In interconnection networks / parallel processing, switching complexity (interconnect switches) dominates cost."}, {"id": 120, "paper": "Nov 2025", "qnum": 1, "unit": 1, "q": "The octal equivalent of the decimal number \\((417)_{10}\\) is ____.", "opts": ["\\((641)_8\\)", "\\((619)_8\\)", "\\((640)_8\\)", "\\((598)_8\\)"], "ans": 0, "why": "\\(417 \\div 8 = 52\\) rem \\(1\\); \\(52 \\div 8 = 6\\) rem \\(4\\); \\(6 \\div 8 = 0\\) rem \\(6 \\implies (641)_8\\)."}, {"id": 121, "paper": "Nov 2025", "qnum": 2, "unit": 1, "q": "On subtracting \\((010110)_2\\) from \\((1011001)_2\\) using 2's complement, we get ____.", "opts": ["\\(0111001\\)", "\\(0111011\\)", "\\(0110110\\)", "\\(1000011\\)"], "ans": 3, "why": "\\(1011001_2 = 89,\\; 0010110_2 = 22\\). \\(89 - 22 = 67 = 1000011_2\\). (In 7-bit 2's comp: \\(1011001 + 1101010 = (1)1000011\\))."}, {"id": 122, "paper": "Nov 2025", "qnum": 3, "unit": 1, "q": "The given hexadecimal number \\((\\text{1E.53})_{16}\\) is equivalent to ____.", "opts": ["\\((35.684)_8\\)", "\\((36.246)_8\\)", "\\((34.340)_8\\)", "\\((35.599)_8\\)"], "ans": 1, "why": "\\(\\text{1E.53}_{16} = 0001\\,1110.0101\\,0011_2 = 011\\,110.010\\,100\\,110_2 = (36.246)_8\\)."}, {"id": 123, "paper": "Nov 2025", "qnum": 4, "unit": 1, "q": "If the number of bits in the sum exceeds the number of bits in each added numbers, it results in ____.", "opts": ["Successor", "Overflow", "Underflow", "Predecessor"], "ans": 1, "why": "Exceeding the bit-width of the register produces Arithmetic Overflow."}, {"id": 124, "paper": "Nov 2025", "qnum": 5, "unit": 2, "q": "The ALU makes use of ____ to store the intermediate results.", "opts": ["Accumulator", "Registers", "Heap", "Stack"], "ans": 0, "why": "The Accumulator stores intermediate ALU outputs."}, {"id": 125, "paper": "Nov 2025", "qnum": 6, "unit": 2, "q": "The registers, ALU and the interconnection between them are collectively called as ____.", "opts": ["Process Route", "Information Trail", "Information Path", "Data Path"], "ans": 3, "why": "Registers + ALU + internal buses form the processor Data Path."}, {"id": 126, "paper": "Nov 2025", "qnum": 7, "unit": 2, "q": "The internal components of the processor are connected by ____.", "opts": ["Processor intra-connectivity circuitry", "Processor bus", "Memory bus", "Rambus"], "ans": 1, "why": "Internal processor components (registers, ALU, PC, IR) communicate over the internal Processor bus."}, {"id": 127, "paper": "Nov 2025", "qnum": 8, "unit": 2, "q": "When using Branching, the usual sequencing of the PC is altered. The new instruction loaded is called as ____.", "opts": ["Branch target", "Loop target", "Forward target", "Jump instruction"], "ans": 0, "why": "The destination instruction address of a branch is the Branch target."}, {"id": 128, "paper": "Nov 2025", "qnum": 9, "unit": 3, "q": "The product of \\(-13\\) and \\(+11\\) is ____.", "opts": ["\\(1100110011\\)", "\\(1101110001\\)", "\\(1010101010\\)", "\\(1111111000\\)"], "ans": 1, "why": "\\((-13)\\times(+11) = -143\\). \\(+143 = 0010001111_2\\); 2's comp \\(= 1101110000 + 1 = 1101110001_2\\)."}, {"id": 129, "paper": "Nov 2025", "qnum": 10, "unit": 3, "q": "The method used to reduce the maximum number of summands by half is ____.", "opts": ["Carry save addition of summands", "Bit-pair recoding", "Quick multiplication", "Booth Algorithm"], "ans": 1, "why": "Bit-pair recoding cuts the maximum summands from n to n/2."}, {"id": 130, "paper": "Nov 2025", "qnum": 11, "unit": 3, "q": "How do you call the intermediate terms in binary multiplication?", "opts": ["Multipliers", "Mid terms", "Partial Products", "Multiplicands"], "ans": 2, "why": "Each shifted row generated before final addition is called a Partial Product."}, {"id": 131, "paper": "Nov 2025", "qnum": 12, "unit": 3, "q": "The multiplier \\(-6\\;(11010)\\) is recoded as ____.", "opts": ["\\(0\\text{ -1 -2}\\)", "\\(0\\text{ -1 -1 +1 0}\\)", "\\(\\text{-2 -1 0}\\)", "\\(\\text{+1 0 -2}\\)"], "ans": 0, "why": "Bit-pair recoding of \\(11010(0)\\): pairs \\((111)\\to 0\\), \\((101)\\to -1\\), \\((100)\\to -2 \\implies 0\\,-1\\,-2\\). Check: \\(-1(4)+(-2)(1) = -6\\)."}, {"id": 132, "paper": "Nov 2025", "qnum": 13, "unit": 4, "q": "Which type of hazard is associated with branch instructions in pipelining?", "opts": ["Data Hazard", "Structural Hazard", "Control Hazard", "Memory Hazard"], "ans": 2, "why": "Branches/jumps alter PC flow and cause Control Hazards."}, {"id": 133, "paper": "Nov 2025", "qnum": 14, "unit": 4, "q": "Microroutines for all instructions in the instruction set of a computer are stored in a special memory called ____.", "opts": ["Random Access Memory", "Read Only Memory", "Control Store", "Micro Memory"], "ans": 2, "why": "Control Store holds all microroutines."}, {"id": 134, "paper": "Nov 2025", "qnum": 15, "unit": 4, "q": "The end signal starts a new instruction fetch cycle by ____.", "opts": ["Make the step counter count up every time", "Reading the CWs of the Corresponding microroutine", "The execution of the subsequent instruction", "Resetting the control step counter to its starting value"], "ans": 3, "why": "`End` resets the control step counter to T1 so the next instruction fetch begins."}, {"id": 135, "paper": "Nov 2025", "qnum": 16, "unit": 4, "q": "Which one of the following keep tracks of the execution of a program?", "opts": ["Program counter", "Memory address register", "Memory data register", "Register"], "ans": 0, "why": "The Program Counter (PC) tracks program execution by pointing to the next instruction."}, {"id": 136, "paper": "Nov 2025", "qnum": 17, "unit": 5, "q": "Instruction-level parallelism (ILP) allows for ____.", "opts": ["Multiple instructions to be executed in parallel within a single CPU core", "Multiple threads to run simultaneously on different cores", "Data to be processed in batches", "Only one instruction at a time to be executed"], "ans": 0, "why": "ILP overlaps/executes multiple instructions concurrently inside a single CPU core."}, {"id": 137, "paper": "Nov 2025", "qnum": 18, "unit": 5, "q": "There are ____ basic operating modes in ARM processor.", "opts": ["5", "4", "7", "3"], "ans": 2, "why": "ARM has 7 operating modes (User, FIQ, IRQ, Supervisor, Abort, Undefined, System)."}, {"id": 138, "paper": "Nov 2025", "qnum": 19, "unit": 5, "q": "Which of the following is NOT considered a software Parallelism?", "opts": ["Task-level parallelism", "Memory parallelism", "Data parallelism", "Transaction level parallelism"], "ans": 1, "why": "Software parallelism categories are Data, Task-level, and Transaction-level; Memory parallelism is hardware/architecture-level."}, {"id": 139, "paper": "Nov 2025", "qnum": 20, "unit": 5, "q": "According to Flynn classification, Which architecture is of only theoretical interest and no practical solution has been developed for it?", "opts": ["Single instruction single data", "Single instruction multiple data", "Multiple instruction single data", "Multiple instruction multiple data"], "ans": 2, "why": "MISD (Multiple Instruction, Single Data) has almost no practical commercial implementations."}, {"id": 140, "paper": "May 2026", "qnum": 1, "unit": 1, "q": "The representation of octal number \\((532.2)_8\\) in decimal is ____.", "opts": ["\\((346.25)_{10}\\)", "\\((532.864)_{10}\\)", "\\((340.67)_{10}\\)", "\\((531.668)_{10}\\)"], "ans": 0, "why": "\\(5\\times 64 + 3\\times 8 + 2 + 2/8 = 346.25_{10}\\). Repeat of Jul 2024 Q1."}, {"id": 141, "paper": "May 2026", "qnum": 2, "unit": 1, "q": "How many bits are used to represent each decimal digit in BCD?", "opts": ["2 bits", "3 bits", "4 bits", "8 bits"], "ans": 2, "why": "4 bits per decimal digit. Repeat of Jun 2025 Q1."}, {"id": 142, "paper": "May 2026", "qnum": 3, "unit": 1, "q": "Generate the gray code for the binary number \\(1010\\).", "opts": ["\\(1111\\)", "\\(1001\\)", "\\(1100\\)", "\\(1000\\)"], "ans": 0, "why": "\\(1010_2 \\to 1111_{\\text{Gray}}\\). Repeat of Jun 2025 Q4."}, {"id": 143, "paper": "May 2026", "qnum": 4, "unit": 1, "q": "____ are universal gates.", "opts": ["NOT", "NAND & NOR", "AND", "NOT, AND & OR"], "ans": 1, "why": "NAND & NOR are universal gates. Repeat of May 2024 Q4."}, {"id": 144, "paper": "May 2026", "qnum": 5, "unit": 2, "q": "A CPU has 12 registers and uses 6 addressing modes. RAM is \\(64\\text{K}\\times 32\\). What is the maximum size of the op-code field if the instruction has a register operand and a memory address operand?", "opts": ["8 bits", "9 bits", "10 bits", "11 bits"], "ans": 1, "why": "\\(32 - (4 + 3 + 16) = 9\\) bits. Repeat of Jul 2024 Q6."}, {"id": 145, "paper": "May 2026", "qnum": 6, "unit": 2, "q": "Which of the following acts as a temporary storage location to hold an intermediate result in mathematical and logical calculations?", "opts": ["RAM", "Program counter", "Accumulator", "Memory address register"], "ans": 2, "why": "Accumulator. Repeat of Jul 2024 Q7."}, {"id": 146, "paper": "May 2026", "qnum": 7, "unit": 2, "q": "The instruction \\(\\text{Store R4, LOC}\\) will do which of the following?", "opts": ["copies the operand in memory location", "copies the operand in processor register R4 to memory location LOC", "copies the operand in memory location LOC", "copies the operand in processor register R4"], "ans": 1, "why": "`Store R4, LOC` stores R4 into memory location LOC. Repeat of Jun 2025 Q6."}, {"id": 147, "paper": "May 2026", "qnum": 8, "unit": 2, "q": "The control line of the Bus is ____.", "opts": ["uni-directional", "bi-directional", "multi-directional", "un-directional"], "ans": 1, "why": "Bi-directional. Repeat of Jun 2025 Q7."}, {"id": 148, "paper": "May 2026", "qnum": 9, "unit": 3, "q": "According to De-Morgan's theorem: \\(\\text{NAND} =\\) ____.", "opts": ["Bubbled XOR", "Bubbled NOR", "Bubbled AND", "Bubbled OR"], "ans": 3, "why": "Bubbled OR. Repeat of May 2024 Q10."}, {"id": 149, "paper": "May 2026", "qnum": 10, "unit": 3, "q": "In IEEE 32-bit representation, the mantissa of the fraction is said to occupy ____ bits.", "opts": ["24", "23", "20", "16"], "ans": 1, "why": "23 bits. Repeat of Jul 2024 Q10."}, {"id": 150, "paper": "May 2026", "qnum": 11, "unit": 3, "q": "Which of the following is used for binary multiplication?", "opts": ["Restoring multiplication", "Booth's algorithm", "Pascal's rule", "Digit-by-digit multiplication"], "ans": 1, "why": "Booth's algorithm. Repeat of May 2024 Q9."}, {"id": 151, "paper": "May 2026", "qnum": 12, "unit": 3, "q": "The difference between half adder and full adder is ____.", "opts": ["Half adder has two inputs while full adder has focus inputs", "Half adder has one input while full adder has two outputs", "Half adder has two inputs while full adder has three inputs", "Half adder has three inputs while full adder has two inputs"], "ans": 2, "why": "Half adder: 2 inputs; Full adder: 3 inputs. Repeat of Jul 2024 Q12."}, {"id": 152, "paper": "May 2026", "qnum": 13, "unit": 4, "q": "The disadvantage/s of the hardwired approach is ____.", "opts": ["It is less flexible", "It cannot be used for complex instructions", "It is costly", "Less flexible and cannot be used for complex instructions"], "ans": 3, "why": "Less flexible and cannot be used for complex instructions. Repeat of May 2024 Q14 & Nov 2024 Q16."}, {"id": 153, "paper": "May 2026", "qnum": 14, "unit": 4, "q": "The signal permits the processor to hold off until the memory operation is completed.", "opts": ["WFMC", "ALB", "WMFC", "MFC"], "ans": 2, "why": "WMFC (Wait for Memory Function Completed). Repeat of Jun 2025 Q14."}, {"id": 154, "paper": "May 2026", "qnum": 15, "unit": 4, "q": "Which specific task is not included in super scalar processing?", "opts": ["Parallel decoding", "Super scale instructions", "Parallel instructions", "Pipelines"], "ans": 1, "why": "Super scale instructions. Repeat of Jul 2024 Q16."}, {"id": 155, "paper": "May 2026", "qnum": 16, "unit": 4, "q": "The pipelining process is also called as ____.", "opts": ["Superscalar operation", "Assembly line operation", "Von Neumann Cycle", "Instruction Sequencing"], "ans": 1, "why": "Assembly line operation. Repeat of Jun 2025 Q16."}, {"id": 156, "paper": "May 2026", "qnum": 17, "unit": 5, "q": "The number of successful accesses to memory stated as a fraction is called as ____.", "opts": ["Access rate", "Success rate", "Miss rate", "Hit rate"], "ans": 3, "why": "Hit rate. Repeat of Jul 2024 Q20."}, {"id": 157, "paper": "May 2026", "qnum": 18, "unit": 5, "q": "In Flynn's classification, MIMD refers to ____.", "opts": ["Single Instruction stream, Single Data stream", "Multiple Instruction streams, Single fragment stream", "Single Instruction stream, Multiple Data streams", "Multiple Instruction streams, Multiple Data streams"], "ans": 3, "why": "Multiple Instruction streams, Multiple Data streams. Repeat of Nov 2024 Q18."}, {"id": 158, "paper": "May 2026", "qnum": 19, "unit": 5, "q": "The Von Neumann architecture is based on ____.", "opts": ["SIMD", "MIMD", "SISD", "MISD"], "ans": 2, "why": "SISD. Repeat of Jun 2025 Q18."}, {"id": 159, "paper": "May 2026", "qnum": 20, "unit": 5, "q": "How many instruction sets does ARM have?", "opts": ["Four", "Three", "One", "Two"], "ans": 3, "why": "Two (ARM and Thumb). Repeat of Jul 2024 Q18."}]}</script>
+<script>
+(function() {
+  const DATA = JSON.parse(document.getElementById('coa-data-json').textContent);
+  const LS_KEY = 'coa_study_hub_v1';
+
+  const defaultState = {
+    theme: 'light',
+    planTicks: {},
+    pyqTicks: {},
+    videoTicks: {},
+    mcqAnswers: {},
+    mcqWrongQueue: [],
+    fcState: {},
+    pomo: { phase: 'FOCUS', secs: 1500, cycle: 1, running: false }
+  };
+
+  let state;
+  try {
+    state = Object.assign({}, defaultState, JSON.parse(localStorage.getItem(LS_KEY) || '{}'));
+    state.pomo = Object.assign({}, defaultState.pomo, state.pomo || {}, { running: false });
+  } catch (e) {
+    state = JSON.parse(JSON.stringify(defaultState));
+  }
+
+  function saveState() {
+    try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  function typeset(el) {
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise(el ? [el] : undefined).catch(() => {});
+    }
+  }
+
+  // Theme
+  function applyTheme() {
+    document.documentElement.setAttribute('data-theme', state.theme);
+    document.getElementById('theme-btn').textContent = state.theme === 'dark' ? 'Light' : 'Dark';
+  }
+  document.getElementById('theme-btn').addEventListener('click', () => {
+    state.theme = state.theme === 'dark' ? 'light' : 'dark';
+    applyTheme();
+    saveState();
+  });
+  applyTheme();
+
+  // Tabs
+  document.getElementById('nav-tabs').addEventListener('click', (e) => {
+    const btn = e.target.closest('.tab-btn');
+    if (!btn) return;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    const panel = document.getElementById('tab-' + btn.dataset.tab);
+    panel.classList.add('active');
+    typeset(panel);
+  });
+
+  // Pomodoro Timer
+  let pomoInterval = null;
+  function beep() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = 'sine'; o.frequency.value = 660;
+      g.gain.setValueAtTime(0.15, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.45);
+      o.connect(g); g.connect(ctx.destination);
+      o.start(); o.stop(ctx.currentTime + 0.45);
+    } catch (e) {}
+  }
+  function renderPomo() {
+    const m = Math.floor(state.pomo.secs / 60);
+    const s = state.pomo.secs % 60;
+    document.getElementById('pomo-time').textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    document.getElementById('pomo-phase').textContent = state.pomo.phase;
+    document.getElementById('pomo-cycle').textContent = state.pomo.cycle + '/4';
+    document.getElementById('pomo-toggle').textContent = state.pomo.running ? 'Pause' : 'Start';
+  }
+  function nextPomoPhase() {
+    if (state.pomo.phase === 'FOCUS') {
+      if (state.pomo.cycle >= 4) {
+        state.pomo.phase = 'LONG BREAK';
+        state.pomo.secs = 900;
+      } else {
+        state.pomo.phase = 'BREAK';
+        state.pomo.secs = 300;
+      }
+    } else {
+      state.pomo.cycle = state.pomo.phase === 'LONG BREAK' ? 1 : state.pomo.cycle + 1;
+      state.pomo.phase = 'FOCUS';
+      state.pomo.secs = 1500;
+    }
+    beep();
+    renderPomo();
+    saveState();
+  }
+  document.getElementById('pomo-toggle').addEventListener('click', () => {
+    state.pomo.running = !state.pomo.running;
+    if (state.pomo.running) {
+      pomoInterval = setInterval(() => {
+        if (state.pomo.secs > 0) {
+          state.pomo.secs--;
+          renderPomo();
+        } else {
+          nextPomoPhase();
+        }
+      }, 1000);
+    } else {
+      clearInterval(pomoInterval);
+    }
+    renderPomo();
+  });
+  document.getElementById('pomo-reset').addEventListener('click', () => {
+    clearInterval(pomoInterval);
+    state.pomo.running = false;
+    state.pomo.secs = state.pomo.phase === 'FOCUS' ? 1500 : (state.pomo.phase === 'LONG BREAK' ? 900 : 300);
+    renderPomo();
+    saveState();
+  });
+  document.getElementById('pomo-skip').addEventListener('click', () => {
+    nextPomoPhase();
+  });
+  renderPomo();
+
+  // Dashboard Stats
+  function updateStats() {
+    const planDone = DATA.studySteps.filter(s => state.planTicks[s.id]).length;
+    document.getElementById('stat-plan').textContent = `${planDone} / ${DATA.studySteps.length}`;
+    const pct = Math.round((planDone / DATA.studySteps.length) * 100);
+    document.getElementById('plan-pct').textContent = pct + '%';
+    document.getElementById('plan-prog').style.width = pct + '%';
+
+    const pyqDone = Object.values(state.pyqTicks).filter(Boolean).length;
+    document.getElementById('stat-pyq').textContent = `${pyqDone} / ${DATA.pyqBank.length}`;
+
+    const answeredIds = Object.keys(state.mcqAnswers);
+    const correctCnt = answeredIds.filter(id => state.mcqAnswers[id] === DATA.mcqs[id].ans).length;
+    const acc = answeredIds.length ? Math.round((correctCnt / answeredIds.length) * 100) : 0;
+    document.getElementById('stat-mcq').textContent = acc + '%';
+    document.getElementById('stat-wrong').textContent = state.mcqWrongQueue.length;
+    document.getElementById('mcq-stats-line').textContent =
+      `Answered: ${answeredIds.length}/${DATA.mcqs.length} | Correct: ${correctCnt} | Retry Queue: ${state.mcqWrongQueue.length}`;
+    document.getElementById('mcq-mode-wrong').textContent = `Retry Wrong Only (${state.mcqWrongQueue.length})`;
+  }
+
+  // Render Cumulative Marks & Plan
+  document.getElementById('cum-body').innerHTML = DATA.cumulativeMarks.map(r =>
+    `<tr><td><b>${r.stop}</b></td><td>${r.time}</td><td>${r.added}</td><td><b>${r.realistic}</b></td><td>${r.note}</td></tr>`
+  ).join('');
+
+  function renderPlan() {
+    const wrap = document.getElementById('plan-steps-container');
+    wrap.innerHTML = DATA.studySteps.map((s, idx) => {
+      const checked = !!state.planTicks[s.id];
+      const practiceHtml = s.practice.map((p, pi) => `
+        <div class="reveal-box">
+          <div><b>Practice ${pi+1}:</b> ${p.q}</div>
+          <button class="btn btn-sm" style="margin-top:6px;" onclick="toggleAns(this)">Reveal Answer</button>
+          <div class="answer-body">${p.a}</div>
+        </div>
+      `).join('');
+      return `
+        <div class="card ${checked ? 'done-card' : ''}">
+          <div class="card-head">
+            <div>
+              <h3>Step ${idx+1}: ${s.title}</h3>
+              <span class="badge badge-accent">${s.marks}</span>
+              <span class="badge">${s.time}</span>
+            </div>
+            <label class="chk-label"><input type="checkbox" data-plan-id="${s.id}" ${checked ? 'checked' : ''}> Done</label>
+          </div>
+          <p style="margin:6px 0;"><b>Why it matters:</b> ${s.why}</p>
+          <p style="margin:6px 0;"><b>How to study:</b> ${s.how}</p>
+          <p style="margin:6px 0;"><b>Expected types:</b> ${s.expected}</p>
+          ${practiceHtml}
+        </div>
+      `;
+    }).join('');
+    wrap.querySelectorAll('input[data-plan-id]').forEach(cb => {
+      cb.addEventListener('change', () => {
+        state.planTicks[cb.dataset.planId] = cb.checked;
+        saveState();
+        renderPlan();
+        updateStats();
+      });
+    });
+    typeset(wrap);
+  }
+
+  window.toggleAns = function(btn) {
+    const box = btn.nextElementSibling;
+    const isOpen = box.classList.toggle('open');
+    btn.textContent = isOpen ? 'Hide Answer' : 'Reveal Answer';
+    if (isOpen) typeset(box);
+  };
+
+  // Render Step Guides + Calculator Guide
+  function renderGuides() {
+    const wrap = document.getElementById('guides-container');
+    wrap.innerHTML = DATA.stepGuides.map(g => `
+      <div class="card">
+        <h3>${g.title}</h3>
+        <p style="margin:4px 0;"><b>When to use:</b> ${g.when}</p>
+        <div class="math-box"><b>Key Formulas:</b> ${g.formulas}</div>
+        <b>Answer-Sheet Steps:</b>
+        <ol class="step-list">${g.steps.map(st => `<li>${st}</li>`).join('')}</ol>
+        <p style="margin:6px 0;"><b>If different from PYQs (Variants):</b> ${g.variants}</p>
+        <p style="margin:6px 0;"><b>Marks Tips:</b> ${g.tips}</p>
+        <p style="margin:6px 0;"><b>Calculator Check:</b> ${g.calc}</p>
+      </div>
+    `).join('');
+
+    const cg = DATA.calcGuide;
+    document.getElementById('calc-guide-card').innerHTML = `
+      <h2>Calculator Guide: ${cg.model}</h2>
+      <div class="notice">${cg.disclaimer}</div>
+      ${cg.sections.map(sec => `
+        <div style="margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid var(--border);">
+          <div><b>${sec.title}</b></div>
+          <div style="margin:4px 0;"><code>${sec.keys}</code></div>
+          <div class="muted" style="color:var(--ink);">${sec.detail}</div>
+        </div>
+      `).join('')}
+    `;
+  }
+
+  // Render Formula Sheet
+  let formulaSelfTest = false;
+  function renderFormulas() {
+    const wrap = document.getElementById('formulas-container');
+    wrap.className = formulaSelfTest ? 'formula-hidden' : '';
+    const byUnit = [1, 2, 3, 4, 5].map(u => {
+      const items = DATA.formulas.filter(f => f.unit === u);
+      return `
+        <div class="card">
+          <h3>Unit ${u} (CO${u})</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Topic</th><th>Question / Trigger</th><th>Formula / Answer (click to peek)</th></tr></thead>
+              <tbody>
+                ${items.map(f => `
+                  <tr>
+                    <td><b>${f.name}</b></td>
+                    <td>${f.prompt}</td>
+                    <td class="formula-mask" onclick="this.classList.toggle('peek')">${f.ans}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }).join('');
+    wrap.innerHTML = byUnit;
+  }
+  document.getElementById('toggle-formula-test').addEventListener('click', (e) => {
+    formulaSelfTest = !formulaSelfTest;
+    e.target.textContent = formulaSelfTest ? 'Show All Answers' : 'Self-Test: Hide Answers';
+    document.getElementById('formulas-container').className = formulaSelfTest ? 'formula-hidden' : '';
+    document.querySelectorAll('.formula-mask').forEach(el => el.classList.remove('peek'));
+  });
+
+  // Render MCQ Quiz
+  const paperSel = document.getElementById('mcq-paper-filter');
+  ["May 2023","May 2024","Jul 2024","Nov 2024","Jun 2025","Jul 2025","Nov 2025","May 2026"].forEach(p => {
+    const opt = document.createElement('option');
+    opt.value = p; opt.textContent = p;
+    paperSel.appendChild(opt);
+  });
+
+  let mcqIdx = 0;
+  let retryWrongMode = false;
+  function getFilteredMcqs() {
+    const u = document.getElementById('mcq-unit-filter').value;
+    const p = document.getElementById('mcq-paper-filter').value;
+    return DATA.mcqs.filter(m => {
+      if (retryWrongMode && !state.mcqWrongQueue.includes(m.id)) return false;
+      if (u !== 'all' && String(m.unit) !== u) return false;
+      if (p !== 'all' && m.paper !== p) return false;
+      return true;
+    });
+  }
+
+  function renderMcq() {
+    const list = getFilteredMcqs();
+    const stage = document.getElementById('mcq-stage');
+    if (list.length === 0) {
+      stage.innerHTML = `<div class="card"><p>${retryWrongMode ? 'No wrong MCQs remaining in your retry queue!' : 'No MCQs match this filter.'}</p></div>`;
+      return;
+    }
+    if (mcqIdx >= list.length) mcqIdx = 0;
+    if (mcqIdx < 0) mcqIdx = list.length - 1;
+    const m = list[mcqIdx];
+    const prevChoice = state.mcqAnswers[m.id];
+    const letters = ['A', 'B', 'C', 'D'];
+    stage.innerHTML = `
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <span class="badge badge-accent">${m.paper} Q${m.qnum}</span>
+            <span class="badge">Unit ${m.unit}</span>
+          </div>
+          <span class="muted">Question ${mcqIdx + 1} of ${list.length}</span>
+        </div>
+        <div style="font-weight:600; font-size:1rem; margin:8px 0 12px;">${m.q}</div>
+        <div id="mcq-opts">
+          ${m.opts.map((opt, oi) => {
+            let cls = 'quiz-opt';
+            if (prevChoice !== undefined) {
+              if (oi === m.ans) cls += ' correct';
+              else if (oi === prevChoice) cls += ' wrong';
+            }
+            return `<button class="${cls}" data-oi="${oi}" ${prevChoice !== undefined ? 'disabled' : ''}><b>(${letters[oi]})</b> ${opt}</button>`;
+          }).join('')}
+        </div>
+        ${prevChoice !== undefined ? `
+          <div class="answer-body open" style="margin-top:10px;">
+            <b>${prevChoice === m.ans ? 'Correct' : 'Incorrect'} — Answer: (${letters[m.ans]})</b><br>
+            ${m.why}<br>
+            <span class="muted">Source: ${m.paper}, Part A Q${m.qnum} (Unit ${m.unit})</span>
+          </div>
+        ` : ''}
+        <div style="display:flex; justify-content:space-between; gap:8px; margin-top:12px;">
+          <button class="btn" id="mcq-prev">Prev</button>
+          ${prevChoice !== undefined ? `<button class="btn" id="mcq-reanswer">Re-attempt</button>` : ''}
+          <button class="btn btn-primary" id="mcq-next">Next</button>
+        </div>
+      </div>
+    `;
+    stage.querySelectorAll('.quiz-opt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const oi = Number(btn.dataset.oi);
+        state.mcqAnswers[m.id] = oi;
+        if (oi !== m.ans) {
+          if (!state.mcqWrongQueue.includes(m.id)) state.mcqWrongQueue.push(m.id);
+        } else {
+          state.mcqWrongQueue = state.mcqWrongQueue.filter(id => id !== m.id);
+        }
+        saveState();
+        updateStats();
+        renderMcq();
+      });
+    });
+    const reBtn = document.getElementById('mcq-reanswer');
+    if (reBtn) reBtn.addEventListener('click', () => {
+      delete state.mcqAnswers[m.id];
+      saveState(); updateStats(); renderMcq();
+    });
+    document.getElementById('mcq-prev').addEventListener('click', () => { mcqIdx--; renderMcq(); });
+    document.getElementById('mcq-next').addEventListener('click', () => { mcqIdx++; renderMcq(); });
+    typeset(stage);
+  }
+  document.getElementById('mcq-unit-filter').addEventListener('change', () => { mcqIdx = 0; renderMcq(); });
+  document.getElementById('mcq-paper-filter').addEventListener('change', () => { mcqIdx = 0; renderMcq(); });
+  document.getElementById('mcq-mode-wrong').addEventListener('click', (e) => {
+    retryWrongMode = !retryWrongMode;
+    mcqIdx = 0;
+    e.target.classList.toggle('btn-primary', retryWrongMode);
+    renderMcq();
+  });
+  document.getElementById('mcq-reset-stats').addEventListener('click', () => {
+    state.mcqAnswers = {}; state.mcqWrongQueue = []; retryWrongMode = false;
+    document.getElementById('mcq-mode-wrong').classList.remove('btn-primary');
+    saveState(); updateStats(); renderMcq();
+  });
+
+  // Flashcards (SM-2 style spaced repetition)
+  function getNextCard() {
+    const now = Date.now();
+    let due = DATA.flashcards.filter(c => {
+      const st = state.fcState[c.id];
+      return !st || st.due <= now;
+    });
+    if (due.length === 0) {
+      // pick soonest due
+      due = [...DATA.flashcards].sort((a, b) => (state.fcState[a.id]?.due || 0) - (state.fcState[b.id]?.due || 0));
+    }
+    return { card: due[0], dueCount: DATA.flashcards.filter(c => !state.fcState[c.id] || state.fcState[c.id].due <= now).length };
+  }
+  function renderFlashcard() {
+    const now = Date.now();
+    const mastered = DATA.flashcards.filter(c => (state.fcState[c.id]?.reps || 0) >= 2).length;
+    const { card, dueCount } = getNextCard();
+    document.getElementById('fc-status').textContent = `Due now: ${dueCount} / ${DATA.flashcards.length} | Mastered: ${mastered}`;
+    const stage = document.getElementById('fc-stage');
+    stage.innerHTML = `
+      <div class="fc-card" id="fc-box">
+        <div class="muted" style="margin-bottom:8px;">Card #${card.id + 1} (Tap card to reveal answer)</div>
+        <div class="fc-q">${card.q}</div>
+        <div class="fc-a" id="fc-ans">${card.a}</div>
+      </div>
+      <div class="fc-actions" id="fc-btns" style="display:none;">
+        <button class="btn" data-grade="0">Again (1m)</button>
+        <button class="btn" data-grade="1">Hard (10m)</button>
+        <button class="btn btn-primary" data-grade="2">Good (1d)</button>
+        <button class="btn" data-grade="3">Easy (4d)</button>
+      </div>
+    `;
+    document.getElementById('fc-box').addEventListener('click', () => {
+      document.getElementById('fc-ans').classList.add('open');
+      document.getElementById('fc-btns').style.display = 'flex';
+    });
+    document.querySelectorAll('#fc-btns button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const g = Number(btn.dataset.grade);
+        const prev = state.fcState[card.id] || { reps: 0, due: now };
+        const delays = [60 * 1000, 10 * 60 * 1000, 24 * 3600 * 1000, 4 * 24 * 3600 * 1000];
+        state.fcState[card.id] = {
+          reps: g >= 2 ? prev.reps + 1 : 0,
+          due: now + delays[g]
+        };
+        saveState();
+        renderFlashcard();
+      });
+    });
+    typeset(stage);
+  }
+  document.getElementById('fc-reset').addEventListener('click', () => {
+    state.fcState = {}; saveState(); renderFlashcard();
+  });
+
+  // PYQ Bank + Frequency + Ranking
+  document.getElementById('freq-body').innerHTML = DATA.freqTable.map(r =>
+    `<tr><td><b>${r.topic}</b></td><td>U${r.unit}</td><td><b>${r.count}</b></td><td>${r.papers}</td><td>${r.max_marks}</td><td>${r.tier}</td></tr>`
+  ).join('');
+  document.getElementById('unit-rank-body').innerHTML = DATA.unitRanking.map(r =>
+    `<tr><td><b>#${r.rank}</b></td><td><b>${r.unit}</b></td><td>${r.difficulty}</td><td>${r.marks}</td><td>${r.why}</td></tr>`
+  ).join('');
+
+  function renderPyqs() {
+    const uFilter = document.getElementById('pyq-unit-filter').value;
+    const units = uFilter === 'all' ? [1,2,3,4,5] : [Number(uFilter)];
+    const wrap = document.getElementById('pyq-container');
+    wrap.innerHTML = units.map(u => {
+      const items = DATA.pyqBank.filter(x => x.unit === u);
+      return `
+        <div class="card">
+          <h3>Unit ${u} (CO${u}) — ${items.length} Questions</h3>
+          ${items.map((it, idx) => {
+            const key = `u${u}_${it.paper}_${it.q}`;
+            const checked = !!state.pyqTicks[key];
+            return `
+              <div style="padding:10px 0; border-top:1px solid var(--border);">
+                <div class="card-head" style="margin-bottom:4px;">
+                  <div><span class="badge badge-accent">${it.paper}</span> <span class="badge">${it.q}</span></div>
+                  <label class="chk-label"><input type="checkbox" data-pyq-key="${key}" ${checked ? 'checked' : ''}> Solved</label>
+                </div>
+                <div>${it.text}</div>
+                <button class="btn btn-sm" style="margin-top:6px;" onclick="toggleAns(this)">Reveal Outline / Answer</button>
+                <div class="answer-body">${it.ans}</div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }).join('');
+    wrap.querySelectorAll('input[data-pyq-key]').forEach(cb => {
+      cb.addEventListener('change', () => {
+        state.pyqTicks[cb.dataset.pyqKey] = cb.checked;
+        saveState();
+        updateStats();
+      });
+    });
+    typeset(wrap);
+  }
+  document.getElementById('pyq-unit-filter').addEventListener('change', renderPyqs);
+
+  // Videos Tab
+  function renderVideos() {
+    const wrap = document.getElementById('videos-container');
+    wrap.innerHTML = DATA.ytPlan.map((u, ui) => `
+      <div class="card">
+        <div class="card-head">
+          <h3>${u.unit}</h3>
+          <span class="badge badge-accent">Must: ${u.must_1x} (1.5x: ${u.must_15x})</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Done</th><th>Tier</th><th>Channel</th><th>Video Title (Link)</th><th>Len</th><th>Why</th></tr></thead>
+            <tbody>
+              ${u.videos.map((v, vi) => {
+                const key = `v_${ui}_${vi}`;
+                const checked = !!state.videoTicks[key];
+                const bCls = v.tier === 'MUST' ? 'badge-ok' : 'badge-warn';
+                return `
+                  <tr>
+                    <td><input type="checkbox" data-vid-key="${key}" ${checked ? 'checked' : ''}></td>
+                    <td><span class="badge ${bCls}">${v.tier}</span></td>
+                    <td>${v.ch}</td>
+                    <td><a href="${v.url}" target="_blank" rel="noopener noreferrer">${v.title}</a></td>
+                    <td>${v.len}</td>
+                    <td>${v.why}</td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+        <div class="muted" style="margin-top:6px;"><b>Skip:</b> ${u.skip}</div>
+      </div>
+    `).join('');
+    wrap.querySelectorAll('input[data-vid-key]').forEach(cb => {
+      cb.addEventListener('change', () => {
+        state.videoTicks[cb.dataset.vidKey] = cb.checked;
+        saveState();
+      });
+    });
+  }
+
+  // Init
+  renderPlan();
+  renderGuides();
+  renderFormulas();
+  renderMcq();
+  renderFlashcard();
+  renderPyqs();
+  renderVideos();
+  updateStats();
+  typeset();
+})();
+</script>
+</body>
+</html>
