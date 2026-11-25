@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="oled">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
 <title>21CSS201T COA — 6-Hour Exam Study Hub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,14 +20,43 @@ window.MathJax = {
 </script>
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
 <style>
-:root {
+:root, [data-theme="oled"] {
+  --bg: #000000;
+  --surface: #0a0c10;
+  --surface-2: #12161f;
+  --surface-3: #181e2a;
+  --ink: #f4f4f5;
+  --muted: #9ca3af;
+  --border: #202632;
+  --border-strong: #2e3748;
+  --accent: #38bdf8;
+  --accent-ink: #02131d;
+  --accent-soft: #092232;
+  --ok: #22c55e;
+  --ok-soft: #062514;
+  --warn: #eab308;
+  --warn-soft: #241c05;
+  --bad: #ef4444;
+  --bad-soft: #2a0a0d;
+  --u1: #38bdf8;
+  --u2: #2dd4bf;
+  --u3: #f59e0b;
+  --u4: #fb7185;
+  --u5: #4ade80;
+  --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+[data-theme="light"] {
   --bg: #f6f6f3;
   --surface: #ffffff;
   --surface-2: #efefea;
+  --surface-3: #e5e5df;
   --ink: #18181b;
   --muted: #52525b;
   --border: #dcdcd6;
+  --border-strong: #c4c4bc;
   --accent: #0f4c81;
+  --accent-ink: #ffffff;
   --accent-soft: #e6eff7;
   --ok: #15803d;
   --ok-soft: #dcfce7;
@@ -34,106 +64,235 @@ window.MathJax = {
   --warn-soft: #fef9c3;
   --bad: #b91c1c;
   --bad-soft: #fee2e2;
-  --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
-  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --u1: #0284c7;
+  --u2: #0d9488;
+  --u3: #d97706;
+  --u4: #e11d48;
+  --u5: #16a34a;
 }
-[data-theme="dark"] {
-  --bg: #0f1115;
-  --surface: #171a21;
-  --surface-2: #21252e;
-  --ink: #eceef2;
-  --muted: #a1a7b3;
-  --border: #2c313d;
-  --accent: #5ba4e5;
-  --accent-soft: #1a2838;
-  --ok: #4ade80;
-  --ok-soft: #142d1f;
-  --warn: #facc15;
-  --warn-soft: #2e2712;
-  --bad: #f87171;
-  --bad-soft: #32181a;
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+  margin: 0; padding: 0;
+  background: var(--bg); color: var(--ink);
+  font-family: var(--sans); font-size: 15.5px; line-height: 1.65;
+  overflow-x: hidden;
 }
-* { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.55; overflow-x: hidden; }
-a { color: var(--accent); text-decoration: none; }
+a { color: var(--accent); text-decoration: none; font-weight: 500; }
 a:hover { text-decoration: underline; }
-code { font-family: var(--mono); font-size: 0.88em; background: var(--surface-2); padding: 0.12em 0.38em; border-radius: 4px; }
+code {
+  font-family: var(--mono); font-size: 0.86em;
+  background: var(--surface-3); color: var(--ink);
+  padding: 0.16em 0.44em; border-radius: 5px;
+  border: 1px solid var(--border);
+}
 
-/* Sticky top bar + Pomodoro */
-.topbar { position: sticky; top: 0; z-index: 50; background: var(--surface); border-bottom: 1px solid var(--border); }
-.topbar-inner { max-width: 1080px; margin: 0 auto; padding: 8px 14px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
-.brand { display: flex; flex-direction: column; }
-.brand-title { font-weight: 700; font-size: 0.98rem; letter-spacing: -0.01em; }
-.brand-sub { font-size: 0.76rem; color: var(--muted); }
+/* Header & Pomodoro */
+.topbar {
+  position: sticky; top: 0; z-index: 60;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.topbar-inner {
+  max-width: 1080px; margin: 0 auto;
+  padding: 10px 16px;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;
+}
+.brand { display: flex; flex-direction: column; gap: 2px; }
+.brand-title { font-weight: 700; font-size: 1.02rem; letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; }
+.brand-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); display: inline-block; }
+.brand-sub { font-size: 0.78rem; color: var(--muted); }
 
-.pomo-bar { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; background: var(--surface-2); border: 1px solid var(--border); padding: 4px 8px; border-radius: 8px; }
-.pomo-phase { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 2px 6px; border-radius: 4px; background: var(--accent-soft); color: var(--accent); }
-.pomo-time { font-family: var(--mono); font-weight: 600; font-size: 0.95rem; min-width: 52px; text-align: center; }
-.pomo-cycle { font-size: 0.74rem; color: var(--muted); }
+.pomo-bar {
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  background: var(--surface); border: 1px solid var(--border-strong);
+  padding: 6px 10px; border-radius: 10px;
+}
+.pomo-phase {
+  font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  padding: 3px 7px; border-radius: 5px; background: var(--accent-soft); color: var(--accent);
+}
+.pomo-time { font-family: var(--mono); font-weight: 700; font-size: 1rem; min-width: 56px; text-align: center; }
+.pomo-cycle { font-size: 0.75rem; color: var(--muted); font-family: var(--mono); }
 
-.btn { cursor: pointer; font-family: var(--sans); font-size: 0.82rem; font-weight: 600; padding: 6px 11px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface); color: var(--ink); transition: background 0.15s; min-height: 34px; }
-.btn:hover { background: var(--surface-2); }
-.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-[data-theme="dark"] .btn-primary { color: #0b111a; }
+.btn {
+  cursor: pointer; font-family: var(--sans); font-size: 0.84rem; font-weight: 600;
+  padding: 8px 14px; border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-2); color: var(--ink);
+  transition: background 0.15s, border-color 0.15s;
+  min-height: 40px; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn:hover { background: var(--surface-3); }
+.btn-primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
 .btn-primary:hover { opacity: 0.92; background: var(--accent); }
-.btn-sm { padding: 4px 8px; font-size: 0.76rem; min-height: 28px; }
+.btn-sm { padding: 5px 10px; font-size: 0.78rem; min-height: 32px; border-radius: 6px; }
 
-/* Navigation tabs */
+/* Navigation */
 .nav-wrap { background: var(--surface); border-bottom: 1px solid var(--border); }
-.nav-tabs { max-width: 1080px; margin: 0 auto; display: flex; overflow-x: auto; gap: 2px; padding: 0 10px; scrollbar-width: none; }
+.nav-tabs {
+  max-width: 1080px; margin: 0 auto;
+  display: flex; overflow-x: auto; gap: 6px;
+  padding: 8px 14px; scrollbar-width: none;
+  scroll-snap-type: x proximity;
+}
 .nav-tabs::-webkit-scrollbar { display: none; }
-.tab-btn { flex: 0 0 auto; background: none; border: none; border-bottom: 2px solid transparent; padding: 11px 12px; font-family: var(--sans); font-size: 0.86rem; font-weight: 600; color: var(--muted); cursor: pointer; white-space: nowrap; }
-.tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+.tab-btn {
+  flex: 0 0 auto; scroll-snap-align: start;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px 14px;
+  font-family: var(--sans); font-size: 0.85rem; font-weight: 600;
+  color: var(--muted); cursor: pointer; white-space: nowrap; min-height: 38px;
+}
+.tab-btn.active {
+  background: var(--accent-soft); color: var(--accent);
+  border-color: var(--accent);
+}
 
-/* Main container */
-.container { max-width: 1080px; margin: 0 auto; padding: 16px 14px 60px; }
+/* Main Container & Cards */
+.container { max-width: 1080px; margin: 0 auto; padding: 20px 16px 72px; }
 .tab-panel { display: none; }
 .tab-panel.active { display: block; }
 
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 15px; margin-bottom: 14px; }
-.card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
-h2 { font-size: 1.15rem; margin: 0 0 10px; letter-spacing: -0.01em; }
-h3 { font-size: 1rem; margin: 0 0 6px; }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 18px;
+}
+.card-u1 { border-left: 4px solid var(--u1); }
+.card-u2 { border-left: 4px solid var(--u2); }
+.card-u3 { border-left: 4px solid var(--u3); }
+.card-u4 { border-left: 4px solid var(--u4); }
+.card-u5 { border-left: 4px solid var(--u5); }
+
+.card-head {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 12px; flex-wrap: wrap; margin-bottom: 12px;
+}
+h2 { font-size: 1.24rem; margin: 0 0 10px; letter-spacing: -0.02em; line-height: 1.3; }
+h3 { font-size: 1.06rem; margin: 0 0 8px; letter-spacing: -0.01em; line-height: 1.35; }
+p { margin: 0 0 10px; }
 .muted { color: var(--muted); font-size: 0.88rem; }
 
-.badge { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 2px 7px; border-radius: 4px; background: var(--surface-2); border: 1px solid var(--border); color: var(--ink); }
+/* Visual Cues & Badges */
+.cue-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 0.74rem; font-weight: 600; letter-spacing: 0.02em;
+  padding: 3px 9px; border-radius: 6px;
+  background: var(--surface-2); border: 1px solid var(--border-strong); color: var(--ink);
+}
 .badge-accent { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
-.badge-ok { background: var(--ok-soft); color: var(--ok); border-color: transparent; }
-.badge-warn { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
-.badge-bad { background: var(--bad-soft); color: var(--bad); border-color: transparent; }
+.badge-ok { background: var(--ok-soft); color: var(--ok); border-color: rgba(34,197,94,0.3); }
+.badge-warn { background: var(--warn-soft); color: var(--warn); border-color: rgba(234,179,8,0.3); }
+.badge-bad { background: var(--bad-soft); color: var(--bad); border-color: rgba(239,68,68,0.3); }
 
-/* Progress bar */
-.prog-outer { width: 100%; height: 10px; background: var(--surface-2); border-radius: 99px; overflow: hidden; border: 1px solid var(--border); }
-.prog-inner { height: 100%; background: var(--accent); width: 0%; transition: width 0.25s; }
-.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 14px; }
-.stat-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
-.stat-val { font-size: 1.2rem; font-weight: 700; font-family: var(--mono); }
-.stat-lbl { font-size: 0.76rem; color: var(--muted); }
+/* Stats & Progress */
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 12px; margin-bottom: 18px; }
+.stat-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 14px 16px;
+}
+.stat-val { font-size: 1.35rem; font-weight: 700; font-family: var(--mono); color: var(--accent); }
+.stat-lbl { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+.prog-outer { width: 100%; height: 11px; background: var(--surface-2); border-radius: 99px; overflow: hidden; border: 1px solid var(--border); }
+.prog-inner { height: 100%; background: var(--ok); width: 0%; transition: width 0.25s; }
 
-/* Scrollable wrappers for tables and MathJax */
-.table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--border); border-radius: 8px; margin: 8px 0; }
-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 520px; }
-th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
-th { background: var(--surface-2); font-weight: 600; white-space: nowrap; }
+/* Scrollable Tables & Math */
+.table-wrap {
+  width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--border); border-radius: 10px; margin: 12px 0;
+  background: var(--surface);
+}
+table { width: 100%; border-collapse: collapse; font-size: 0.87rem; min-width: 540px; }
+th, td { padding: 11px 13px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { background: var(--surface-2); font-weight: 600; white-space: nowrap; color: var(--ink); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.03em; }
 tr:last-child td { border-bottom: none; }
 
-.math-box { overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 8px 10px; background: var(--surface-2); border-radius: 6px; margin: 6px 0; max-width: 100%; }
+.math-box {
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  padding: 12px 14px; background: var(--surface-2);
+  border: 1px solid var(--border); border-left: 3px solid var(--accent);
+  border-radius: 8px; margin: 10px 0; max-width: 100%;
+}
 mjx-container { max-width: 100%; overflow-x: auto; overflow-y: hidden; }
 
-/* Checkboxes & Details */
-.chk-label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; font-size: 0.84rem; font-weight: 600; user-select: none; }
-.chk-label input { width: 17px; height: 17px; accent-color: var(--accent); cursor: pointer; }
-.reveal-box { margin-top: 8px; border-top: 1px dashed var(--border); padding-top: 8px; }
-.answer-body { display: none; margin-top: 8px; padding: 10px; background: var(--surface-2); border-left: 3px solid var(--accent); border-radius: 6px; font-size: 0.9rem; overflow-x: auto; }
+/* Info Callout Grids in Plan & Guides */
+.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px; margin: 12px 0; }
+.info-pill { background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 11px 13px; font-size: 0.9rem; }
+.info-lbl { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); margin-bottom: 4px; display: block; }
+
+/* Checkboxes & Expandables */
+.chk-label {
+  display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+  font-size: 0.85rem; font-weight: 600; user-select: none;
+  padding: 6px 10px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--border);
+}
+.chk-label input { width: 18px; height: 18px; accent-color: var(--ok); cursor: pointer; }
+.reveal-box { margin-top: 12px; padding: 12px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; }
+.answer-body {
+  display: none; margin-top: 10px; padding: 12px 14px;
+  background: var(--surface); border: 1px solid var(--border-strong);
+  border-left: 4px solid var(--ok); border-radius: 8px;
+  font-size: 0.92rem; overflow-x: auto;
+}
 .answer-body.open { display: block; }
 
-/* Quiz */
-.filter-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
-select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface); color: var(--ink); min-height: 36px; }
-.quiz-opt { display: block; width: 100%; text-align: left; padding: 10px 12px; margin: 6px 0; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--ink); cursor: pointer; font-family: var(--sans); font-size: 0.9rem; }
-.quiz-opt:hover:not(:disabled) { background: var(--surface-2); }
-.quiz-opt.correct { background: var(--ok-soft); border-color: var(--ok); color: var(--ink); font-weight: 600; }
-.quiz-opt.wrong { background: var(--bad-soft); border-color: var(--bad); color: var(--ink); }
+/* MCQ Bank & Quiz */
+.filter-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 10px; }
+select, input[type="search"] {
+  font-family: var(--sans); font-size: 0.88rem; padding: 8px 12px;
+  border-radius: 8px; border: 1px solid var(--border-strong);
+  background: var(--surface-2); color: var(--ink); min-height: 42px;
+}
+input[type="search"] { flex: 1 1 200px; }
+.seg-group { display: inline-flex; background: var(--surface-2); border: 1px solid var(--border-strong); border-radius: 8px; padding: 3px; gap: 3px; }
+.seg-btn {
+  border: none; background: transparent; color: var(--muted);
+  padding: 6px 12px; border-radius: 6px; font-family: var(--sans);
+  font-size: 0.82rem; font-weight: 600; cursor: pointer; min-height: 34px;
+}
+.seg-btn.active { background: var(--accent); color: var(--accent-ink); }
+
+.mcq-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; margin-bottom: 14px; }
+.mcq-opt-row {
+  padding: 10px 12px; margin: 6px 0; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--surface-2);
+  font-size: 0.92rem; display: flex; align-items: flex-start; gap: 8px;
+}
+.mcq-opt-row.is-ans {
+  background: var(--ok-soft); border-color: var(--ok); font-weight: 600;
+}
+.mcq-opt-row.is-ans .opt-tag { background: var(--ok); color: #000; }
+.opt-tag {
+  font-family: var(--mono); font-size: 0.76rem; font-weight: 700;
+  padding: 2px 6px; border-radius: 4px; background: var(--surface-3); color: var(--ink);
+  flex-shrink: 0; margin-top: 1px;
+}
+.mcq-why {
+  margin-top: 10px; padding: 10px 12px; border-radius: 8px;
+  background: var(--accent-soft); border-left: 3px solid var(--accent);
+  font-size: 0.88rem;
+}
+.mcq-sheet-hidden .mcq-opt-row.is-ans { background: var(--surface-2); border-color: var(--border); font-weight: 400; }
+.mcq-sheet-hidden .mcq-opt-row.is-ans .opt-tag { background: var(--surface-3); color: var(--ink); }
+.mcq-sheet-hidden .mcq-why { display: none; }
+.mcq-card.revealed .mcq-opt-row.is-ans { background: var(--ok-soft); border-color: var(--ok); font-weight: 600; }
+.mcq-card.revealed .mcq-opt-row.is-ans .opt-tag { background: var(--ok); color: #000; }
+.mcq-card.revealed .mcq-why { display: block; }
+
+.quiz-opt {
+  display: block; width: 100%; text-align: left;
+  padding: 12px 14px; margin: 7px 0; border-radius: 8px;
+  border: 1px solid var(--border-strong); background: var(--surface-2);
+  color: var(--ink); cursor: pointer; font-family: var(--sans); font-size: 0.93rem;
+  min-height: 44px;
+}
+.quiz-opt:hover:not(:disabled) { border-color: var(--accent); }
+.quiz-opt.correct { background: var(--ok-soft); border-color: var(--ok); font-weight: 600; }
+.quiz-opt.wrong { background: var(--bad-soft); border-color: var(--bad); }
 
 /* Formula hide mode */
 .formula-mask { cursor: pointer; transition: filter 0.15s; }
@@ -141,21 +300,34 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
 .formula-hidden .formula-mask.peek { filter: none; }
 
 /* Flashcards */
-.fc-card { min-height: 180px; display: flex; flex-direction: column; justify-content: center; padding: 20px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); text-align: center; cursor: pointer; }
-.fc-q { font-size: 1.05rem; font-weight: 600; }
-.fc-a { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 0.94rem; color: var(--muted); display: none; }
-.fc-a.open { display: block; color: var(--ink); }
-.fc-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 12px; }
+.fc-card {
+  min-height: 210px; display: flex; flex-direction: column; justify-content: center;
+  padding: 24px; border: 1px solid var(--border-strong); border-radius: 12px;
+  background: var(--surface); text-align: center; cursor: pointer;
+}
+.fc-q { font-size: 1.08rem; font-weight: 600; }
+.fc-a { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 0.96rem; color: var(--ok); display: none; }
+.fc-a.open { display: block; }
+.fc-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 14px; }
 
-.step-list { padding-left: 18px; margin: 6px 0; }
-.step-list li { margin-bottom: 5px; }
-.done-card { opacity: 0.78; }
-.notice { padding: 10px 12px; border-radius: 8px; border-left: 4px solid var(--warn); background: var(--warn-soft); font-size: 0.88rem; margin-bottom: 12px; }
+.step-list { padding-left: 20px; margin: 8px 0; }
+.step-list li { margin-bottom: 8px; }
+.done-card { opacity: 0.7; }
+.notice {
+  padding: 12px 14px; border-radius: 10px;
+  border: 1px solid rgba(234,179,8,0.35); border-left: 4px solid var(--warn);
+  background: var(--warn-soft); font-size: 0.9rem; margin-bottom: 14px;
+}
 
-@media (max-width: 600px) {
-  .topbar-inner { padding: 8px 10px; }
+@media (max-width: 640px) {
+  html, body { font-size: 15px; }
+  .topbar-inner { padding: 10px 12px; }
   .pomo-bar { width: 100%; justify-content: space-between; }
-  .container { padding: 12px 10px 60px; }
+  .container { padding: 14px 12px 72px; }
+  .card { padding: 16px 14px; margin-bottom: 14px; }
+  .mcq-card { padding: 15px 13px; }
+  .stat-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  select, input[type="search"] { width: 100%; }
 }
 </style>
 </head>
@@ -163,8 +335,8 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
 <header class="topbar">
   <div class="topbar-inner">
     <div class="brand">
-      <span class="brand-title">21CSS201T COA Study Hub</span>
-      <span class="brand-sub">8 PYQs (May 2023 - May 2026) | 6-Hour Sprint | Casio fx-991MS</span>
+      <span class="brand-title"><span class="brand-dot"></span>21CSS201T COA Study Hub</span>
+      <span class="brand-sub">8 PYQs (May 2023 – May 2026) · 2:00 PM Exam · Casio fx-991MS</span>
     </div>
     <div class="pomo-bar" aria-label="Pomodoro Timer">
       <span class="pomo-phase" id="pomo-phase">FOCUS</span>
@@ -173,7 +345,7 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
       <button class="btn btn-sm btn-primary" id="pomo-toggle">Start</button>
       <button class="btn btn-sm" id="pomo-reset">Reset</button>
       <button class="btn btn-sm" id="pomo-skip">Skip</button>
-      <button class="btn btn-sm" id="theme-btn" title="Toggle light/dark mode">Dark</button>
+      <button class="btn btn-sm" id="theme-btn" title="Toggle OLED / Light mode">Light</button>
     </div>
   </div>
 </header>
@@ -181,11 +353,11 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
 <nav class="nav-wrap" aria-label="Study Sections">
   <div class="nav-tabs" id="nav-tabs">
     <button class="tab-btn active" data-tab="plan">My Plan</button>
+    <button class="tab-btn" data-tab="mcq">All 160 MCQs</button>
     <button class="tab-btn" data-tab="guide">Step Guide</button>
-    <button class="tab-btn" data-tab="formulas">Formula Sheet</button>
-    <button class="tab-btn" data-tab="mcq">MCQ Quiz (160)</button>
-    <button class="tab-btn" data-tab="flashcards">Flashcards</button>
+    <button class="tab-btn" data-tab="formulas">Formulas</button>
     <button class="tab-btn" data-tab="pyqs">PYQ Bank</button>
+    <button class="tab-btn" data-tab="flashcards">Flashcards</button>
     <button class="tab-btn" data-tab="videos">Videos</button>
     <button class="tab-btn" data-tab="learn">Learn Fast</button>
   </div>
@@ -197,33 +369,43 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
     <div class="stat-grid">
       <div class="stat-box"><div class="stat-val" id="stat-plan">0 / 8</div><div class="stat-lbl">Plan Steps Done</div></div>
       <div class="stat-box"><div class="stat-val" id="stat-pyq">0 / 95</div><div class="stat-lbl">PYQs Ticked</div></div>
-      <div class="stat-box"><div class="stat-val" id="stat-mcq">0%</div><div class="stat-lbl">MCQ Accuracy</div></div>
-      <div class="stat-box"><div class="stat-val" id="stat-wrong">0</div><div class="stat-lbl">Wrong MCQs to Retry</div></div>
+      <div class="stat-box"><div class="stat-val" id="stat-mcq">0%</div><div class="stat-lbl">Quiz Accuracy</div></div>
+      <div class="stat-box"><div class="stat-val" id="stat-wrong">0</div><div class="stat-lbl">Wrong MCQs Queue</div></div>
     </div>
+
     <div class="card">
       <div class="card-head">
         <div>
           <h3>6-Hour Study Progress</h3>
-          <div class="muted">Tick each step as you finish. Predictions are based on PYQ repetition across 8 papers, not guaranteed.</div>
+          <div class="muted">Tick each step as you finish. Predictions reflect past repetition across 8 papers, not guaranteed.</div>
         </div>
-        <span class="badge badge-accent" id="plan-pct">0%</span>
+        <span class="badge badge-ok" id="plan-pct">0%</span>
       </div>
       <div class="prog-outer"><div class="prog-inner" id="plan-prog"></div></div>
     </div>
 
-    <div class="card">
-      <h3>Tonight to 2:00 PM Schedule &amp; Marks Target (Internal: 44.10 / 60)</h3>
-      <p class="muted">External (out of 75) converts to 40: \(\text{Total} = 44.10 + \frac{\text{Ext}}{75}\times 40\). You need just <b>12 / 75</b> to cross 50/100 overall (and check if your regulation also requires 30/75 or 38/75 minimum in external).</p>
+    <div class="card card-u1">
+      <div class="card-head">
+        <div>
+          <h3>Today's 12:00 AM – 2:00 PM Exam Timetable</h3>
+          <div class="cue-row">
+            <span class="badge badge-accent">Internal: 44.10 / 60</span>
+            <span class="badge badge-ok">Need 12 / 75 for 50+ Overall</span>
+            <span class="badge badge-warn">Safe Target: 38–50 / 75</span>
+          </div>
+        </div>
+      </div>
+      <p class="muted">Formula: \(\text{Overall} = 44.10 + \left(\frac{\text{External}}{75} \times 40\right)\). Check if your regulation also requires 30/75 or 38/75 minimum in external.</p>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Time Window</th><th>What to Do</th><th>Target Unlocked</th></tr></thead>
+          <thead><tr><th>Time Window</th><th>Action</th><th>Score Reached</th></tr></thead>
           <tbody>
-            <tr><td><b>12:00 AM – 2:00 AM</b></td><td>Unit 1 (Conversions, Complements, BCD, Gates) + Unit 5 (Flynn's, ARM, MESI)</td><td>20–23 / 75</td></tr>
-            <tr><td><b>2:00 AM – 8:00 AM</b></td><td><b>Sleep (6 hours)</b> — protects Booth/Division accuracy</td><td>Memory consolidation</td></tr>
-            <tr><td><b>8:00 AM – 10:30 AM</b></td><td>Unit 2 (EA 15m sum, 0/1/2/3-addr) + Unit 3 (Booth, 13/3 Division, IEEE 754)</td><td>52–60 / 75</td></tr>
-            <tr><td><b>10:30 AM – 12:00 PM</b></td><td>Unit 4 (Pipeline Hazards, Forwarding, MCU) + Part A MCQ Sprint</td><td>65–72 / 75</td></tr>
-            <tr><td><b>12:00 PM – 1:00 PM</b></td><td>Commute (Phone): MCQ Retry Wrong Queue + Flashcards</td><td>Lock OMR 18–20/20</td></tr>
-            <tr><td><b>1:00 PM – 2:00 PM</b></td><td>At College: Formula Sheet Self-Test (Hide Answers), then rest before 2 PM</td><td>Ready for 2 PM exam</td></tr>
+            <tr><td><b>12:00 AM – 2:00 AM</b></td><td>Unit 1 (Conversions, Complements, BCD, Gates) + Unit 5 (Flynn's, ARM, MESI)</td><td><b>20–23 / 75</b></td></tr>
+            <tr><td><b>2:00 AM – 8:00 AM</b></td><td><b>Sleep (6 hours)</b> — protects Booth &amp; Division trace accuracy</td><td>Memory lock</td></tr>
+            <tr><td><b>8:00 AM – 10:30 AM</b></td><td>Unit 2 (EA 15m sum, 0/1/2/3-addr) + Unit 3 (Booth, 13÷3 Division, IEEE 754)</td><td><b>52–60 / 75</b></td></tr>
+            <tr><td><b>10:30 AM – 12:00 PM</b></td><td>Unit 4 (Pipeline Hazards, Forwarding, MCU) + All 160 MCQs Sprint</td><td><b>65–72 / 75</b></td></tr>
+            <tr><td><b>12:00 PM – 1:00 PM</b></td><td>Commute (Phone): All MCQs Self-Test / Retry Wrong + Flashcards</td><td>Lock OMR 18–20/20</td></tr>
+            <tr><td><b>1:00 PM – 2:00 PM</b></td><td>At College: Formula Sheet Self-Test, then rest before 2:00 PM start</td><td>Exam ready</td></tr>
           </tbody>
         </table>
       </div>
@@ -238,46 +420,27 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
         </table>
       </div>
     </div>
+
     <div id="plan-steps-container"></div>
   </section>
 
-  <!-- TAB 2: STEP GUIDE + CALCULATOR GUIDE -->
-  <section id="tab-guide" class="tab-panel">
-    <div class="card">
-      <h2>General Problem-Solving Step Guides</h2>
-      <p class="muted">Use these general methods on any exam question—even if the numbers or wording differ from the PYQs.</p>
-    </div>
-    <div id="guides-container"></div>
-    <div class="card" id="calc-guide-card"></div>
-  </section>
-
-  <!-- TAB 3: FORMULA SHEET -->
-  <section id="tab-formulas" class="tab-panel">
-    <div class="card">
-      <div class="card-head">
-        <div>
-          <h2>Formula &amp; Fact Sheet</h2>
-          <p class="muted">Toggle Self-Test to blur answers, then click any hidden formula to peek and verify recall.</p>
-        </div>
-        <button class="btn btn-primary" id="toggle-formula-test">Self-Test: Hide Answers</button>
-      </div>
-    </div>
-    <div id="formulas-container"></div>
-  </section>
-
-  <!-- TAB 4: MCQ QUIZ -->
+  <!-- TAB 2: ALL 160 MCQs WITH ANSWERS + QUIZ MODE -->
   <section id="tab-mcq" class="tab-panel">
     <div class="card">
       <div class="card-head">
         <div>
-          <h2>Part A MCQ Practice (All 160 Real Questions)</h2>
-          <div class="muted" id="mcq-stats-line">Answered: 0 | Correct: 0 | Retry Queue: 0</div>
+          <h2>All 160 Real Part A MCQs (With Verified Answers)</h2>
+          <div class="muted" id="mcq-stats-line">Showing all 160 questions from May 2023 – May 2026</div>
         </div>
-        <button class="btn btn-sm" id="mcq-reset-stats">Reset Progress</button>
+        <div class="seg-group" role="tablist">
+          <button class="seg-btn active" id="view-all-btn">All with Answers</button>
+          <button class="seg-btn" id="view-quiz-btn">Interactive Quiz</button>
+        </div>
       </div>
+
       <div class="filter-row">
         <select id="mcq-unit-filter">
-          <option value="all">All Units (1-5)</option>
+          <option value="all">All Units (1–5)</option>
           <option value="1">Unit 1: Number Systems &amp; Gates</option>
           <option value="2">Unit 2: Structure, Formats &amp; Modes</option>
           <option value="3">Unit 3: Arithmetic, Booth &amp; IEEE 754</option>
@@ -287,27 +450,48 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
         <select id="mcq-paper-filter">
           <option value="all">All 8 Papers</option>
         </select>
-        <button class="btn" id="mcq-mode-wrong">Retry Wrong Only (0)</button>
+        <input type="search" id="mcq-search" placeholder="Search keyword (e.g. Booth, Gray, ARM, WMFC)...">
+      </div>
+
+      <div class="filter-row" id="sheet-controls">
+        <button class="btn btn-sm" id="mcq-hide-toggle">Hide Answers (Self-Test List)</button>
+        <span class="muted" id="mcq-count-badge">160 questions shown</span>
+      </div>
+
+      <div class="filter-row" id="quiz-controls" style="display:none;">
+        <button class="btn btn-sm" id="mcq-mode-wrong">Retry Wrong Only (0)</button>
+        <button class="btn btn-sm" id="mcq-reset-stats">Reset Quiz Stats</button>
       </div>
     </div>
+
     <div id="mcq-stage"></div>
   </section>
 
-  <!-- TAB 5: FLASHCARDS -->
-  <section id="tab-flashcards" class="tab-panel">
+  <!-- TAB 3: STEP GUIDE + CALCULATOR GUIDE -->
+  <section id="tab-guide" class="tab-panel">
+    <div class="card">
+      <h2>General Problem-Solving Step Guides</h2>
+      <p class="muted">Use these general methods on any exam question—even when numbers or phrasing differ from PYQs.</p>
+    </div>
+    <div id="guides-container"></div>
+    <div class="card card-u3" id="calc-guide-card"></div>
+  </section>
+
+  <!-- TAB 4: FORMULA SHEET -->
+  <section id="tab-formulas" class="tab-panel">
     <div class="card">
       <div class="card-head">
         <div>
-          <h2>Spaced-Repetition Flashcards (30 High-Yield Facts)</h2>
-          <div class="muted" id="fc-status">Due now: 30 | Mastered: 0</div>
+          <h2>Formula &amp; Fact Sheet</h2>
+          <p class="muted">Toggle Self-Test to blur answers, then tap any blurred cell to check recall.</p>
         </div>
-        <button class="btn btn-sm" id="fc-reset">Reset Deck</button>
+        <button class="btn btn-primary" id="toggle-formula-test">Self-Test: Hide Answers</button>
       </div>
     </div>
-    <div id="fc-stage"></div>
+    <div id="formulas-container"></div>
   </section>
 
-  <!-- TAB 6: PYQ BANK -->
+  <!-- TAB 5: PYQ BANK -->
   <section id="tab-pyqs" class="tab-panel">
     <div class="card">
       <h2>Paper Pattern (21CSS201T — 75 Marks, 3 Hours)</h2>
@@ -316,20 +500,20 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
           <thead><tr><th>Part</th><th>Questions</th><th>Marks</th><th>Choice / Rule</th><th>Unit Split</th></tr></thead>
           <tbody>
             <tr><td><b>Part A</b></td><td>Q1 – Q20 (20 x 1)</td><td>20</td><td>Compulsory OMR (first 40 mins)</td><td>4 MCQs per Unit (Q1-4 U1, Q5-8 U2, Q9-12 U3, Q13-16 U4, Q17-20 U5)</td></tr>
-            <tr><td><b>Part B</b></td><td>Q21 – Q25 (5 x 8)</td><td>40</td><td>Answer all 5; each has internal (a) OR (b)</td><td>Q21=U1, Q22=U2, Q23=U3, Q24=U4, Q25=U5</td></tr>
-            <tr><td><b>Part C</b></td><td>Q26 OR Q27 (1 x 15)</td><td>15</td><td>Answer ANY ONE of two questions</td><td>7/8 papers include U2 or U3 (Jul 24 was U1 vs U5)</td></tr>
+            <tr><td><b>Part B</b></td><td>Q21 – Q25 (5 x 8)</td><td>40</td><td>Answer all 5; internal (a) OR (b)</td><td>Q21=U1, Q22=U2, Q23=U3, Q24=U4, Q25=U5</td></tr>
+            <tr><td><b>Part C</b></td><td>Q26 OR Q27 (1 x 15)</td><td>15</td><td>Answer ANY ONE of two</td><td>7/8 papers include U2 or U3 (Jul 24 was U1 vs U5)</td></tr>
           </tbody>
         </table>
       </div>
-      <h3 style="margin-top:14px;">Topic Frequency Table (Across 8 Papers: May 2023 – May 2026)</h3>
-      <p class="muted">Note: Predictions reflect historical repetition across these 8 papers and are not guaranteed.</p>
+      <h3 style="margin-top:16px;">Topic Frequency Table (Across 8 Papers: May 2023 – May 2026)</h3>
+      <p class="muted">Predictions reflect historical repetition across these 8 papers and are not guaranteed.</p>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Topic</th><th>Unit</th><th>Count</th><th>Papers</th><th>Max Marks</th><th>Tier</th></tr></thead>
           <tbody id="freq-body"></tbody>
         </table>
       </div>
-      <h3 style="margin-top:14px;">Unit Difficulty Ranking (Easiest to Hardest)</h3>
+      <h3 style="margin-top:16px;">Unit Difficulty Ranking (Easiest to Hardest)</h3>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Rank</th><th>Unit</th><th>Difficulty</th><th>Marks</th><th>Reason</th></tr></thead>
@@ -338,8 +522,8 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
       </div>
     </div>
     <div class="card">
-      <div class="filter-row">
-        <strong style="margin-right:6px;">Filter PYQ Bank:</strong>
+      <div class="filter-row" style="margin-top:0;">
+        <strong>Filter PYQ Bank:</strong>
         <select id="pyq-unit-filter">
           <option value="all">All Units (95 items)</option>
           <option value="1">Unit 1 (CO1)</option>
@@ -353,12 +537,29 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
     <div id="pyq-container"></div>
   </section>
 
+  <!-- TAB 6: FLASHCARDS -->
+  <section id="tab-flashcards" class="tab-panel">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <h2>Spaced-Repetition Flashcards (30 High-Yield Facts)</h2>
+          <div class="muted" id="fc-status">Due now: 30 | Mastered: 0</div>
+        </div>
+        <button class="btn btn-sm" id="fc-reset">Reset Deck</button>
+      </div>
+    </div>
+    <div id="fc-stage"></div>
+  </section>
+
   <!-- TAB 7: VIDEOS -->
   <section id="tab-videos" class="tab-panel">
     <div class="card">
       <h2>YouTube Watch Plan (Gate Smashers &amp; Neso Academy)</h2>
-      <p class="muted"><b>Must Watch Total:</b> 4h 19m 43s at 1.0x &nbsp;|&nbsp; <b>2h 53m 08s at 1.5x</b> (leaves over 3 hours for solving PYQs &amp; MCQs).<br>
-      <b>With 'If Time':</b> 6h 31m 36s at 1.0x &nbsp;|&nbsp; 4h 21m 04s at 1.5x.</p>
+      <div class="cue-row" style="margin-bottom:8px;">
+        <span class="badge badge-ok">Must Watch: 4h 19m 43s (1.0x) / 2h 53m 08s (1.5x)</span>
+        <span class="badge badge-warn">With If Time: 6h 31m 36s (1.0x) / 4h 21m 04s (1.5x)</span>
+      </div>
+      <p class="muted">Watching Must-Watch videos at 1.5x leaves over 3 hours inside a 6-hour sprint for solving PYQs &amp; MCQs.</p>
     </div>
     <div id="videos-container"></div>
   </section>
@@ -366,13 +567,13 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
   <!-- TAB 8: LEARN FAST -->
   <section id="tab-learn" class="tab-panel">
     <div class="card">
-      <h2>How to Learn Fast in 6 Hours</h2>
+      <h2>How to Learn Fast in Limited Hours</h2>
       <ul class="step-list">
-        <li><b>Active Recall over Passive Watching:</b> Watch a Must-Watch video at 1.5x, pause, and immediately solve one PYQ on paper without looking. Reading notes feels productive; writing Booth or Division tables from memory builds exam speed.</li>
-        <li><b>Micro-Spacing Inside 6 Hours:</b> Use the 25/5 Pomodoro bar above. Do Unit 1 + Unit 5 first, revisit 10 Part A MCQs during break recovery, then tackle Unit 2 + Unit 3. Re-testing a formula 90 minutes later doubles retention.</li>
-        <li><b>Interleaving Sums:</b> Don't solve 5 Booth sums in a row. Alternate 1 Booth, 1 Non-Restoring Division, 1 EA problem, and 1 IEEE 754 problem so your brain practices recognizing which rule to apply on exam day.</li>
-        <li><b>Sleep &amp; Cognitive Endurance:</b> Even a 90-minute sleep cycle (or full night before the 26th) consolidates trace-table procedures far better than pushing past exhaustion at 4 AM with sloppy arithmetic errors.</li>
-        <li><b>Exam Anxiety &amp; 40-Minute OMR Strategy:</b> Part A is collected at minute 40. Answer the sure-shot 14–16 MCQs in the first 20 minutes, mark calculation MCQs (opcode bits, Gray code, base conversion) cleanly in the next 15, and verify bubbles before minute 40. In Part B/C, always write the formula and draw the labeled diagram first for method marks.</li>
+        <li><b>Active Recall over Passive Watching:</b> Watch a Must-Watch video at 1.5x, pause, and immediately solve one PYQ on paper without looking. Writing Booth or Division trace tables from memory builds exam speed.</li>
+        <li><b>Micro-Spacing:</b> Use the 25/5 Pomodoro bar above. Do Unit 1 + Unit 5 first, revisit 10 Part A MCQs during breaks, then tackle Unit 2 + Unit 3. Re-testing a formula 90 minutes later doubles retention.</li>
+        <li><b>Interleaving Sums:</b> Don't solve 5 Booth sums in a row. Alternate 1 Booth, 1 Non-Restoring Division, 1 EA problem, and 1 IEEE 754 problem so your brain practices spotting which rule applies.</li>
+        <li><b>Sleep vs. All-Nighter:</b> A 6-hour sleep block (2:00 AM – 8:00 AM) locks in binary shift procedures and prevents careless sign-bit mistakes at 2:00 PM.</li>
+        <li><b>Exam Anxiety &amp; 40-Minute OMR Strategy:</b> Part A is collected at minute 40. Answer the sure-shot 14–16 MCQs in the first 20 minutes, solve calculation MCQs (opcode bits, Gray code, base conversion) cleanly in the next 15, and double-check bubbles before minute 40. In Part B/C, always write the formula and draw the labeled diagram first for method marks.</li>
       </ul>
     </div>
   </section>
@@ -382,10 +583,10 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
 <script>
 (function() {
   const DATA = JSON.parse(document.getElementById('coa-data-json').textContent);
-  const LS_KEY = 'coa_study_hub_v1';
+  const LS_KEY = 'coa_study_hub_v2';
 
   const defaultState = {
-    theme: 'light',
+    theme: 'oled',
     planTicks: {},
     pyqTicks: {},
     videoTicks: {},
@@ -413,13 +614,13 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
     }
   }
 
-  // Theme
+  // Theme (OLED default)
   function applyTheme() {
-    document.documentElement.setAttribute('data-theme', state.theme);
-    document.getElementById('theme-btn').textContent = state.theme === 'dark' ? 'Light' : 'Dark';
+    document.documentElement.setAttribute('data-theme', state.theme || 'oled');
+    document.getElementById('theme-btn').textContent = state.theme === 'light' ? 'OLED' : 'Light';
   }
   document.getElementById('theme-btn').addEventListener('click', () => {
-    state.theme = state.theme === 'dark' ? 'light' : 'dark';
+    state.theme = state.theme === 'light' ? 'oled' : 'light';
     applyTheme();
     saveState();
   });
@@ -500,9 +701,7 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
     renderPomo();
     saveState();
   });
-  document.getElementById('pomo-skip').addEventListener('click', () => {
-    nextPomoPhase();
-  });
+  document.getElementById('pomo-skip').addEventListener('click', () => nextPomoPhase());
   renderPomo();
 
   // Dashboard Stats
@@ -521,8 +720,6 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
     const acc = answeredIds.length ? Math.round((correctCnt / answeredIds.length) * 100) : 0;
     document.getElementById('stat-mcq').textContent = acc + '%';
     document.getElementById('stat-wrong').textContent = state.mcqWrongQueue.length;
-    document.getElementById('mcq-stats-line').textContent =
-      `Answered: ${answeredIds.length}/${DATA.mcqs.length} | Correct: ${correctCnt} | Retry Queue: ${state.mcqWrongQueue.length}`;
     document.getElementById('mcq-mode-wrong').textContent = `Retry Wrong Only (${state.mcqWrongQueue.length})`;
   }
 
@@ -531,30 +728,35 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
     `<tr><td><b>${r.stop}</b></td><td>${r.time}</td><td>${r.added}</td><td><b>${r.realistic}</b></td><td>${r.note}</td></tr>`
   ).join('');
 
+  const stepUnitCls = ['card-u1','card-u5','card-u2','card-u3','card-u3','card-u4','card-u2','card-u1'];
   function renderPlan() {
     const wrap = document.getElementById('plan-steps-container');
     wrap.innerHTML = DATA.studySteps.map((s, idx) => {
       const checked = !!state.planTicks[s.id];
       const practiceHtml = s.practice.map((p, pi) => `
         <div class="reveal-box">
-          <div><b>Practice ${pi+1}:</b> ${p.q}</div>
-          <button class="btn btn-sm" style="margin-top:6px;" onclick="toggleAns(this)">Reveal Answer</button>
+          <div><span class="badge badge-accent" style="margin-right:6px;">PYQ ${pi+1}</span> ${p.q}</div>
+          <button class="btn btn-sm" style="margin-top:8px;" onclick="toggleAns(this)">Reveal Verified Answer</button>
           <div class="answer-body">${p.a}</div>
         </div>
       `).join('');
       return `
-        <div class="card ${checked ? 'done-card' : ''}">
+        <div class="card ${stepUnitCls[idx] || ''} ${checked ? 'done-card' : ''}">
           <div class="card-head">
             <div>
               <h3>Step ${idx+1}: ${s.title}</h3>
-              <span class="badge badge-accent">${s.marks}</span>
-              <span class="badge">${s.time}</span>
+              <div class="cue-row">
+                <span class="badge badge-ok">${s.marks}</span>
+                <span class="badge badge-accent">${s.time}</span>
+              </div>
             </div>
             <label class="chk-label"><input type="checkbox" data-plan-id="${s.id}" ${checked ? 'checked' : ''}> Done</label>
           </div>
-          <p style="margin:6px 0;"><b>Why it matters:</b> ${s.why}</p>
-          <p style="margin:6px 0;"><b>How to study:</b> ${s.how}</p>
-          <p style="margin:6px 0;"><b>Expected types:</b> ${s.expected}</p>
+          <div class="info-grid">
+            <div class="info-pill"><span class="info-lbl">Why It Matters</span>${s.why}</div>
+            <div class="info-pill"><span class="info-lbl">How to Study</span>${s.how}</div>
+            <div class="info-pill"><span class="info-lbl">Expected Question Types</span>${s.expected}</div>
+          </div>
           ${practiceHtml}
         </div>
       `;
@@ -562,9 +764,7 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
     wrap.querySelectorAll('input[data-plan-id]').forEach(cb => {
       cb.addEventListener('change', () => {
         state.planTicks[cb.dataset.planId] = cb.checked;
-        saveState();
-        renderPlan();
-        updateStats();
+        saveState(); renderPlan(); updateStats();
       });
     });
     typeset(wrap);
@@ -573,23 +773,25 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
   window.toggleAns = function(btn) {
     const box = btn.nextElementSibling;
     const isOpen = box.classList.toggle('open');
-    btn.textContent = isOpen ? 'Hide Answer' : 'Reveal Answer';
+    btn.textContent = isOpen ? 'Hide Answer' : 'Reveal Verified Answer';
     if (isOpen) typeset(box);
   };
 
   // Render Step Guides + Calculator Guide
   function renderGuides() {
     const wrap = document.getElementById('guides-container');
-    wrap.innerHTML = DATA.stepGuides.map(g => `
-      <div class="card">
+    wrap.innerHTML = DATA.stepGuides.map((g, gi) => `
+      <div class="card card-u${(gi % 5) + 1}">
         <h3>${g.title}</h3>
-        <p style="margin:4px 0;"><b>When to use:</b> ${g.when}</p>
-        <div class="math-box"><b>Key Formulas:</b> ${g.formulas}</div>
-        <b>Answer-Sheet Steps:</b>
+        <div class="info-pill" style="margin:8px 0;"><span class="info-lbl">When to Use</span>${g.when}</div>
+        <div class="math-box"><span class="info-lbl">Core Formulas</span>${g.formulas}</div>
+        <div style="margin:10px 0 4px;"><b>Numbered Steps to Write in Answer Sheet:</b></div>
         <ol class="step-list">${g.steps.map(st => `<li>${st}</li>`).join('')}</ol>
-        <p style="margin:6px 0;"><b>If different from PYQs (Variants):</b> ${g.variants}</p>
-        <p style="margin:6px 0;"><b>Marks Tips:</b> ${g.tips}</p>
-        <p style="margin:6px 0;"><b>Calculator Check:</b> ${g.calc}</p>
+        <div class="info-grid">
+          <div class="info-pill"><span class="info-lbl">If Different From PYQs</span>${g.variants}</div>
+          <div class="info-pill"><span class="info-lbl">Where Marks Are Lost / Gained</span>${g.tips}</div>
+          <div class="info-pill"><span class="info-lbl">Calculator Check</span>${g.calc}</div>
+        </div>
       </div>
     `).join('');
 
@@ -598,9 +800,9 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
       <h2>Calculator Guide: ${cg.model}</h2>
       <div class="notice">${cg.disclaimer}</div>
       ${cg.sections.map(sec => `
-        <div style="margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid var(--border);">
-          <div><b>${sec.title}</b></div>
-          <div style="margin:4px 0;"><code>${sec.keys}</code></div>
+        <div style="margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid var(--border);">
+          <div style="font-weight:700; margin-bottom:4px;">${sec.title}</div>
+          <div style="margin:6px 0;"><code>${sec.keys}</code></div>
           <div class="muted" style="color:var(--ink);">${sec.detail}</div>
         </div>
       `).join('')}
@@ -612,14 +814,14 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
   function renderFormulas() {
     const wrap = document.getElementById('formulas-container');
     wrap.className = formulaSelfTest ? 'formula-hidden' : '';
-    const byUnit = [1, 2, 3, 4, 5].map(u => {
+    wrap.innerHTML = [1, 2, 3, 4, 5].map(u => {
       const items = DATA.formulas.filter(f => f.unit === u);
       return `
-        <div class="card">
+        <div class="card card-u${u}">
           <h3>Unit ${u} (CO${u})</h3>
           <div class="table-wrap">
             <table>
-              <thead><tr><th>Topic</th><th>Question / Trigger</th><th>Formula / Answer (click to peek)</th></tr></thead>
+              <thead><tr><th>Topic</th><th>Prompt</th><th>Formula / Fact (tap to peek in Self-Test)</th></tr></thead>
               <tbody>
                 ${items.map(f => `
                   <tr>
@@ -634,7 +836,6 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
         </div>
       `;
     }).join('');
-    wrap.innerHTML = byUnit;
   }
   document.getElementById('toggle-formula-test').addEventListener('click', (e) => {
     formulaSelfTest = !formulaSelfTest;
@@ -643,7 +844,7 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
     document.querySelectorAll('.formula-mask').forEach(el => el.classList.remove('peek'));
   });
 
-  // Render MCQ Quiz
+  // MCQ Bank (All with Answers + Interactive Quiz Mode)
   const paperSel = document.getElementById('mcq-paper-filter');
   ["May 2023","May 2024","Jul 2024","Nov 2024","Jun 2025","Jul 2025","Nov 2025","May 2026"].forEach(p => {
     const opt = document.createElement('option');
@@ -651,15 +852,23 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
     paperSel.appendChild(opt);
   });
 
+  let mcqView = 'all'; // 'all' | 'quiz'
+  let sheetHideAnswers = false;
   let mcqIdx = 0;
   let retryWrongMode = false;
+
   function getFilteredMcqs() {
     const u = document.getElementById('mcq-unit-filter').value;
     const p = document.getElementById('mcq-paper-filter').value;
+    const q = (document.getElementById('mcq-search').value || '').trim().toLowerCase();
     return DATA.mcqs.filter(m => {
-      if (retryWrongMode && !state.mcqWrongQueue.includes(m.id)) return false;
+      if (mcqView === 'quiz' && retryWrongMode && !state.mcqWrongQueue.includes(m.id)) return false;
       if (u !== 'all' && String(m.unit) !== u) return false;
       if (p !== 'all' && m.paper !== p) return false;
+      if (q) {
+        const hay = (m.q + ' ' + m.opts.join(' ') + ' ' + m.why + ' ' + m.paper).toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
       return true;
     });
   }
@@ -667,25 +876,68 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
   function renderMcq() {
     const list = getFilteredMcqs();
     const stage = document.getElementById('mcq-stage');
+    const letters = ['A', 'B', 'C', 'D'];
+    document.getElementById('mcq-count-badge').textContent = `${list.length} of ${DATA.mcqs.length} questions`;
+
+    if (mcqView === 'all') {
+      document.getElementById('mcq-stats-line').textContent = `Showing ${list.length} of 160 real Part A MCQs with answers & explanations`;
+      stage.className = sheetHideAnswers ? 'mcq-sheet-hidden' : '';
+      if (list.length === 0) {
+        stage.innerHTML = `<div class="card"><p>No MCQs match this filter/search.</p></div>`;
+        return;
+      }
+      stage.innerHTML = list.map((m, i) => `
+        <div class="mcq-card card-u${m.unit}">
+          <div class="card-head" style="margin-bottom:8px;">
+            <div class="cue-row">
+              <span class="badge badge-accent">${m.paper} · Q${m.qnum}</span>
+              <span class="badge">Unit ${m.unit}</span>
+              <span class="badge badge-ok">Ans: (${letters[m.ans]})</span>
+            </div>
+            ${sheetHideAnswers ? `<button class="btn btn-sm" onclick="this.closest('.mcq-card').classList.toggle('revealed')">Reveal</button>` : ''}
+          </div>
+          <div style="font-weight:600; font-size:0.98rem; margin-bottom:10px;">${i + 1}. ${m.q}</div>
+          <div>
+            ${m.opts.map((opt, oi) => `
+              <div class="mcq-opt-row ${oi === m.ans ? 'is-ans' : ''}">
+                <span class="opt-tag">${letters[oi]}</span>
+                <span>${opt}</span>
+              </div>
+            `).join('')}
+          </div>
+          <div class="mcq-why"><b>Why:</b> ${m.why}</div>
+        </div>
+      `).join('');
+      typeset(stage);
+      return;
+    }
+
+    // Interactive Quiz Mode
+    stage.className = '';
+    const answeredIds = Object.keys(state.mcqAnswers);
+    const correctCnt = answeredIds.filter(id => state.mcqAnswers[id] === DATA.mcqs[id].ans).length;
+    document.getElementById('mcq-stats-line').textContent =
+      `Quiz Progress: ${answeredIds.length}/160 | Correct: ${correctCnt} | Retry Queue: ${state.mcqWrongQueue.length}`;
+
     if (list.length === 0) {
-      stage.innerHTML = `<div class="card"><p>${retryWrongMode ? 'No wrong MCQs remaining in your retry queue!' : 'No MCQs match this filter.'}</p></div>`;
+      stage.innerHTML = `<div class="card"><p>${retryWrongMode ? 'No wrong MCQs remaining in your retry queue.' : 'No MCQs match this filter.'}</p></div>`;
       return;
     }
     if (mcqIdx >= list.length) mcqIdx = 0;
     if (mcqIdx < 0) mcqIdx = list.length - 1;
     const m = list[mcqIdx];
     const prevChoice = state.mcqAnswers[m.id];
-    const letters = ['A', 'B', 'C', 'D'];
+
     stage.innerHTML = `
-      <div class="card">
+      <div class="card card-u${m.unit}">
         <div class="card-head">
-          <div>
+          <div class="cue-row">
             <span class="badge badge-accent">${m.paper} Q${m.qnum}</span>
             <span class="badge">Unit ${m.unit}</span>
           </div>
           <span class="muted">Question ${mcqIdx + 1} of ${list.length}</span>
         </div>
-        <div style="font-weight:600; font-size:1rem; margin:8px 0 12px;">${m.q}</div>
+        <div style="font-weight:600; font-size:1.02rem; margin:10px 0 14px;">${m.q}</div>
         <div id="mcq-opts">
           ${m.opts.map((opt, oi) => {
             let cls = 'quiz-opt';
@@ -697,13 +949,13 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
           }).join('')}
         </div>
         ${prevChoice !== undefined ? `
-          <div class="answer-body open" style="margin-top:10px;">
+          <div class="answer-body open" style="margin-top:12px;">
             <b>${prevChoice === m.ans ? 'Correct' : 'Incorrect'} — Answer: (${letters[m.ans]})</b><br>
             ${m.why}<br>
             <span class="muted">Source: ${m.paper}, Part A Q${m.qnum} (Unit ${m.unit})</span>
           </div>
         ` : ''}
-        <div style="display:flex; justify-content:space-between; gap:8px; margin-top:12px;">
+        <div style="display:flex; justify-content:space-between; gap:8px; margin-top:14px;">
           <button class="btn" id="mcq-prev">Prev</button>
           ${prevChoice !== undefined ? `<button class="btn" id="mcq-reanswer">Re-attempt</button>` : ''}
           <button class="btn btn-primary" id="mcq-next">Next</button>
@@ -719,9 +971,7 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
         } else {
           state.mcqWrongQueue = state.mcqWrongQueue.filter(id => id !== m.id);
         }
-        saveState();
-        updateStats();
-        renderMcq();
+        saveState(); updateStats(); renderMcq();
       });
     });
     const reBtn = document.getElementById('mcq-reanswer');
@@ -733,11 +983,33 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
     document.getElementById('mcq-next').addEventListener('click', () => { mcqIdx++; renderMcq(); });
     typeset(stage);
   }
+
+  document.getElementById('view-all-btn').addEventListener('click', () => {
+    mcqView = 'all';
+    document.getElementById('view-all-btn').classList.add('active');
+    document.getElementById('view-quiz-btn').classList.remove('active');
+    document.getElementById('sheet-controls').style.display = 'flex';
+    document.getElementById('quiz-controls').style.display = 'none';
+    renderMcq();
+  });
+  document.getElementById('view-quiz-btn').addEventListener('click', () => {
+    mcqView = 'quiz';
+    document.getElementById('view-quiz-btn').classList.add('active');
+    document.getElementById('view-all-btn').classList.remove('active');
+    document.getElementById('sheet-controls').style.display = 'none';
+    document.getElementById('quiz-controls').style.display = 'flex';
+    renderMcq();
+  });
+  document.getElementById('mcq-hide-toggle').addEventListener('click', (e) => {
+    sheetHideAnswers = !sheetHideAnswers;
+    e.target.textContent = sheetHideAnswers ? 'Show All Answers' : 'Hide Answers (Self-Test List)';
+    renderMcq();
+  });
   document.getElementById('mcq-unit-filter').addEventListener('change', () => { mcqIdx = 0; renderMcq(); });
   document.getElementById('mcq-paper-filter').addEventListener('change', () => { mcqIdx = 0; renderMcq(); });
+  document.getElementById('mcq-search').addEventListener('input', () => { mcqIdx = 0; renderMcq(); });
   document.getElementById('mcq-mode-wrong').addEventListener('click', (e) => {
-    retryWrongMode = !retryWrongMode;
-    mcqIdx = 0;
+    retryWrongMode = !retryWrongMode; mcqIdx = 0;
     e.target.classList.toggle('btn-primary', retryWrongMode);
     renderMcq();
   });
@@ -747,15 +1019,11 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
     saveState(); updateStats(); renderMcq();
   });
 
-  // Flashcards (SM-2 style spaced repetition)
+  // Flashcards
   function getNextCard() {
     const now = Date.now();
-    let due = DATA.flashcards.filter(c => {
-      const st = state.fcState[c.id];
-      return !st || st.due <= now;
-    });
+    let due = DATA.flashcards.filter(c => !state.fcState[c.id] || state.fcState[c.id].due <= now);
     if (due.length === 0) {
-      // pick soonest due
       due = [...DATA.flashcards].sort((a, b) => (state.fcState[a.id]?.due || 0) - (state.fcState[b.id]?.due || 0));
     }
     return { card: due[0], dueCount: DATA.flashcards.filter(c => !state.fcState[c.id] || state.fcState[c.id].due <= now).length };
@@ -768,7 +1036,7 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
     const stage = document.getElementById('fc-stage');
     stage.innerHTML = `
       <div class="fc-card" id="fc-box">
-        <div class="muted" style="margin-bottom:8px;">Card #${card.id + 1} (Tap card to reveal answer)</div>
+        <div class="muted" style="margin-bottom:10px;">Card #${card.id + 1} · Tap anywhere on card to reveal</div>
         <div class="fc-q">${card.q}</div>
         <div class="fc-a" id="fc-ans">${card.a}</div>
       </div>
@@ -788,12 +1056,8 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
         const g = Number(btn.dataset.grade);
         const prev = state.fcState[card.id] || { reps: 0, due: now };
         const delays = [60 * 1000, 10 * 60 * 1000, 24 * 3600 * 1000, 4 * 24 * 3600 * 1000];
-        state.fcState[card.id] = {
-          reps: g >= 2 ? prev.reps + 1 : 0,
-          due: now + delays[g]
-        };
-        saveState();
-        renderFlashcard();
+        state.fcState[card.id] = { reps: g >= 2 ? prev.reps + 1 : 0, due: now + delays[g] };
+        saveState(); renderFlashcard();
       });
     });
     typeset(stage);
@@ -817,19 +1081,22 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
     wrap.innerHTML = units.map(u => {
       const items = DATA.pyqBank.filter(x => x.unit === u);
       return `
-        <div class="card">
+        <div class="card card-u${u}">
           <h3>Unit ${u} (CO${u}) — ${items.length} Questions</h3>
-          ${items.map((it, idx) => {
+          ${items.map(it => {
             const key = `u${u}_${it.paper}_${it.q}`;
             const checked = !!state.pyqTicks[key];
             return `
-              <div style="padding:10px 0; border-top:1px solid var(--border);">
-                <div class="card-head" style="margin-bottom:4px;">
-                  <div><span class="badge badge-accent">${it.paper}</span> <span class="badge">${it.q}</span></div>
+              <div style="padding:12px 0; border-top:1px solid var(--border);">
+                <div class="card-head" style="margin-bottom:6px;">
+                  <div class="cue-row">
+                    <span class="badge badge-accent">${it.paper}</span>
+                    <span class="badge">${it.q}</span>
+                  </div>
                   <label class="chk-label"><input type="checkbox" data-pyq-key="${key}" ${checked ? 'checked' : ''}> Solved</label>
                 </div>
-                <div>${it.text}</div>
-                <button class="btn btn-sm" style="margin-top:6px;" onclick="toggleAns(this)">Reveal Outline / Answer</button>
+                <div style="margin-bottom:8px;">${it.text}</div>
+                <button class="btn btn-sm" onclick="toggleAns(this)">Reveal Verified Answer</button>
                 <div class="answer-body">${it.ans}</div>
               </div>
             `;
@@ -840,8 +1107,7 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
     wrap.querySelectorAll('input[data-pyq-key]').forEach(cb => {
       cb.addEventListener('change', () => {
         state.pyqTicks[cb.dataset.pyqKey] = cb.checked;
-        saveState();
-        updateStats();
+        saveState(); updateStats();
       });
     });
     typeset(wrap);
@@ -852,7 +1118,7 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
   function renderVideos() {
     const wrap = document.getElementById('videos-container');
     wrap.innerHTML = DATA.ytPlan.map((u, ui) => `
-      <div class="card">
+      <div class="card card-u${ui+1}">
         <div class="card-head">
           <h3>${u.unit}</h3>
           <span class="badge badge-accent">Must: ${u.must_1x} (1.5x: ${u.must_15x})</span>
@@ -867,7 +1133,7 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
                 const bCls = v.tier === 'MUST' ? 'badge-ok' : 'badge-warn';
                 return `
                   <tr>
-                    <td><input type="checkbox" data-vid-key="${key}" ${checked ? 'checked' : ''}></td>
+                    <td><input type="checkbox" style="width:18px;height:18px;accent-color:var(--ok);" data-vid-key="${key}" ${checked ? 'checked' : ''}></td>
                     <td><span class="badge ${bCls}">${v.tier}</span></td>
                     <td>${v.ch}</td>
                     <td><a href="${v.url}" target="_blank" rel="noopener noreferrer">${v.title}</a></td>
@@ -879,7 +1145,7 @@ select { font-family: var(--sans); font-size: 0.85rem; padding: 6px 10px; border
             </tbody>
           </table>
         </div>
-        <div class="muted" style="margin-top:6px;"><b>Skip:</b> ${u.skip}</div>
+        <div class="muted" style="margin-top:8px;"><b>Skip:</b> ${u.skip}</div>
       </div>
     `).join('');
     wrap.querySelectorAll('input[data-vid-key]').forEach(cb => {
