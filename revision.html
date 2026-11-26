@@ -642,9 +642,59 @@ ul.clean li { margin-bottom: 7px; }
       <div class="card-head">
         <div>
           <h2>Unit 1 (CO1) Visual Revision — 12 Marks (8/8 Papers)</h2>
-          <p class="muted">Everything needed for Q21 (8m) and Part A Q1–Q4 (4m).</p>
+          <p class="muted">Interactive Base Conversion Visualizer (Integer ÷ base + Fraction × base), Complements, and Universal Gate diagrams.</p>
         </div>
         <span class="badge badge-ok">Easiest Unit · Guaranteed Marks</span>
+      </div>
+
+      <div class="info-pill" style="margin-bottom:16px;">
+        <span class="info-lbl">Interactive Base Conversion Visualizer (With Fractions)</span>
+        <div class="preset-row" style="margin-top:8px;">
+          <span class="muted" style="font-weight:600;">PYQ Presets:</span>
+          <button class="btn btn-sm" onclick="setBaseConv('105.15', 2)">Jun 25: 105.15 → Bin</button>
+          <button class="btn btn-sm" onclick="setBaseConv('105.15', 8)">Jun 25: 105.15 → Oct</button>
+          <button class="btn btn-sm" onclick="setBaseConv('105.15', 16)">Jun 25: 105.15 → Hex</button>
+          <button class="btn btn-sm" onclick="setBaseConv('163.789', 8)">Nov 25: 163.789 → Oct</button>
+          <button class="btn btn-sm" onclick="setBaseConv('234', 2)">Jul 24: 234 → All</button>
+        </div>
+        <div class="ctrl-row" style="margin-bottom:8px;">
+          <div class="field"><label>Decimal Number</label><input type="text" id="bc-num" value="105.15" style="font-family:var(--mono);font-size:0.96rem;padding:8px 12px;border-radius:8px;border:1px solid var(--border-strong);background:var(--surface);color:var(--ink);min-height:42px;width:140px;"></div>
+          <div class="field"><label>Target Base</label>
+            <select id="bc-base"><option value="2">Base 2 (Binary)</option><option value="8">Base 8 (Octal)</option><option value="16">Base 16 (Hex)</option></select>
+          </div>
+          <button class="btn btn-primary" id="bc-run">Convert &amp; Show Steps</button>
+        </div>
+        <div class="reg-strip" id="bc-summary"></div>
+        <div class="two-col" style="margin-top:10px;">
+          <div>
+            <div class="badge badge-accent" style="margin-bottom:6px;">Integer Part: Divide by Base (↑ Read Remainders Bottom → Top)</div>
+            <div class="table-wrap" style="margin-top:4px;">
+              <table style="min-width:260px;"><thead><tr><th>Division</th><th>Quotient</th><th>Remainder</th></tr></thead><tbody id="bc-int-body"></tbody></table>
+            </div>
+          </div>
+          <div>
+            <div class="badge badge-warn" style="margin-bottom:6px;">Fraction Part: Multiply by Base (↓ Read Integer Digits Top → Bottom)</div>
+            <div class="table-wrap" style="margin-top:4px;">
+              <table style="min-width:260px;"><thead><tr><th>Step</th><th>Frac × Base</th><th>Int Digit</th></tr></thead><tbody id="bc-frac-body"></tbody></table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-pill" style="margin-bottom:16px;">
+        <span class="info-lbl">Visual Bit-Grouping Shortcut (Nov 2025 Q21a &amp; Q21b)</span>
+        <div class="two-col" style="margin-top:8px;">
+          <div>
+            <b>Binary → Octal (Group by 3 bits from decimal point):</b><br>
+            <span class="mono">11001101.0101₂</span> → pad outer edges:<br>
+            <span class="mono" style="color:var(--u1);">011</span> <span class="mono" style="color:var(--u2);">001</span> <span class="mono" style="color:var(--u3);">101</span> . <span class="mono" style="color:var(--u4);">010</span> <span class="mono" style="color:var(--u5);">100</span> = <b>(315.24)₈</b>
+          </div>
+          <div>
+            <b>Hex → Binary (Expand each digit to 4 bits):</b><br>
+            <span class="mono">4D.56₁₆</span> → expand each hex digit:<br>
+            <span class="mono" style="color:var(--u1);">0100</span> <span class="mono" style="color:var(--u2);">1101</span> . <span class="mono" style="color:var(--u3);">0101</span> <span class="mono" style="color:var(--u5);">0110</span> = <b>(01001101.01010110)₂</b>
+          </div>
+        </div>
       </div>
 
       <div class="two-col">
@@ -1343,6 +1393,78 @@ ul.clean li { margin-bottom: 7px; }
   document.getElementById('c-next').addEventListener('click', () => { if (cIdx < cData.rows.length - 1) { cIdx++; renderBcd(); } });
   document.getElementById('c-all').addEventListener('click', () => { cIdx = cData.rows.length - 1; renderBcd(); });
   setBcd(375, 648);
+
+  // ================= 4. BASE CONVERSION VISUALIZER =================
+  function runBaseConv() {
+    const raw = (document.getElementById('bc-num').value || '105.15').trim();
+    const base = Number(document.getElementById('bc-base').value) || 2;
+    const digits = '0123456789ABCDEF';
+    const parts = raw.split('.');
+    let intPart = Math.max(0, parseInt(parts[0] || '0', 10) || 0);
+    let fracPart = parts[1] ? Number('0.' + parts[1]) : 0;
+    if (isNaN(fracPart)) fracPart = 0;
+
+    // Integer steps
+    const intRows = [];
+    let n = intPart;
+    if (n === 0) intRows.push({ div: `0 ÷ ${base}`, q: 0, r: '0' });
+    while (n > 0) {
+      const q = Math.floor(n / base);
+      const r = digits[n % base];
+      intRows.push({ div: `${n} ÷ ${base}`, q, r });
+      n = q;
+    }
+    const intRes = intRows.map(x => x.r).reverse().join('');
+
+    // Fraction steps (up to 6 digits)
+    const fracRows = [];
+    let f = fracPart;
+    for (let i = 1; i <= 6 && f > 1e-9; i++) {
+      const prod = f * base;
+      const d = Math.floor(prod + 1e-12);
+      const rem = prod - d;
+      fracRows.push({ step: `${i}`, expr: `${f.toFixed(4).replace(/0+$/,'').replace(/\.$/,'')} × ${base} = ${prod.toFixed(4).replace(/0+$/,'').replace(/\.$/,'')}`, d: digits[d] });
+      f = rem;
+    }
+    const fracRes = fracRows.length ? '.' + fracRows.map(x => x.d).join('') : '';
+    const fullRes = intRes + fracRes;
+
+    // Also compute quick summary in all bases
+    function convSimple(valInt, valFrac, b) {
+      let sInt = valInt.toString(b).toUpperCase();
+      let sFrac = '';
+      if (valFrac > 0) {
+        let ff = valFrac, arr = [];
+        for (let k = 0; k < 6 && ff > 1e-9; k++) {
+          let p = ff * b, d = Math.floor(p + 1e-12);
+          arr.push(digits[d]); ff = p - d;
+        }
+        if (arr.length) sFrac = '.' + arr.join('');
+      }
+      return sInt + sFrac;
+    }
+    const bcdStr = raw.split('').map(ch => ch === '.' ? '.' : (/\d/.test(ch) ? Number(ch).toString(2).padStart(4,'0') : '')).join(' ').replace(/\s+\.\s+/g, ' . ');
+
+    document.getElementById('bc-summary').innerHTML = `
+      <div class="reg-box"><div class="reg-name">Selected (Base ${base})</div><div class="reg-val">${fullRes}</div><div class="reg-sub">(${raw})₁₀</div></div>
+      <div class="reg-box"><div class="reg-name">Bin / Oct / Hex</div><div class="reg-val" style="font-size:0.9rem;">${convSimple(intPart,fracPart,2)}₂ · ${convSimple(intPart,fracPart,8)}₈ · ${convSimple(intPart,fracPart,16)}₁₆</div><div class="reg-sub">Quick cross-check</div></div>
+      <div class="reg-box"><div class="reg-name">8421 BCD</div><div class="reg-val" style="font-size:0.9rem;">${bcdStr}</div><div class="reg-sub">4 bits per digit</div></div>
+    `;
+    document.getElementById('bc-int-body').innerHTML = intRows.map(r =>
+      `<tr><td class="mono">${r.div}</td><td class="mono">${r.q}</td><td class="mono"><b>${r.r}</b></td></tr>`
+    ).join('');
+    document.getElementById('bc-frac-body').innerHTML = fracRows.length
+      ? fracRows.map(r => `<tr><td>${r.step}</td><td class="mono">${r.expr}</td><td class="mono"><b>${r.d}</b></td></tr>`).join('')
+      : `<tr><td colspan="3" class="muted">No fractional part</td></tr>`;
+  }
+  window.setBaseConv = function(num, base) {
+    document.getElementById('bc-num').value = num;
+    document.getElementById('bc-base').value = String(base);
+    runBaseConv();
+  };
+  document.getElementById('bc-run').addEventListener('click', runBaseConv);
+  document.getElementById('bc-base').addEventListener('change', runBaseConv);
+  setBaseConv('105.15', 2);
 
   typeset();
 })();
