@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="oled">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>COA Visual Lab &amp; Final Revision — 21CSS201T</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)'], ['$', '$']],
+    displayMath: [['\\[', '\\]'], ['$$', '$$']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+};
+</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<style>
+:root, [data-theme="oled"] {
+  --bg: #000000;
+  --surface: #0a0c10;
+  --surface-2: #12161f;
+  --surface-3: #1a202c;
+  --ink: #f4f4f5;
+  --muted: #9ca3af;
+  --border: #1f2633;
+  --border-strong: #2e384b;
+  --accent: #38bdf8;
+  --accent-ink: #02131d;
+  --accent-soft: #082436;
+  --ok: #22c55e;
+  --ok-soft: #062815;
+  --warn: #eab308;
+  --warn-soft: #261e04;
+  --bad: #ef4444;
+  --bad-soft: #2c0a0d;
+  --u1: #38bdf8;
+  --u2: #2dd4bf;
+  --u3: #f59e0b;
+  --u4: #fb7185;
+  --u5: #4ade80;
+  --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+[data-theme="light"] {
+  --bg: #f6f6f3;
+  --surface: #ffffff;
+  --surface-2: #f0f0eb;
+  --surface-3: #e4e4dd;
+  --ink: #18181b;
+  --muted: #52525b;
+  --border: #dcdcd6;
+  --border-strong: #c2c2ba;
+  --accent: #0f4c81;
+  --accent-ink: #ffffff;
+  --accent-soft: #e6eff7;
+  --ok: #15803d;
+  --ok-soft: #dcfce7;
+  --warn: #a16207;
+  --warn-soft: #fef9c3;
+  --bad: #b91c1c;
+  --bad-soft: #fee2e2;
+  --u1: #0284c7;
+  --u2: #0d9488;
+  --u3: #d97706;
+  --u4: #e11d48;
+  --u5: #16a34a;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+  margin: 0; padding: 0;
+  background: var(--bg); color: var(--ink);
+  font-family: var(--sans); font-size: 15.5px; line-height: 1.65;
+  overflow-x: hidden;
+}
+a { color: var(--accent); text-decoration: none; font-weight: 500; }
+a:hover { text-decoration: underline; }
+code, .mono {
+  font-family: var(--mono); font-size: 0.88em;
+  background: var(--surface-3); color: var(--ink);
+  padding: 0.15em 0.42em; border-radius: 5px;
+  border: 1px solid var(--border);
+}
+
+/* Header */
+.topbar {
+  position: sticky; top: 0; z-index: 60;
+  background: var(--bg); border-bottom: 1px solid var(--border);
+}
+.topbar-inner {
+  max-width: 1240px; margin: 0 auto; padding: 12px 20px;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+}
+.brand { display: flex; flex-direction: column; gap: 2px; }
+.brand-title { font-weight: 700; font-size: 1.06rem; letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px; }
+.dot-live { width: 9px; height: 9px; border-radius: 50%; background: var(--ok); display: inline-block; }
+.brand-sub { font-size: 0.8rem; color: var(--muted); }
+.top-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+/* Navigation */
+.nav-wrap { background: var(--surface); border-bottom: 1px solid var(--border); }
+.nav-tabs {
+  max-width: 1240px; margin: 0 auto;
+  display: flex; overflow-x: auto; gap: 8px;
+  padding: 10px 18px; scrollbar-width: none; scroll-snap-type: x proximity;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+.tab-btn {
+  flex: 0 0 auto; scroll-snap-align: start;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 9px; padding: 9px 15px;
+  font-family: var(--sans); font-size: 0.86rem; font-weight: 600;
+  color: var(--muted); cursor: pointer; white-space: nowrap; min-height: 40px;
+}
+.tab-btn.active {
+  background: var(--accent-soft); color: var(--accent); border-color: var(--accent);
+}
+
+/* Layout */
+.container { max-width: 1240px; margin: 0 auto; padding: 24px 20px 80px; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 22px; margin-bottom: 20px;
+}
+.card-u1 { border-left: 4px solid var(--u1); }
+.card-u2 { border-left: 4px solid var(--u2); }
+.card-u3 { border-left: 4px solid var(--u3); }
+.card-u4 { border-left: 4px solid var(--u4); }
+.card-u5 { border-left: 4px solid var(--u5); }
+
+.card-head {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 12px; flex-wrap: wrap; margin-bottom: 14px;
+}
+h2 { font-size: 1.28rem; margin: 0 0 8px; letter-spacing: -0.02em; }
+h3 { font-size: 1.08rem; margin: 0 0 8px; letter-spacing: -0.01em; }
+p { margin: 0 0 10px; }
+.muted { color: var(--muted); font-size: 0.9rem; }
+
+/* Responsive 2-column Simulator Grid (Laptop side-by-side, Mobile stacked) */
+.sim-grid {
+  display: grid; grid-template-columns: minmax(310px, 420px) 1fr;
+  gap: 20px; align-items: start;
+}
+.two-col {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 18px;
+}
+.three-col {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 14px;
+}
+
+/* Buttons & Inputs */
+.btn {
+  cursor: pointer; font-family: var(--sans); font-size: 0.86rem; font-weight: 600;
+  padding: 9px 15px; border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-2); color: var(--ink);
+  min-height: 42px; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn:hover { background: var(--surface-3); }
+.btn-primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn-primary:hover { opacity: 0.92; background: var(--accent); }
+.btn-ok { background: var(--ok-soft); color: var(--ok); border-color: rgba(34,197,94,0.4); }
+.btn-sm { padding: 6px 11px; font-size: 0.8rem; min-height: 34px; border-radius: 7px; }
+
+.ctrl-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; margin-bottom: 14px; }
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field label { font-size: 0.76rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+input[type="number"], select {
+  font-family: var(--mono); font-size: 0.96rem; padding: 8px 12px;
+  border-radius: 8px; border: 1px solid var(--border-strong);
+  background: var(--surface-2); color: var(--ink); min-height: 42px; width: 118px;
+}
+select { font-family: var(--sans); width: auto; }
+
+.preset-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; align-items: center; }
+
+/* Badges & Visual Cues */
+.cue-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0; }
+.badge {
+  display: inline-flex; align-items: center;
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.02em;
+  padding: 4px 10px; border-radius: 6px;
+  background: var(--surface-2); border: 1px solid var(--border-strong); color: var(--ink);
+}
+.badge-accent { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+.badge-ok { background: var(--ok-soft); color: var(--ok); border-color: rgba(34,197,94,0.35); }
+.badge-warn { background: var(--warn-soft); color: var(--warn); border-color: rgba(234,179,8,0.35); }
+.badge-bad { background: var(--bad-soft); color: var(--bad); border-color: rgba(239,68,68,0.35); }
+
+/* Live Register Strip */
+.reg-strip { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; }
+.reg-box {
+  background: var(--surface-2); border: 1px solid var(--border-strong);
+  border-radius: 10px; padding: 10px 14px; min-width: 110px; flex: 1 1 110px;
+}
+.reg-name { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+.reg-val { font-family: var(--mono); font-size: 1.08rem; font-weight: 700; color: var(--ink); margin-top: 2px; word-break: break-all; }
+.reg-sub { font-size: 0.76rem; color: var(--accent); font-family: var(--mono); }
+.bit-hi { color: var(--warn); text-decoration: underline; text-underline-offset: 3px; }
+
+.step-banner {
+  padding: 13px 15px; border-radius: 10px;
+  background: var(--surface-2); border: 1px solid var(--border-strong);
+  border-left: 4px solid var(--accent); margin: 12px 0; font-size: 0.94rem;
+}
+.step-banner.ok { border-left-color: var(--ok); background: var(--ok-soft); }
+.step-banner.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+
+/* SVG Flowcharts & Diagrams */
+.svg-wrap {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 14px; overflow-x: auto;
+  display: flex; justify-content: center;
+}
+.svg-wrap svg { max-width: 100%; height: auto; display: block; }
+.flow-node rect, .flow-node polygon {
+  fill: var(--surface); stroke: var(--border-strong); stroke-width: 1.8; transition: all 0.2s;
+}
+.flow-node text { fill: var(--ink); font-family: var(--sans); font-size: 12px; font-weight: 600; }
+.flow-node .sub { fill: var(--muted); font-family: var(--mono); font-size: 10.5px; font-weight: 400; }
+.flow-node.active rect, .flow-node.active polygon {
+  fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2.6;
+}
+.flow-node.active-ok rect, .flow-node.active-ok polygon {
+  fill: var(--ok-soft); stroke: var(--ok); stroke-width: 2.6;
+}
+.flow-node.active-warn rect, .flow-node.active-warn polygon {
+  fill: var(--warn-soft); stroke: var(--warn); stroke-width: 2.6;
+}
+.flow-arrow { stroke: var(--muted); stroke-width: 1.6; fill: none; }
+.flow-lbl { fill: var(--muted); font-family: var(--mono); font-size: 10.5px; font-weight: 700; }
+
+/* Tables */
+.table-wrap {
+  width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--border); border-radius: 10px; margin: 12px 0; background: var(--surface);
+}
+table { width: 100%; border-collapse: collapse; font-size: 0.87rem; min-width: 520px; }
+th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { background: var(--surface-2); font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap; }
+tr:last-child td { border-bottom: none; }
+tr.row-active { background: var(--accent-soft); }
+tr.row-active td { border-bottom-color: var(--accent); }
+
+/* Visual Callouts & Formulas */
+.info-pill {
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 14px 16px; font-size: 0.92rem;
+}
+.info-lbl {
+  font-size: 0.73rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--accent); margin-bottom: 5px; display: block;
+}
+.tip-box {
+  padding: 13px 15px; border-radius: 10px;
+  background: var(--warn-soft); border: 1px solid rgba(234,179,8,0.35);
+  border-left: 4px solid var(--warn); margin: 12px 0; font-size: 0.92rem;
+}
+.math-box {
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  padding: 12px 14px; background: var(--surface-2);
+  border: 1px solid var(--border); border-left: 3px solid var(--accent);
+  border-radius: 8px; margin: 10px 0; max-width: 100%;
+}
+mjx-container { max-width: 100%; overflow-x: auto; overflow-y: hidden; }
+ul.clean { padding-left: 20px; margin: 8px 0; }
+ul.clean li { margin-bottom: 7px; }
+
+@media (max-width: 900px) {
+  .sim-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .topbar-inner { padding: 10px 14px; }
+  .container { padding: 16px 12px 72px; }
+  .card { padding: 16px 14px; margin-bottom: 16px; }
+  input[type="number"] { width: 100%; }
+  .field { flex: 1 1 110px; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-title"><span class="dot-live"></span>COA Visual Lab &amp; Final Revision</span>
+      <span class="brand-sub">Interactive Booth · Restoring / Non-Restoring · BCD Flowchart · U1, U5, U4 &amp; Addressing Formulas</span>
+    </div>
+    <div class="top-actions">
+      <a class="btn btn-sm" href="index.html">Main Study Hub</a>
+      <button class="btn btn-sm" id="theme-btn">Light Mode</button>
+    </div>
+  </div>
+</header>
+
+<nav class="nav-wrap" aria-label="Visual Lab Tabs">
+  <div class="nav-tabs" id="nav-tabs">
+    <button class="tab-btn active" data-tab="booth">1. Booth Interactive</button>
+    <button class="tab-btn" data-tab="division">2. Restoring &amp; Non-Restoring</button>
+    <button class="tab-btn" data-tab="bcd">3. BCD Flowchart Lab</button>
+    <button class="tab-btn" data-tab="addr">4. Addressing Formulas &amp; Tips</button>
+    <button class="tab-btn" data-tab="u1">5. Unit 1 Revision</button>
+    <button class="tab-btn" data-tab="u4">6. Unit 4 Pipeline &amp; Hazards</button>
+    <button class="tab-btn" data-tab="u5">7. Unit 5 Flynn &amp; ARM</button>
+  </div>
+</nav>
+
+<main class="container">
+  <!-- ================= TAB 1: BOOTH INTERACTIVE ================= -->
+  <section id="tab-booth" class="tab-panel active">
+    <div class="card card-u3">
+      <div class="card-head">
+        <div>
+          <h2>Interactive Booth's Algorithm Simulator + Flowchart</h2>
+          <p class="muted">7 of 8 papers ask Booth's signed multiplication. Step through any PYQ numbers and watch the flowchart and registers update together.</p>
+        </div>
+        <div class="cue-row">
+          <span class="badge badge-ok">Unit 3 · 8 to 15 Marks</span>
+          <span class="badge badge-warn">Rule: 01 = A+M, 10 = A-M, then ASR</span>
+        </div>
+      </div>
+
+      <div class="preset-row">
+        <span class="muted" style="font-weight:600;">PYQ Presets:</span>
+        <button class="btn btn-sm" onclick="setBooth(8, 5)">May 24 / May 26: (+8) × (+5)</button>
+        <button class="btn btn-sm" onclick="setBooth(13, -6)">Jul 24: (+13) × (-6)</button>
+        <button class="btn btn-sm" onclick="setBooth(-7, 3)">Nov 25: (-7) × (+3)</button>
+      </div>
+
+      <div class="ctrl-row">
+        <div class="field"><label>Multiplicand (M)</label><input type="number" id="b-m" value="8" min="-15" max="15"></div>
+        <div class="field"><label>Multiplier (Q)</label><input type="number" id="b-q" value="5" min="-15" max="15"></div>
+        <div class="field"><label>Bit Width (n)</label>
+          <select id="b-bits"><option value="5" selected>5-bit (±15)</option><option value="6">6-bit (±31)</option></select>
+        </div>
+        <button class="btn btn-primary" id="b-build">Load</button>
+        <button class="btn" id="b-prev">Prev Step</button>
+        <button class="btn btn-ok" id="b-next">Next Step</button>
+        <button class="btn" id="b-all">Final Step</button>
+      </div>
+
+      <div class="sim-grid">
+        <!-- Booth Flowchart SVG -->
+        <div class="svg-wrap">
+          <svg viewBox="0 0 360 470" width="350" aria-label="Booth Algorithm Flowchart">
+            <defs>
+              <marker id="arr-b" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+                <path d="M0,0 L8,4 L0,8 Z" fill="var(--muted)"/>
+              </marker>
+            </defs>
+            <!-- Arrows -->
+            <path class="flow-arrow" d="M180,46 L180,72" marker-end="url(#arr-b)"/>
+            <path class="flow-arrow" d="M180,124 L180,152" marker-end="url(#arr-b)"/>
+            <!-- Decision branches -->
+            <path class="flow-arrow" d="M115,190 L58,190 L58,236" marker-end="url(#arr-b)"/>
+            <path class="flow-arrow" d="M245,190 L302,190 L302,236" marker-end="url(#arr-b)"/>
+            <path class="flow-arrow" d="M180,228 L180,308" marker-end="url(#arr-b)"/>
+            <path class="flow-arrow" d="M58,284 L58,328 L108,328" marker-end="url(#arr-b)"/>
+            <path class="flow-arrow" d="M302,284 L302,328 L252,328" marker-end="url(#arr-b)"/>
+            <path class="flow-arrow" d="M180,356 L180,382" marker-end="url(#arr-b)"/>
+            <!-- Loop back -->
+            <path class="flow-arrow" d="M115,416 L16,416 L16,190 L110,190" marker-end="url(#arr-b)"/>
+            <path class="flow-arrow" d="M180,446 L180,466"/>
+            <text class="flow-lbl" x="72" y="182">01</text>
+            <text class="flow-lbl" x="266" y="182">10</text>
+            <text class="flow-lbl" x="188" y="266">00 or 11</text>
+            <text class="flow-lbl" x="34" y="408">No (Count != 0)</text>
+            <text class="flow-lbl" x="190" y="463">Yes → END (Product = A·Q)</text>
+
+            <g class="flow-node" id="bf-start">
+              <rect x="95" y="10" width="170" height="36" rx="18"/>
+              <text x="180" y="33" text-anchor="middle">START</text>
+            </g>
+            <g class="flow-node" id="bf-init">
+              <rect x="65" y="74" width="230" height="50" rx="8"/>
+              <text x="180" y="96" text-anchor="middle">A = 0, Q₋₁ = 0, Count = n</text>
+              <text class="sub" x="180" y="114" text-anchor="middle">M = Multiplicand, Q = Multiplier</text>
+            </g>
+            <g class="flow-node" id="bf-check">
+              <polygon points="180,154 250,190 180,226 110,190"/>
+              <text x="180" y="194" text-anchor="middle">Check (Q₀, Q₋₁)</text>
+            </g>
+            <g class="flow-node" id="bf-add">
+              <rect x="10" y="238" width="96" height="46" rx="8"/>
+              <text x="58" y="260" text-anchor="middle">A ← A + M</text>
+              <text class="sub" x="58" y="275" text-anchor="middle">pair = 01</text>
+            </g>
+            <g class="flow-node" id="bf-sub">
+              <rect x="254" y="238" width="96" height="46" rx="8"/>
+              <text x="302" y="260" text-anchor="middle">A ← A - M</text>
+              <text class="sub" x="302" y="275" text-anchor="middle">pair = 10</text>
+            </g>
+            <g class="flow-node" id="bf-asr">
+              <rect x="110" y="310" width="140" height="46" rx="8"/>
+              <text x="180" y="331" text-anchor="middle">ASR (A, Q, Q₋₁)</text>
+              <text class="sub" x="180" y="346" text-anchor="middle">Count ← Count - 1</text>
+            </g>
+            <g class="flow-node" id="bf-done">
+              <polygon points="180,384 248,416 180,448 112,416"/>
+              <text x="180" y="420" text-anchor="middle">Count == 0?</text>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Live Registers + Trace Table -->
+        <div>
+          <div class="reg-strip" id="b-regs"></div>
+          <div class="step-banner" id="b-msg"></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Cycle</th><th>(Q₀, Q₋₁)</th><th>Operation</th><th>A</th><th>Q</th><th>Q₋₁</th></tr></thead>
+              <tbody id="b-tbody"></tbody>
+            </table>
+          </div>
+          <div class="tip-box">
+            <b>Exam Tip:</b> In ASR (Arithmetic Shift Right), <b>copy the leftmost sign bit of A</b> — never shift in a 0 blindly! Ignore carry-out when computing <code>A + M</code> or <code>A - M</code>.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TAB 2: DIVISION INTERACTIVE ================= -->
+  <section id="tab-division" class="tab-panel">
+    <div class="card card-u3">
+      <div class="card-head">
+        <div>
+          <h2>Interactive Restoring &amp; Non-Restoring Division + Flowcharts</h2>
+          <p class="muted">Asked for 15 marks in Jun 2025 Q27 &amp; May 2026 Q26 (13 ÷ 3 using BOTH methods). Switch mode or compare side-by-side.</p>
+        </div>
+        <div class="cue-row">
+          <span class="badge badge-ok">15 Marks Part C Favorite</span>
+          <span class="badge badge-warn">A &amp; M MUST be (n+1) bits!</span>
+        </div>
+      </div>
+
+      <div class="preset-row">
+        <span class="muted" style="font-weight:600;">PYQ Presets:</span>
+        <button class="btn btn-sm" onclick="setDiv(13, 3)">Jun 25 / May 26: 13 ÷ 3</button>
+        <button class="btn btn-sm" onclick="setDiv(14, 5)">Jul 24: 14 ÷ 5</button>
+        <button class="btn btn-sm" onclick="setDiv(10, 3)">Jul 25: 10 ÷ 3</button>
+        <button class="btn btn-sm" onclick="setDiv(8, 3)">Nov 25: 8 ÷ 3</button>
+      </div>
+
+      <div class="ctrl-row">
+        <div class="field"><label>Dividend (Q)</label><input type="number" id="d-q" value="13" min="1" max="31"></div>
+        <div class="field"><label>Divisor (M)</label><input type="number" id="d-m" value="3" min="1" max="15"></div>
+        <div class="field"><label>Algorithm</label>
+          <select id="d-algo">
+            <option value="restoring">Restoring Division</option>
+            <option value="nonrestoring">Non-Restoring Division</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" id="d-build">Load</button>
+        <button class="btn" id="d-prev">Prev Step</button>
+        <button class="btn btn-ok" id="d-next">Next Step</button>
+        <button class="btn" id="d-all">Final Step</button>
+      </div>
+
+      <div class="sim-grid">
+        <!-- Dynamic SVG Flowchart (Restoring OR Non-Restoring) -->
+        <div class="svg-wrap" id="d-svg-wrap"></div>
+
+        <div>
+          <div class="reg-strip" id="d-regs"></div>
+          <div class="step-banner" id="d-msg"></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Cycle</th><th>Action</th><th>A (n+1 bits)</th><th>Q (n bits)</th></tr></thead>
+              <tbody id="d-tbody"></tbody>
+            </table>
+          </div>
+          <div class="tip-box">
+            <b>Exam Tip:</b> Always use <b>5 bits for A and M</b> when Q is 4 bits (`8–15`). In <b>Non-Restoring</b>, never forget the final step: if <code>A &lt; 0</code> after the last cycle, do <code>A ← A + M</code> once so remainder is positive!
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TAB 3: BCD FLOWCHART LAB ================= -->
+  <section id="tab-bcd" class="tab-panel">
+    <div class="card card-u1">
+      <div class="card-head">
+        <div>
+          <h2>Interactive BCD Addition Lab &amp; Flowchart</h2>
+          <p class="muted">Asked in May 2026 Q21a (`375 + 648`) and Jul 2025 Q21b (`175 + 326`). Step column-by-column right to left.</p>
+        </div>
+        <div class="cue-row">
+          <span class="badge badge-ok">Unit 1 · 8 Marks</span>
+          <span class="badge badge-warn">Add +0110 (+6) if Sum &gt; 9 or Carry = 1</span>
+        </div>
+      </div>
+
+      <div class="preset-row">
+        <span class="muted" style="font-weight:600;">PYQ Presets:</span>
+        <button class="btn btn-sm" onclick="setBcd(375, 648)">May 2026 Q21a: 375 + 648</button>
+        <button class="btn btn-sm" onclick="setBcd(175, 326)">Jul 2025 Q21b: 175 + 326</button>
+        <button class="btn btn-sm" onclick="setBcd(589, 743)">Practice: 589 + 743</button>
+      </div>
+
+      <div class="ctrl-row">
+        <div class="field"><label>Number 1</label><input type="number" id="c-a" value="375" min="0" max="9999"></div>
+        <div class="field"><label>Number 2</label><input type="number" id="c-b" value="648" min="0" max="9999"></div>
+        <button class="btn btn-primary" id="c-build">Load</button>
+        <button class="btn" id="c-prev">Prev Column</button>
+        <button class="btn btn-ok" id="c-next">Next Column</button>
+        <button class="btn" id="c-all">Show All</button>
+      </div>
+
+      <div class="sim-grid">
+        <!-- BCD Flowchart SVG -->
+        <div class="svg-wrap">
+          <svg viewBox="0 0 360 440" width="350" aria-label="BCD Addition Flowchart">
+            <defs>
+              <marker id="arr-c" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+                <path d="M0,0 L8,4 L0,8 Z" fill="var(--muted)"/>
+              </marker>
+            </defs>
+            <path class="flow-arrow" d="M180,46 L180,74" marker-end="url(#arr-c)"/>
+            <path class="flow-arrow" d="M180,122 L180,150" marker-end="url(#arr-c)"/>
+            <path class="flow-arrow" d="M250,192 L292,192 L292,240" marker-end="url(#arr-c)"/>
+            <path class="flow-arrow" d="M180,234 L180,318" marker-end="url(#arr-c)"/>
+            <path class="flow-arrow" d="M292,290 L292,340 L254,340" marker-end="url(#arr-c)"/>
+            <path class="flow-arrow" d="M180,366 L180,396" marker-end="url(#arr-c)"/>
+            <text class="flow-lbl" x="260" y="182">YES</text>
+            <text class="flow-lbl" x="188" y="275">NO (Valid 0–9)</text>
+
+            <g class="flow-node" id="cf-encode">
+              <rect x="60" y="10" width="240" height="36" rx="8"/>
+              <text x="180" y="33" text-anchor="middle">1. Encode Each Digit to 4-Bit BCD</text>
+            </g>
+            <g class="flow-node" id="cf-add">
+              <rect x="60" y="76" width="240" height="46" rx="8"/>
+              <text x="180" y="97" text-anchor="middle">2. Add Column + Carry-in</text>
+              <text class="sub" x="180" y="113" text-anchor="middle">Right-to-Left (Units → Tens → ...)</text>
+            </g>
+            <g class="flow-node" id="cf-check">
+              <polygon points="180,152 260,192 180,232 100,192"/>
+              <text x="180" y="189" text-anchor="middle">Sum &gt; 9 (1001)</text>
+              <text class="sub" x="180" y="205" text-anchor="middle">OR Carry-out == 1?</text>
+            </g>
+            <g class="flow-node" id="cf-fix">
+              <rect x="228" y="242" width="124" height="48" rx="8"/>
+              <text x="290" y="263" text-anchor="middle">Add 0110 (+6)</text>
+              <text class="sub" x="290" y="279" text-anchor="middle">Carry out = 1</text>
+            </g>
+            <g class="flow-node" id="cf-keep">
+              <rect x="108" y="320" width="144" height="46" rx="8"/>
+              <text x="180" y="341" text-anchor="middle">Record 4-Bit Digit</text>
+              <text class="sub" x="180" y="356" text-anchor="middle">Pass Carry to Next Left</text>
+            </g>
+            <g class="flow-node" id="cf-final">
+              <rect x="55" y="398" width="250" height="36" rx="18"/>
+              <text x="180" y="421" text-anchor="middle">Convert Sum to Bin / Oct / Hex if asked</text>
+            </g>
+          </svg>
+        </div>
+
+        <div>
+          <div class="reg-strip" id="c-summary"></div>
+          <div class="step-banner" id="c-msg"></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Place</th><th>Digit A</th><th>Digit B + Cin</th><th>Raw Sum</th><th>Fix (+0110?)</th><th>Final BCD Digit</th><th>Cout</th></tr></thead>
+              <tbody id="c-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TAB 4: ADDRESSING FORMULAS & TIPS ================= -->
+  <section id="tab-addr" class="tab-panel">
+    <div class="card card-u2">
+      <div class="card-head">
+        <div>
+          <h2>Addressing Modes — Formulas &amp; Exam Tips</h2>
+          <p class="muted">Asked in 7 of 8 papers (and 4 of 8 times for 15 marks in Part C). Memorize the formulas and watch out for the PC trap.</p>
+        </div>
+        <span class="badge badge-ok">15 Marks Part C + 8 Marks Part B</span>
+      </div>
+
+      <div class="math-box">
+        <b>Standard PYQ Setup (May 2024 Q26 &amp; May 2026 Q27):</b> Instruction at <code>300</code>, Address field at <code>301</code> holds <code>A = 400</code>, Register <code>R1 = 200</code>. Because fetching a 2-word instruction uses locations <code>300</code> and <code>301</code>, updated \(\text{PC} = 300 + 2 = 302\).
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Mode</th><th>EA Formula</th><th>Operand Access</th><th>Example (300/301/400, R1=200)</th><th>Where Used</th></tr></thead>
+          <tbody>
+            <tr><td><b>Direct (Absolute)</b></td><td>\(\text{EA} = A\)</td><td>\(\text{Mem}[A]\)</td><td>\(\text{EA} = 400\)</td><td>Global variables</td></tr>
+            <tr><td><b>Immediate</b></td><td>\(\text{EA} = \text{Addr of } A\)</td><td>\(\text{Operand} = A\)</td><td>\(\text{EA} = 301\;(\text{Op}=400)\)</td><td>Constants (`#400`)</td></tr>
+            <tr><td><b>Relative (PC-Rel)</b></td><td>\(\text{EA} = \text{PC} + A\)</td><td>\(\text{Mem}[\text{PC}+A]\)</td><td>\(302 + 400 = \mathbf{702}\)</td><td>Branches / loops</td></tr>
+            <tr><td><b>Register Indirect</b></td><td>\(\text{EA} = [R1]\)</td><td>\(\text{Mem}[[R1]]\)</td><td>\(\text{EA} = 200\)</td><td>Pointers</td></tr>
+            <tr><td><b>Indexed (`R1`)</b></td><td>\(\text{EA} = A + [R1]\)</td><td>\(\text{Mem}[A + [R1]]\)</td><td>\(400 + 200 = \mathbf{600}\)</td><td>Arrays (`400(R1)`)</td></tr>
+            <tr><td><b>Register</b></td><td>No memory EA</td><td>\(\text{Operand} = [R1]\)</td><td>Value in `R1` (`200`)</td><td>Fastest ALU ops</td></tr>
+            <tr><td><b>Indirect</b></td><td>\(\text{EA} = [A]\)</td><td>\(\text{Mem}[[A]]\)</td><td>\(\text{EA} = \text{Mem}[400]\)</td><td>Double pointers</td></tr>
+            <tr><td><b>Auto-Inc / Dec</b></td><td>\(\text{EA} = [R1]\), then \(R1 \pm d\)</td><td>\(\text{Mem}[[R1]]\)</td><td>`(R1)+` / `-(R1)`</td><td>Stacks &amp; array loops</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="two-col" style="margin-top:14px;">
+        <div class="tip-box" style="margin:0;">
+          <b>Top 4 Exam Tips (Where Marks Are Gained &amp; Lost):</b>
+          <ul class="clean">
+            <li><b>Write `PC = 302` explicitly!</b> Always show <code>300 + 2 = 302</code> before computing Relative mode (`302 + 400 = 702`).</li>
+            <li><b>Immediate mode distinction:</b> Clearly write BOTH <code>Operand = 400</code> and <code>EA = 301</code> so any marking scheme awards full marks.</li>
+            <li><b>Pure theory 15m (`Jun 2025 Q26`):</b> Include all <b>8 modes</b> above + 1 assembly example each + a summary table at the end.</li>
+            <li><b>Instruction format MCQs:</b> \(\text{Opcode bits} = W - (\lceil\log_2 R\rceil + \lceil\log_2 M\rceil + \log_2 \text{RAM})\). For 12 regs (4b), 6 modes (3b), 64K×32 RAM (16b): `32 - 23 = 9 bits`.</li>
+          </ul>
+        </div>
+        <div class="info-pill">
+          <span class="info-lbl">Quick 0 / 1 / 2 / 3-Address Cheat (`X = (A+B)*(C+D)`)</span>
+          <ul class="clean">
+            <li><b>3-Addr:</b> <code>ADD R1,A,B</code>; <code>ADD R2,C,D</code>; <code>MUL X,R1,R2</code></li>
+            <li><b>2-Addr:</b> <code>MOV R1,A</code>; <code>ADD R1,B</code>; <code>MOV R2,C</code>; <code>ADD R2,D</code>; <code>MUL R1,R2</code>; <code>MOV X,R1</code></li>
+            <li><b>1-Addr (AC):</b> <code>LOAD A</code>; <code>ADD B</code>; <code>STORE T</code>; <code>LOAD C</code>; <code>ADD D</code>; <code>MUL T</code>; <code>STORE X</code></li>
+            <li><b>0-Addr (Stack):</b> <code>PUSH A</code>; <code>PUSH B</code>; <code>ADD</code>; <code>PUSH C</code>; <code>PUSH D</code>; <code>ADD</code>; <code>MUL</code>; <code>POP X</code></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TAB 5: UNIT 1 REVISION ================= -->
+  <section id="tab-u1" class="tab-panel">
+    <div class="card card-u1">
+      <div class="card-head">
+        <div>
+          <h2>Unit 1 (CO1) Visual Revision — 12 Marks (8/8 Papers)</h2>
+          <p class="muted">Everything needed for Q21 (8m) and Part A Q1–Q4 (4m).</p>
+        </div>
+        <span class="badge badge-ok">Easiest Unit · Guaranteed Marks</span>
+      </div>
+
+      <div class="two-col">
+        <div class="info-pill">
+          <span class="info-lbl">1. Base Conversions (With Fractions!)</span>
+          <ul class="clean">
+            <li><b>Integer part (`÷ base`):</b> Divide by 2, 8, or 16; read remainders <b>bottom → top</b>.</li>
+            <li><b>Fractional part (`× base`):</b> Multiply fraction by 2, 8, or 16; take integer digits <b>top → bottom</b> (4–6 digits).</li>
+            <li><b>Fast Grouping:</b> Binary ↔ Octal = <b>3 bits</b> per digit; Binary ↔ Hex = <b>4 bits</b> per digit (pad outer edges with `0`).</li>
+            <li><b>Example (`Jun 25 Q21a`):</b> \(105.15_{10} = 1101001.00100110_2 = 151.1146_8 = 69.2666_{16}\).</li>
+          </ul>
+        </div>
+        <div class="info-pill">
+          <span class="info-lbl">2. 1's &amp; 2's Complement Subtraction (`A - B`)</span>
+          <ul class="clean">
+            <li><b>First:</b> Pad `A` and `B` to the <b>exact same bit width</b>!</li>
+            <li><b>2's Comp (`A + (~B + 1)`):</b><br>Carry = <code>1</code> → <b>discard carry</b> (answer `+`).<br>Carry = <code>0</code> → negative (take 2's comp &amp; put `-`).</li>
+            <li><b>1's Comp (`A + ~B`):</b><br>Carry = <code>1</code> → <b>add End-Around Carry (EAC) to LSB</b> (`+`).<br>Carry = <code>0</code> → negative (flip bits &amp; put `-`).</li>
+            <li><b>Gray Code (`Part A`):</b> Copy MSB, XOR adjacent bits (`1010 → 1111`, `11011 → 10110`).</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 style="margin-top:16px;">3. Universal Gates (NAND &amp; NOR) Visual Diagrams (`6 of 8 papers`)</h3>
+      <div class="svg-wrap">
+        <svg viewBox="0 0 740 230" width="740" aria-label="Universal Gate Realizations">
+          <text x="15" y="24" fill="var(--accent)" font-size="13" font-weight="700">USING NAND ONLY</text>
+          <!-- NAND NOT -->
+          <text x="15" y="52" fill="var(--ink)" font-size="12" font-weight="600">NOT: (A·A)'</text>
+          <path d="M18,75 L46,75 M46,66 L46,88 M46,66 L64,66 M46,88 L64,88" stroke="var(--ink)" stroke-width="1.6" fill="none"/>
+          <path d="M64,60 L82,60 A16,17 0 0,1 82,94 L64,94 Z" fill="var(--surface)" stroke="var(--u1)" stroke-width="2"/>
+          <circle cx="102" cy="77" r="4" fill="var(--surface)" stroke="var(--u1)" stroke-width="2"/>
+          <path d="M106,77 L135,77" stroke="var(--ink)" stroke-width="1.6"/>
+          <text x="138" y="81" fill="var(--ok)" font-size="11" font-family="var(--mono)">A'</text>
+
+          <!-- NAND AND -->
+          <text x="200" y="52" fill="var(--ink)" font-size="12" font-weight="600">AND: ((A·B)')'</text>
+          <path d="M200,68 L228,68 M200,86 L228,86" stroke="var(--ink)" stroke-width="1.6"/>
+          <path d="M228,60 L246,60 A16,17 0 0,1 246,94 L228,94 Z" fill="var(--surface)" stroke="var(--u1)" stroke-width="2"/>
+          <circle cx="266" cy="77" r="4" fill="var(--surface)" stroke="var(--u1)" stroke-width="2"/>
+          <path d="M270,77 L292,77 M292,66 L292,88 M292,66 L308,66 M292,88 L308,88" stroke="var(--ink)" stroke-width="1.6" fill="none"/>
+          <path d="M308,60 L326,60 A16,17 0 0,1 326,94 L308,94 Z" fill="var(--surface)" stroke="var(--u1)" stroke-width="2"/>
+          <circle cx="346" cy="77" r="4" fill="var(--surface)" stroke="var(--u1)" stroke-width="2"/>
+          <path d="M350,77 L375,77" stroke="var(--ink)" stroke-width="1.6"/>
+          <text x="378" y="81" fill="var(--ok)" font-size="11" font-family="var(--mono)">A·B</text>
+
+          <!-- NAND OR -->
+          <text x="440" y="52" fill="var(--ink)" font-size="12" font-weight="600">OR: (A' · B')' = A + B</text>
+          <rect x="440" y="60" width="70" height="22" rx="4" fill="var(--surface)" stroke="var(--u1)" stroke-width="1.6"/>
+          <text x="475" y="75" text-anchor="middle" fill="var(--ink)" font-size="10">NAND(A,A)</text>
+          <rect x="440" y="88" width="70" height="22" rx="4" fill="var(--surface)" stroke="var(--u1)" stroke-width="1.6"/>
+          <text x="475" y="103" text-anchor="middle" fill="var(--ink)" font-size="10">NAND(B,B)</text>
+          <path d="M510,71 L550,78 M510,99 L550,92" stroke="var(--ink)" stroke-width="1.6"/>
+          <rect x="550" y="70" width="84" height="30" rx="5" fill="var(--surface)" stroke="var(--u1)" stroke-width="2"/>
+          <text x="592" y="89" text-anchor="middle" fill="var(--ink)" font-size="11">NAND</text>
+          <path d="M634,85 L665,85" stroke="var(--ink)" stroke-width="1.6"/>
+          <text x="668" y="89" fill="var(--ok)" font-size="11" font-family="var(--mono)">A+B</text>
+
+          <!-- NOR Row -->
+          <text x="15" y="142" fill="var(--u2)" font-size="13" font-weight="700">USING NOR ONLY</text>
+          <rect x="15" y="160" width="145" height="44" rx="8" fill="var(--surface)" stroke="var(--u2)" stroke-width="1.8"/>
+          <text x="87" y="179" text-anchor="middle" fill="var(--ink)" font-size="11.5" font-weight="600">NOT = NOR(A, A)</text>
+          <text x="87" y="196" text-anchor="middle" fill="var(--muted)" font-size="10.5">(A + A)' = A'</text>
+
+          <rect x="200" y="160" width="205" height="44" rx="8" fill="var(--surface)" stroke="var(--u2)" stroke-width="1.8"/>
+          <text x="302" y="179" text-anchor="middle" fill="var(--ink)" font-size="11.5" font-weight="600">OR = NOR(NOR(A,B), NOR(A,B))</text>
+          <text x="302" y="196" text-anchor="middle" fill="var(--muted)" font-size="10.5">((A+B)')' = A + B</text>
+
+          <rect x="440" y="160" width="260" height="44" rx="8" fill="var(--surface)" stroke="var(--u2)" stroke-width="1.8"/>
+          <text x="570" y="179" text-anchor="middle" fill="var(--ink)" font-size="11.5" font-weight="600">AND = NOR(NOR(A,A), NOR(B,B))</text>
+          <text x="570" y="196" text-anchor="middle" fill="var(--muted)" font-size="10.5">(A' + B')' = A · B (De Morgan)</text>
+        </svg>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Gate</th><th>Algebraic</th><th>(0,0)</th><th>(0,1)</th><th>(1,0)</th><th>(1,1)</th><th>Key Exam Tag</th></tr></thead>
+          <tbody>
+            <tr><td><b>AND</b></td><td>\(A\cdot B\)</td><td>0</td><td>0</td><td>0</td><td>1</td><td>All 1s → 1</td></tr>
+            <tr><td><b>OR</b></td><td>\(A+B\)</td><td>0</td><td>1</td><td>1</td><td>1</td><td>Any 1 → 1</td></tr>
+            <tr><td><b>NAND</b></td><td>\(\overline{A\cdot B}\)</td><td>1</td><td>1</td><td>1</td><td>0</td><td>Universal · Bubbled OR</td></tr>
+            <tr><td><b>NOR</b></td><td>\(\overline{A+B}\)</td><td>1</td><td>0</td><td>0</td><td>0</td><td>Universal · Bubbled AND</td></tr>
+            <tr><td><b>EX-OR</b></td><td>\(A\oplus B\)</td><td>0</td><td>1</td><td>1</td><td>0</td><td>Arithmetic gate · Odd 1s</td></tr>
+            <tr><td><b>EX-NOR</b></td><td>\(\overline{A\oplus B}\)</td><td>1</td><td>0</td><td>0</td><td>1</td><td>Arithmetic / Equality gate</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TAB 6: UNIT 4 PIPELINE & HAZARDS ================= -->
+  <section id="tab-u4" class="tab-panel">
+    <div class="card card-u4">
+      <div class="card-head">
+        <div>
+          <h2>Unit 4 (CO4) Pipelining &amp; Hazards Visual Revision</h2>
+          <p class="muted">Asked in 6 of 8 papers as the easier OR side of Q24 (May 2026 Q24a &amp; Q24b were literally both Pipelining &amp; Data Hazards!).</p>
+        </div>
+        <span class="badge badge-ok">Draw Diagrams = Half the Marks</span>
+      </div>
+
+      <h3>1. 5-Stage Instruction Pipeline Space-Time Diagram (`May 2026 Q24a`)</h3>
+      <div class="svg-wrap">
+        <svg viewBox="0 0 680 185" width="680" aria-label="5-stage Pipeline Diagram">
+          <text x="14" y="25" fill="var(--muted)" font-size="11" font-family="var(--mono)">Instr \ Clock</text>
+          <g font-family="var(--mono)" font-size="11" fill="var(--muted)" text-anchor="middle">
+            <text x="145" y="25">C1</text><text x="215" y="25">C2</text><text x="285" y="25">C3</text><text x="355" y="25">C4</text>
+            <text x="425" y="25">C5</text><text x="495" y="25">C6</text><text x="565" y="25">C7</text><text x="635" y="25">C8</text>
+          </g>
+          <!-- Row I1 -->
+          <text x="14" y="60" fill="var(--ink)" font-size="12" font-weight="700">I1</text>
+          <rect x="115" y="40" width="60" height="28" rx="5" fill="var(--accent-soft)" stroke="var(--u1)"/><text x="145" y="58" text-anchor="middle" fill="var(--ink)" font-size="11">IF</text>
+          <rect x="185" y="40" width="60" height="28" rx="5" fill="var(--accent-soft)" stroke="var(--u2)"/><text x="215" y="58" text-anchor="middle" fill="var(--ink)" font-size="11">ID</text>
+          <rect x="255" y="40" width="60" height="28" rx="5" fill="var(--warn-soft)" stroke="var(--u3)"/><text x="285" y="58" text-anchor="middle" fill="var(--ink)" font-size="11">EX</text>
+          <rect x="325" y="40" width="60" height="28" rx="5" fill="var(--bad-soft)" stroke="var(--u4)"/><text x="355" y="58" text-anchor="middle" fill="var(--ink)" font-size="11">MEM</text>
+          <rect x="395" y="40" width="60" height="28" rx="5" fill="var(--ok-soft)" stroke="var(--u5)"/><text x="425" y="58" text-anchor="middle" fill="var(--ink)" font-size="11">WB</text>
+          <!-- Row I2 -->
+          <text x="14" y="96" fill="var(--ink)" font-size="12" font-weight="700">I2</text>
+          <rect x="185" y="76" width="60" height="28" rx="5" fill="var(--accent-soft)" stroke="var(--u1)"/><text x="215" y="94" text-anchor="middle" fill="var(--ink)" font-size="11">IF</text>
+          <rect x="255" y="76" width="60" height="28" rx="5" fill="var(--accent-soft)" stroke="var(--u2)"/><text x="285" y="94" text-anchor="middle" fill="var(--ink)" font-size="11">ID</text>
+          <rect x="325" y="76" width="60" height="28" rx="5" fill="var(--warn-soft)" stroke="var(--u3)"/><text x="355" y="94" text-anchor="middle" fill="var(--ink)" font-size="11">EX</text>
+          <rect x="395" y="76" width="60" height="28" rx="5" fill="var(--bad-soft)" stroke="var(--u4)"/><text x="425" y="94" text-anchor="middle" fill="var(--ink)" font-size="11">MEM</text>
+          <rect x="465" y="76" width="60" height="28" rx="5" fill="var(--ok-soft)" stroke="var(--u5)"/><text x="495" y="94" text-anchor="middle" fill="var(--ink)" font-size="11">WB</text>
+          <!-- Row I3 -->
+          <text x="14" y="132" fill="var(--ink)" font-size="12" font-weight="700">I3</text>
+          <rect x="255" y="112" width="60" height="28" rx="5" fill="var(--accent-soft)" stroke="var(--u1)"/><text x="285" y="130" text-anchor="middle" fill="var(--ink)" font-size="11">IF</text>
+          <rect x="325" y="112" width="60" height="28" rx="5" fill="var(--accent-soft)" stroke="var(--u2)"/><text x="355" y="130" text-anchor="middle" fill="var(--ink)" font-size="11">ID</text>
+          <rect x="395" y="112" width="60" height="28" rx="5" fill="var(--warn-soft)" stroke="var(--u3)"/><text x="425" y="130" text-anchor="middle" fill="var(--ink)" font-size="11">EX</text>
+          <rect x="465" y="112" width="60" height="28" rx="5" fill="var(--bad-soft)" stroke="var(--u4)"/><text x="495" y="130" text-anchor="middle" fill="var(--ink)" font-size="11">MEM</text>
+          <rect x="535" y="112" width="60" height="28" rx="5" fill="var(--ok-soft)" stroke="var(--u5)"/><text x="565" y="130" text-anchor="middle" fill="var(--ink)" font-size="11">WB</text>
+          <!-- Row I4 -->
+          <text x="14" y="168" fill="var(--ink)" font-size="12" font-weight="700">I4</text>
+          <rect x="325" y="148" width="60" height="28" rx="5" fill="var(--accent-soft)" stroke="var(--u1)"/><text x="355" y="166" text-anchor="middle" fill="var(--ink)" font-size="11">IF</text>
+          <rect x="395" y="148" width="60" height="28" rx="5" fill="var(--accent-soft)" stroke="var(--u2)"/><text x="425" y="166" text-anchor="middle" fill="var(--ink)" font-size="11">ID</text>
+          <rect x="465" y="148" width="60" height="28" rx="5" fill="var(--warn-soft)" stroke="var(--u3)"/><text x="495" y="166" text-anchor="middle" fill="var(--ink)" font-size="11">EX</text>
+          <rect x="535" y="148" width="60" height="28" rx="5" fill="var(--bad-soft)" stroke="var(--u4)"/><text x="565" y="166" text-anchor="middle" fill="var(--ink)" font-size="11">MEM</text>
+          <rect x="605" y="148" width="60" height="28" rx="5" fill="var(--ok-soft)" stroke="var(--u5)"/><text x="635" y="166" text-anchor="middle" fill="var(--ink)" font-size="11">WB</text>
+        </svg>
+      </div>
+      <div class="cue-row" style="margin-top:8px;">
+        <span class="badge">Stages: IF → ID → EX → MEM → WB</span>
+        <span class="badge">Cycles = \(k + (n - 1)\)</span>
+        <span class="badge badge-warn">Latency stays ~same · Throughput increases!</span>
+      </div>
+
+      <h3 style="margin-top:16px;">2. The 3 Pipeline Hazards &amp; How to Overcome Them (`May 2026 Q24b`)</h3>
+      <div class="three-col">
+        <div class="info-pill">
+          <span class="info-lbl" style="color:var(--u4);">1. Structural Hazard</span>
+          <b>Cause:</b> Two instructions need the same hardware at the same time (e.g., 1 memory port for both IF &amp; MEM).<br>
+          <b>Fix:</b> Separate <b>I-Cache &amp; D-Cache</b>, or insert 1 stall cycle.
+        </div>
+        <div class="info-pill">
+          <span class="info-lbl" style="color:var(--u3);">2. Data Hazard (Most Asked!)</span>
+          <b>Cause:</b> Operand isn't ready yet.<br>
+          • <b>RAW</b> (Read After Write — true dep)<br>
+          • <b>WAR</b> (Write After Read)<br>
+          • <b>WAW</b> (Write After Write)<br>
+          <b>Example:</b> <code>ADD R1,R2,R3</code> → <code>SUB R4,R1,R5</code><br>
+          <b>Fixes:</b> (1) <b>Operand Forwarding</b> (EX→EX bypass), (2) <b>Stalls / NOPs</b>, (3) <b>Register Renaming</b> (fixes WAR/WAW), (4) Compiler scheduling.
+        </div>
+        <div class="info-pill">
+          <span class="info-lbl" style="color:var(--u1);">3. Control (Instruction) Hazard</span>
+          <b>Cause:</b> Branch/jump changes PC after fetch has already started.<br>
+          <b>Fixes:</b> (1) <b>Branch Prediction</b> (Static or Dynamic 1-bit / 2-bit), (2) <b>Delayed Branching</b>, (3) Flush pipeline.
+        </div>
+      </div>
+
+      <div class="math-box" style="margin-top:14px;">
+        <b>Operand Forwarding (Bypassing) Visual Path:</b> Instead of waiting for <code>ADD R1,R2,R3</code> to finish WB, hardware forwards ALU output from EX/MEM buffer straight back into <code>SUB R4,R1,R5</code>'s EX ALU input (0 stall cycles!).
+      </div>
+      <div class="svg-wrap" style="margin-bottom:14px;">
+        <svg viewBox="0 0 640 120" width="640" aria-label="Operand Forwarding Bypass">
+          <defs><marker id="arr-fw" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="var(--ok)"/></marker></defs>
+          <text x="12" y="34" fill="var(--ink)" font-size="11.5" font-weight="700">I1 (ADD R1,...)</text>
+          <rect x="130" y="14" width="76" height="28" rx="5" fill="var(--surface)" stroke="var(--border-strong)"/><text x="168" y="32" text-anchor="middle" fill="var(--ink)" font-size="11">IF</text>
+          <rect x="216" y="14" width="76" height="28" rx="5" fill="var(--surface)" stroke="var(--border-strong)"/><text x="254" y="32" text-anchor="middle" fill="var(--ink)" font-size="11">ID</text>
+          <rect x="302" y="14" width="76" height="28" rx="5" fill="var(--warn-soft)" stroke="var(--u3)" stroke-width="2"/><text x="340" y="32" text-anchor="middle" fill="var(--ink)" font-size="11" font-weight="700">EX (R1)</text>
+          <rect x="388" y="14" width="76" height="28" rx="5" fill="var(--surface)" stroke="var(--border-strong)"/><text x="426" y="32" text-anchor="middle" fill="var(--ink)" font-size="11">MEM</text>
+          <rect x="474" y="14" width="76" height="28" rx="5" fill="var(--surface)" stroke="var(--border-strong)"/><text x="512" y="32" text-anchor="middle" fill="var(--ink)" font-size="11">WB</text>
+
+          <text x="12" y="88" fill="var(--ink)" font-size="11.5" font-weight="700">I2 (SUB ...,R1)</text>
+          <rect x="216" y="68" width="76" height="28" rx="5" fill="var(--surface)" stroke="var(--border-strong)"/><text x="254" y="86" text-anchor="middle" fill="var(--ink)" font-size="11">IF</text>
+          <rect x="302" y="68" width="76" height="28" rx="5" fill="var(--surface)" stroke="var(--border-strong)"/><text x="340" y="86" text-anchor="middle" fill="var(--ink)" font-size="11">ID</text>
+          <rect x="388" y="68" width="76" height="28" rx="5" fill="var(--ok-soft)" stroke="var(--ok)" stroke-width="2"/><text x="426" y="86" text-anchor="middle" fill="var(--ink)" font-size="11" font-weight="700">EX (needs R1)</text>
+          <rect x="474" y="68" width="76" height="28" rx="5" fill="var(--surface)" stroke="var(--border-strong)"/><text x="512" y="86" text-anchor="middle" fill="var(--ink)" font-size="11">MEM</text>
+          <rect x="560" y="68" width="70" height="28" rx="5" fill="var(--surface)" stroke="var(--border-strong)"/><text x="595" y="86" text-anchor="middle" fill="var(--ink)" font-size="11">WB</text>
+
+          <path d="M378,28 L426,28 L426,64" stroke="var(--ok)" stroke-width="2.4" fill="none" marker-end="url(#arr-fw)"/>
+          <text x="434" y="54" fill="var(--ok)" font-size="11" font-weight="700">Forward R1 (0 stalls)</text>
+        </svg>
+      </div>
+
+      <div class="math-box" style="margin-top:14px;">
+        <b>Control Unit Quick Backup (MCQs + Diagrams):</b><br>
+        • <b>WMFC:</b> Wait for Memory Function Completed · <b>RUN:</b> increments step counter · <b>End:</b> resets step counter to T1.<br>
+        • <b>Control Store:</b> Special memory holding microroutines in MCU. · <b>Hardwired CU:</b> Faster, less flexible, cannot handle complex CISC.
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TAB 7: UNIT 5 FLYNN & ARM ================= -->
+  <section id="tab-u5" class="tab-panel">
+    <div class="card card-u5">
+      <div class="card-head">
+        <div>
+          <h2>Unit 5 (CO5) Visual Revision — Flynn's, ARM &amp; MESI (12 Marks)</h2>
+          <p class="muted">100% Theory Unit. Every recent paper asks Flynn's Classification OR ARM Load/Store (plus Cache Coherence / MESI).</p>
+        </div>
+        <span class="badge badge-ok">Zero Math · Pure Diagrams</span>
+      </div>
+
+      <h3>1. Flynn's Classification Diagrams (`Jun 25 / Nov 25 / May 26 Q25a`)</h3>
+      <div class="svg-wrap">
+        <svg viewBox="0 0 740 210" width="740" aria-label="Flynn Classification SISD SIMD MISD MIMD">
+          <!-- SISD -->
+          <rect x="10" y="10" width="165" height="190" rx="10" fill="var(--surface)" stroke="var(--u1)" stroke-width="1.8"/>
+          <text x="92" y="34" text-anchor="middle" fill="var(--u1)" font-weight="700" font-size="13">SISD (Von Neumann)</text>
+          <rect x="35" y="48" width="114" height="28" rx="5" fill="var(--surface-2)" stroke="var(--border-strong)"/><text x="92" y="66" text-anchor="middle" fill="var(--ink)" font-size="11">Control Unit (1)</text>
+          <rect x="35" y="92" width="114" height="28" rx="5" fill="var(--surface-2)" stroke="var(--border-strong)"/><text x="92" y="110" text-anchor="middle" fill="var(--ink)" font-size="11">Processor (1)</text>
+          <rect x="35" y="136" width="114" height="28" rx="5" fill="var(--surface-2)" stroke="var(--border-strong)"/><text x="92" y="154" text-anchor="middle" fill="var(--ink)" font-size="11">Memory (1)</text>
+          <text x="92" y="186" text-anchor="middle" fill="var(--muted)" font-size="10.5">Single-core CPU</text>
+
+          <!-- SIMD -->
+          <rect x="192" y="10" width="165" height="190" rx="10" fill="var(--surface)" stroke="var(--u2)" stroke-width="1.8"/>
+          <text x="274" y="34" text-anchor="middle" fill="var(--u2)" font-weight="700" font-size="13">SIMD (1 IS, N DS)</text>
+          <rect x="217" y="48" width="114" height="28" rx="5" fill="var(--surface-2)" stroke="var(--border-strong)"/><text x="274" y="66" text-anchor="middle" fill="var(--ink)" font-size="11">Control Unit (1)</text>
+          <rect x="206" y="92" width="40" height="28" rx="4" fill="var(--surface-2)" stroke="var(--u2)"/><text x="226" y="110" text-anchor="middle" fill="var(--ink)" font-size="10">PU1</text>
+          <rect x="254" y="92" width="40" height="28" rx="4" fill="var(--surface-2)" stroke="var(--u2)"/><text x="274" y="110" text-anchor="middle" fill="var(--ink)" font-size="10">PU2</text>
+          <rect x="302" y="92" width="40" height="28" rx="4" fill="var(--surface-2)" stroke="var(--u2)"/><text x="322" y="110" text-anchor="middle" fill="var(--ink)" font-size="10">PUn</text>
+          <rect x="217" y="136" width="114" height="28" rx="5" fill="var(--surface-2)" stroke="var(--border-strong)"/><text x="274" y="154" text-anchor="middle" fill="var(--ink)" font-size="11">N Data Modules</text>
+          <text x="274" y="186" text-anchor="middle" fill="var(--muted)" font-size="10.5">GPUs, Vector Arrays</text>
+
+          <!-- MISD -->
+          <rect x="374" y="10" width="165" height="190" rx="10" fill="var(--surface)" stroke="var(--u3)" stroke-width="1.8"/>
+          <text x="456" y="34" text-anchor="middle" fill="var(--u3)" font-weight="700" font-size="13">MISD (N IS, 1 DS)</text>
+          <rect x="388" y="48" width="40" height="28" rx="4" fill="var(--surface-2)" stroke="var(--u3)"/><text x="408" y="66" text-anchor="middle" fill="var(--ink)" font-size="10">CU1</text>
+          <rect x="436" y="48" width="40" height="28" rx="4" fill="var(--surface-2)" stroke="var(--u3)"/><text x="456" y="66" text-anchor="middle" fill="var(--ink)" font-size="10">CU2</text>
+          <rect x="484" y="48" width="40" height="28" rx="4" fill="var(--surface-2)" stroke="var(--u3)"/><text x="504" y="66" text-anchor="middle" fill="var(--ink)" font-size="10">CUn</text>
+          <rect x="399" y="92" width="114" height="28" rx="5" fill="var(--surface-2)" stroke="var(--border-strong)"/><text x="456" y="110" text-anchor="middle" fill="var(--ink)" font-size="11">N PUs → 1 Stream</text>
+          <rect x="399" y="136" width="114" height="28" rx="5" fill="var(--surface-2)" stroke="var(--border-strong)"/><text x="456" y="154" text-anchor="middle" fill="var(--ink)" font-size="11">1 Data Stream</text>
+          <text x="456" y="186" text-anchor="middle" fill="var(--warn)" font-size="10.5">Theoretical Only!</text>
+
+          <!-- MIMD -->
+          <rect x="556" y="10" width="174" height="190" rx="10" fill="var(--surface)" stroke="var(--u5)" stroke-width="1.8"/>
+          <text x="643" y="34" text-anchor="middle" fill="var(--u5)" font-weight="700" font-size="13">MIMD (N IS, N DS)</text>
+          <rect x="570" y="48" width="44" height="28" rx="4" fill="var(--surface-2)" stroke="var(--u5)"/><text x="592" y="66" text-anchor="middle" fill="var(--ink)" font-size="10">CU1</text>
+          <rect x="621" y="48" width="44" height="28" rx="4" fill="var(--surface-2)" stroke="var(--u5)"/><text x="643" y="66" text-anchor="middle" fill="var(--ink)" font-size="10">CU2</text>
+          <rect x="672" y="48" width="44" height="28" rx="4" fill="var(--surface-2)" stroke="var(--u5)"/><text x="694" y="66" text-anchor="middle" fill="var(--ink)" font-size="10">CUn</text>
+          <rect x="570" y="92" width="44" height="28" rx="4" fill="var(--surface-2)" stroke="var(--u5)"/><text x="592" y="110" text-anchor="middle" fill="var(--ink)" font-size="10">PU1</text>
+          <rect x="621" y="92" width="44" height="28" rx="4" fill="var(--surface-2)" stroke="var(--u5)"/><text x="643" y="110" text-anchor="middle" fill="var(--ink)" font-size="10">PU2</text>
+          <rect x="672" y="92" width="44" height="28" rx="4" fill="var(--surface-2)" stroke="var(--u5)"/><text x="694" y="110" text-anchor="middle" fill="var(--ink)" font-size="10">PUn</text>
+          <rect x="580" y="136" width="126" height="28" rx="5" fill="var(--surface-2)" stroke="var(--border-strong)"/><text x="643" y="154" text-anchor="middle" fill="var(--ink)" font-size="11">Shared / Dist Mem</text>
+          <text x="643" y="186" text-anchor="middle" fill="var(--muted)" font-size="10.5">Multi-core CPUs, Clusters</text>
+        </svg>
+      </div>
+
+      <div class="two-col" style="margin-top:16px;">
+        <div class="info-pill">
+          <span class="info-lbl" style="color:var(--u5);">2. ARM Processor (`Nov 24 / Jun 25 / Nov 25 / May 26`)</span>
+          <ul class="clean">
+            <li><b>Architecture:</b> <b>32-bit RISC</b>, <b>Hardwired</b> control unit, <b>Load/Store</b> model (ALU works ONLY on registers; Load/Store frequency ~<b>40%</b>).</li>
+            <li><b>2 Instruction Sets:</b> 32-bit <b>ARM</b> state &amp; 16-bit <b>Thumb</b> state (switches via <code>BX</code>; ~35% smaller code).</li>
+            <li><b>7 Operating Modes:</b> User, FIQ, IRQ, Supervisor, Abort, Undefined, System.</li>
+            <li><b>Load/Store Instructions:</b><br>
+              • Single: <code>LDR R0, [R1]</code> / <code>STR R0, [R1]</code> (`LDRB`, `LDRH`)<br>
+              • Pre-indexed: <code>LDR R0, [R1, #4]!</code> (updates R1 first)<br>
+              • Post-indexed: <code>LDR R0, [R1], #4</code> (reads, then updates R1)<br>
+              • Block transfer: <code>LDMIA</code> / <code>STMDB</code> (fast stack/register save).</li>
+          </ul>
+        </div>
+        <div class="info-pill">
+          <span class="info-lbl" style="color:var(--u1);">3. Cache Coherence &amp; MESI Protocol (`4/8 papers`)</span>
+          <ul class="clean">
+            <li><b>Problem:</b> Multiple CPU caches hold copies of the same shared memory address; when CPU1 writes, CPU2 sees stale data.</li>
+            <li><b>Solutions:</b> Write-Invalidate / Write-Update snooping protocols &amp; Directory-based protocols.</li>
+            <li><b>MESI 4 States:</b><br>
+              • <b>M (Modified):</b> Dirty (differs from RAM), only in this cache.<br>
+              • <b>E (Exclusive):</b> Clean (matches RAM), only in this cache.<br>
+              • <b>S (Shared):</b> Clean, present in 2+ caches.<br>
+              • <b>I (Invalid):</b> Stale / unusable — must fetch on read.</li>
+            <li><b>MCQ Hooks:</b> Hit rate = hits / total accesses; Write miss = block missing in cache on write.</li>
+          </ul>
+          <svg viewBox="0 0 380 120" width="380" style="max-width:100%;height:auto;margin-top:8px;" aria-label="MESI 4 States">
+            <rect x="8" y="10" width="82" height="44" rx="8" fill="var(--warn-soft)" stroke="var(--u3)" stroke-width="1.8"/><text x="49" y="30" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="700">M</text><text x="49" y="45" text-anchor="middle" fill="var(--muted)" font-size="10">Dirty, Sole</text>
+            <rect x="102" y="10" width="82" height="44" rx="8" fill="var(--ok-soft)" stroke="var(--u5)" stroke-width="1.8"/><text x="143" y="30" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="700">E</text><text x="143" y="45" text-anchor="middle" fill="var(--muted)" font-size="10">Clean, Sole</text>
+            <rect x="196" y="10" width="82" height="44" rx="8" fill="var(--accent-soft)" stroke="var(--u1)" stroke-width="1.8"/><text x="237" y="30" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="700">S</text><text x="237" y="45" text-anchor="middle" fill="var(--muted)" font-size="10">Clean, Multi</text>
+            <rect x="290" y="10" width="82" height="44" rx="8" fill="var(--bad-soft)" stroke="var(--u4)" stroke-width="1.8"/><text x="331" y="30" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="700">I</text><text x="331" y="45" text-anchor="middle" fill="var(--muted)" font-size="10">Invalid/Stale</text>
+            <text x="190" y="78" text-anchor="middle" fill="var(--muted)" font-size="10.5">Read Miss: I → E (no other) or S (others have it)</text>
+            <text x="190" y="96" text-anchor="middle" fill="var(--muted)" font-size="10.5">Local Write: E/S/I → M (broadcasts Invalidate to other caches)</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+(function() {
+  const LS_THEME = 'coa_rev_theme';
+  let theme = 'oled';
+  try { theme = localStorage.getItem(LS_THEME) || 'oled'; } catch(e) {}
+  function applyTheme() {
+    document.documentElement.setAttribute('data-theme', theme);
+    document.getElementById('theme-btn').textContent = theme === 'light' ? 'OLED Black' : 'Light Mode';
+  }
+  document.getElementById('theme-btn').addEventListener('click', () => {
+    theme = theme === 'light' ? 'oled' : 'light';
+    try { localStorage.setItem(LS_THEME, theme); } catch(e) {}
+    applyTheme();
+  });
+  applyTheme();
+
+  function typeset(el) {
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise(el ? [el] : undefined).catch(() => {});
+    }
+  }
+
+  // Tabs
+  document.getElementById('nav-tabs').addEventListener('click', (e) => {
+    const btn = e.target.closest('.tab-btn');
+    if (!btn) return;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    const panel = document.getElementById('tab-' + btn.dataset.tab);
+    panel.classList.add('active');
+    typeset(panel);
+  });
+
+  function toBinSigned(val, bits) {
+    const mask = (1 << bits) - 1;
+    return ((val & mask) >>> 0).toString(2).padStart(bits, '0');
+  }
+  function fromTwos(bin) {
+    const n = bin.length;
+    let v = parseInt(bin, 2);
+    if (bin[0] === '1') v -= (1 << n);
+    return v;
+  }
+
+  // ================= 1. BOOTH SIMULATOR =================
+  let bSteps = [], bIdx = 0;
+  function computeBooth(mVal, qVal, n) {
+    const M = toBinSigned(mVal, n);
+    const negM = toBinSigned(-mVal, n);
+    const mask = (1 << n) - 1;
+    let A = '0'.repeat(n);
+    let Q = toBinSigned(qVal, n);
+    let Qm1 = '0';
+    const steps = [{
+      cycle: 0, pair: Q[n-1] + Qm1, op: 'Initialize', node: 'bf-init',
+      A, Q, Qm1, M, negM, n, mVal, qVal,
+      msg: `Initialize: M = ${mVal} (${M}), -M = ${negM}, Q = ${qVal} (${Q}), A = ${A}, Q₋₁ = 0.`
+    }];
+    for (let c = 1; c <= n; c++) {
+      const pair = Q[n - 1] + Qm1;
+      let opText = 'No op (00/11)';
+      let node = 'bf-check';
+      let A_op = A;
+      if (pair === '01') {
+        A_op = toBinSigned((parseInt(A, 2) + parseInt(M, 2)) & mask, n);
+        opText = 'A ← A + M, then ASR';
+        node = 'bf-add';
+      } else if (pair === '10') {
+        A_op = toBinSigned((parseInt(A, 2) + parseInt(negM, 2)) & mask, n);
+        opText = 'A ← A - M, then ASR';
+        node = 'bf-sub';
+      }
+      const comb = A_op + Q + Qm1;
+      const shifted = comb[0] + comb.slice(0, -1);
+      A = shifted.slice(0, n);
+      Q = shifted.slice(n, 2 * n);
+      Qm1 = shifted[2 * n];
+      steps.push({
+        cycle: c, pair, op: opText, node: c === n ? 'bf-done' : 'bf-asr',
+        subNode: node, A, Q, Qm1, M, negM, n, mVal, qVal,
+        msg: `Cycle ${c}: inspected (${pair}) → ${opText}. Result after ASR: A=${A}, Q=${Q}, Q₋₁=${Qm1}.`
+      });
+    }
+    const prod = fromTwos(A + Q);
+    steps[steps.length - 1].msg += ` DONE! Product = ${A}${Q} = ${prod} (Expected ${mVal * qVal}).`;
+    return steps;
+  }
+
+  function renderBooth() {
+    const st = bSteps[bIdx];
+    ['bf-start','bf-init','bf-check','bf-add','bf-sub','bf-asr','bf-done'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.setAttribute('class', 'flow-node');
+    });
+    if (st.node) document.getElementById(st.node).classList.add(bIdx === bSteps.length - 1 ? 'active-ok' : 'active');
+    if (st.subNode && st.subNode !== 'bf-check') document.getElementById(st.subNode).classList.add('active-warn');
+
+    const qHi = st.Q.slice(0, -1) + `<span class="bit-hi">${st.Q.slice(-1)}</span>`;
+    document.getElementById('b-regs').innerHTML = `
+      <div class="reg-box"><div class="reg-name">M / -M</div><div class="reg-val">${st.M}</div><div class="reg-sub">-M = ${st.negM}</div></div>
+      <div class="reg-box"><div class="reg-name">A (${st.n}-bit)</div><div class="reg-val">${st.A}</div><div class="reg-sub">Signed int: ${fromTwos(st.A)}</div></div>
+      <div class="reg-box"><div class="reg-name">Q (${st.n}-bit)</div><div class="reg-val">${qHi}</div><div class="reg-sub">Q₀ highlighted</div></div>
+      <div class="reg-box"><div class="reg-name">Q₋₁</div><div class="reg-val"><span class="bit-hi">${st.Qm1}</span></div><div class="reg-sub">Cycle ${st.cycle}/${st.n}</div></div>
+    `;
+    const banner = document.getElementById('b-msg');
+    banner.textContent = st.msg;
+    banner.className = 'step-banner ' + (bIdx === bSteps.length - 1 ? 'ok' : '');
+
+    document.getElementById('b-tbody').innerHTML = bSteps.slice(0, bIdx + 1).map((r, i) => `
+      <tr class="${i === bIdx ? 'row-active' : ''}">
+        <td><b>${r.cycle}</b></td>
+        <td class="mono">${r.pair}</td>
+        <td>${r.op}</td>
+        <td class="mono">${r.A}</td>
+        <td class="mono">${r.Q}</td>
+        <td class="mono">${r.Qm1}</td>
+      </tr>
+    `).join('');
+  }
+  window.setBooth = function(m, q) {
+    document.getElementById('b-m').value = m;
+    document.getElementById('b-q').value = q;
+    bSteps = computeBooth(m, q, Number(document.getElementById('b-bits').value));
+    bIdx = 0; renderBooth();
+  };
+  document.getElementById('b-build').addEventListener('click', () => {
+    const m = Math.max(-31, Math.min(31, Number(document.getElementById('b-m').value) || 0));
+    const q = Math.max(-31, Math.min(31, Number(document.getElementById('b-q').value) || 0));
+    let n = Number(document.getElementById('b-bits').value);
+    if (Math.abs(m) > 15 || Math.abs(q) > 15) { n = 6; document.getElementById('b-bits').value = '6'; }
+    bSteps = computeBooth(m, q, n); bIdx = 0; renderBooth();
+  });
+  document.getElementById('b-prev').addEventListener('click', () => { if (bIdx > 0) { bIdx--; renderBooth(); } });
+  document.getElementById('b-next').addEventListener('click', () => { if (bIdx < bSteps.length - 1) { bIdx++; renderBooth(); } });
+  document.getElementById('b-all').addEventListener('click', () => { bIdx = bSteps.length - 1; renderBooth(); });
+  setBooth(8, 5);
+
+  // ================= 2. DIVISION SIMULATOR =================
+  let dSteps = [], dIdx = 0, dAlgo = 'restoring';
+  function computeDiv(dividend, divisor, algo) {
+    const n = Math.max(4, dividend.toString(2).length, divisor.toString(2).length);
+    const aBits = n + 1;
+    const aMask = (1 << aBits) - 1;
+    const qMask = (1 << n) - 1;
+    let A = 0, Q = dividend;
+    const Mstr = divisor.toString(2).padStart(aBits, '0');
+    const negMstr = toBinSigned(-divisor, aBits);
+    const fmtA = v => (v & aMask).toString(2).padStart(aBits, '0');
+    const fmtQ = v => (v & qMask).toString(2).padStart(n, '0');
+    const signedA = v => { const u = v & aMask; return (u & (1 << n)) ? u - (1 << aBits) : u; };
+
+    const steps = [{
+      cycle: 0, action: 'Initialize', node: 'df-init', A: fmtA(A), Q: fmtQ(Q), M: Mstr, negM: negMstr,
+      aBits, n, msg: `Initialize (${algo === 'restoring' ? 'Restoring' : 'Non-Restoring'}): Q=${dividend} (${fmtQ(Q)}), M=${divisor} (${Mstr}), -M=${negMstr}, A=${fmtA(A)}.`
+    }];
+
+    for (let c = 1; c <= n; c++) {
+      const aNegBefore = signedA(A) < 0;
+      A = ((A << 1) | ((Q >> (n - 1)) & 1)) & aMask;
+      Q = (Q << 1) & qMask;
+      if (algo === 'restoring') {
+        const aPrev = A;
+        const aSub = signedA(A) - divisor;
+        if (aSub < 0) {
+          Q = Q & ~1;
+          A = aPrev; // Restored
+          steps.push({
+            cycle: c, action: 'SHL → A-M < 0 → Q₀=0, Restore A', node: 'df-rest',
+            A: fmtA(A), Q: fmtQ(Q), M: Mstr, negM: negMstr, aBits, n,
+            msg: `Cycle ${c}: SHL (A=${fmtA(aPrev)}), A - M < 0 → set Q₀ = 0 and RESTORE A back to ${fmtA(A)}.`
+          });
+        } else {
+          A = aSub & aMask;
+          Q = Q | 1;
+          steps.push({
+            cycle: c, action: 'SHL → A-M ≥ 0 → Q₀=1', node: 'df-q1',
+            A: fmtA(A), Q: fmtQ(Q), M: Mstr, negM: negMstr, aBits, n,
+            msg: `Cycle ${c}: SHL, A - M ≥ 0 → keep A=${fmtA(A)}, set Q₀ = 1.`
+          });
+        }
+      } else {
+        let aNew, opStr, node;
+        if (!aNegBefore) {
+          aNew = signedA(A) - divisor;
+          opStr = 'A≥0: SHL, A ← A - M';
+          node = 'df-sub';
+        } else {
+          aNew = signedA(A) + divisor;
+          opStr = 'A<0: SHL, A ← A + M';
+          node = 'df-add';
+        }
+        A = aNew & aMask;
+        if (aNew < 0) { Q = Q & ~1; opStr += ' → Q₀=0'; }
+        else { Q = Q | 1; opStr += ' → Q₀=1'; }
+        steps.push({
+          cycle: c, action: opStr, node, A: fmtA(A), Q: fmtQ(Q), M: Mstr, negM: negMstr, aBits, n,
+          msg: `Cycle ${c}: ${opStr}. Now A=${fmtA(A)} (${signedA(A)}), Q=${fmtQ(Q)}.`
+        });
+      }
+    }
+    if (algo === 'nonrestoring' && signedA(A) < 0) {
+      A = (A + divisor) & aMask;
+      steps.push({
+        cycle: 'End', action: 'Final Restore: A < 0 → A ← A + M', node: 'df-final',
+        A: fmtA(A), Q: fmtQ(Q), M: Mstr, negM: negMstr, aBits, n,
+        msg: `Final Step: Since A < 0 after cycle ${n}, do A ← A + M = ${fmtA(A)} (${signedA(A)}).`
+      });
+    }
+    const qVal = parseInt(steps[steps.length - 1].Q, 2);
+    const rVal = parseInt(steps[steps.length - 1].A, 2);
+    steps[steps.length - 1].msg += ` DONE! Quotient = ${qVal} (${steps[steps.length-1].Q}), Remainder = ${rVal} (${steps[steps.length-1].A}).`;
+    return steps;
+  }
+
+  function renderDivSvg() {
+    const wrap = document.getElementById('d-svg-wrap');
+    if (dAlgo === 'restoring') {
+      wrap.innerHTML = `
+        <svg viewBox="0 0 360 440" width="350" aria-label="Restoring Division Flowchart">
+          <defs><marker id="arr-d" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="var(--muted)"/></marker></defs>
+          <path class="flow-arrow" d="M180,54 L180,82" marker-end="url(#arr-d)"/>
+          <path class="flow-arrow" d="M180,126 L180,154" marker-end="url(#arr-d)"/>
+          <path class="flow-arrow" d="M112,194 L62,194 L62,240" marker-end="url(#arr-d)"/>
+          <path class="flow-arrow" d="M248,194 L298,194 L298,240" marker-end="url(#arr-d)"/>
+          <path class="flow-arrow" d="M62,290 L62,332 L180,332 L180,350" marker-end="url(#arr-d)"/>
+          <path class="flow-arrow" d="M298,290 L298,332 L180,332 L180,350" marker-end="url(#arr-d)"/>
+          <path class="flow-arrow" d="M112,384 L16,384 L16,104 L68,104" marker-end="url(#arr-d)"/>
+          <text class="flow-lbl" x="56" y="185">YES (A&lt;0)</text>
+          <text class="flow-lbl" x="255" y="185">NO (A≥0)</text>
+          <text class="flow-lbl" x="24" y="376">Count != 0</text>
+          <text class="flow-lbl" x="188" y="432">Count == 0 → END (Q, R=A)</text>
+
+          <g class="flow-node" id="df-init"><rect x="60" y="10" width="240" height="44" rx="8"/><text x="180" y="29" text-anchor="middle">A = 0 (n+1 bits), Count = n</text><text class="sub" x="180" y="45" text-anchor="middle">Q = Dividend, M = Divisor</text></g>
+          <g class="flow-node" id="df-shl"><rect x="70" y="84" width="220" height="42" rx="8"/><text x="180" y="103" text-anchor="middle">1. Shift Left (A, Q)</text><text class="sub" x="180" y="118" text-anchor="middle">2. A ← A - M</text></g>
+          <g class="flow-node" id="df-chk"><polygon points="180,156 250,194 180,232 110,194"/><text x="180" y="198" text-anchor="middle">Is A &lt; 0?</text></g>
+          <g class="flow-node" id="df-rest"><rect x="10" y="242" width="112" height="48" rx="8"/><text x="66" y="263" text-anchor="middle">Q₀ ← 0</text><text class="sub" x="66" y="279" text-anchor="middle">Restore A ← A+M</text></g>
+          <g class="flow-node" id="df-q1"><rect x="238" y="242" width="112" height="48" rx="8"/><text x="294" y="263" text-anchor="middle">Q₀ ← 1</text><text class="sub" x="294" y="279" text-anchor="middle">Keep A</text></g>
+          <g class="flow-node" id="df-end"><polygon points="180,352 248,384 180,416 112,384"/><text x="180" y="388" text-anchor="middle">Count == 0?</text></g>
+        </svg>`;
+    } else {
+      wrap.innerHTML = `
+        <svg viewBox="0 0 360 470" width="350" aria-label="Non-Restoring Division Flowchart">
+          <defs><marker id="arr-dn" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="var(--muted)"/></marker></defs>
+          <path class="flow-arrow" d="M180,54 L180,78" marker-end="url(#arr-dn)"/>
+          <path class="flow-arrow" d="M114,114 L64,114 L64,156" marker-end="url(#arr-dn)"/>
+          <path class="flow-arrow" d="M246,114 L296,114 L296,156" marker-end="url(#arr-dn)"/>
+          <path class="flow-arrow" d="M64,206 L64,234 L180,234 L180,252" marker-end="url(#arr-dn)"/>
+          <path class="flow-arrow" d="M296,206 L296,234 L180,234 L180,252" marker-end="url(#arr-dn)"/>
+          <path class="flow-arrow" d="M180,298 L180,322" marker-end="url(#arr-dn)"/>
+          <path class="flow-arrow" d="M114,354 L16,354 L16,114 L110,114" marker-end="url(#arr-dn)"/>
+          <path class="flow-arrow" d="M180,386 L180,412" marker-end="url(#arr-dn)"/>
+          <text class="flow-lbl" x="62" y="106">A ≥ 0</text>
+          <text class="flow-lbl" x="256" y="106">A &lt; 0</text>
+          <text class="flow-lbl" x="28" y="346">Count != 0</text>
+          <text class="flow-lbl" x="188" y="404">Count == 0</text>
+
+          <g class="flow-node" id="df-init"><rect x="60" y="10" width="240" height="44" rx="8"/><text x="180" y="29" text-anchor="middle">A = 0 (n+1 bits), Count = n</text><text class="sub" x="180" y="45" text-anchor="middle">Q = Dividend, M = Divisor</text></g>
+          <g class="flow-node" id="df-sign"><polygon points="180,80 248,114 180,148 112,114"/><text x="180" y="118" text-anchor="middle">Sign of A?</text></g>
+          <g class="flow-node" id="df-sub"><rect x="8" y="158" width="114" height="46" rx="8"/><text x="65" y="178" text-anchor="middle">SHL (A, Q)</text><text class="sub" x="65" y="194" text-anchor="middle">A ← A - M</text></g>
+          <g class="flow-node" id="df-add"><rect x="238" y="158" width="114" height="46" rx="8"/><text x="295" y="178" text-anchor="middle">SHL (A, Q)</text><text class="sub" x="295" y="194" text-anchor="middle">A ← A + M</text></g>
+          <g class="flow-node" id="df-qbit"><rect x="68" y="254" width="224" height="44" rx="8"/><text x="180" y="274" text-anchor="middle">If A ≥ 0 → Q₀=1 | Else → Q₀=0</text><text class="sub" x="180" y="289" text-anchor="middle">Count ← Count - 1</text></g>
+          <g class="flow-node" id="df-end"><polygon points="180,324 248,354 180,384 112,354"/><text x="180" y="358" text-anchor="middle">Count == 0?</text></g>
+          <g class="flow-node" id="df-final"><rect x="52" y="414" width="256" height="44" rx="14"/><text x="180" y="434" text-anchor="middle">If final A &lt; 0: A ← A + M</text><text class="sub" x="180" y="449" text-anchor="middle">Quotient = Q, Remainder = A</text></g>
+        </svg>`;
+    }
+  }
+
+  function renderDiv() {
+    renderDivSvg();
+    const st = dSteps[dIdx];
+    const el = document.getElementById(st.node);
+    if (el) el.classList.add(dIdx === dSteps.length - 1 ? 'active-ok' : (st.node === 'df-rest' || st.node === 'df-add' ? 'active-warn' : 'active'));
+
+    document.getElementById('d-regs').innerHTML = `
+      <div class="reg-box"><div class="reg-name">M / -M (${st.aBits}b)</div><div class="reg-val">${st.M}</div><div class="reg-sub">-M = ${st.negM}</div></div>
+      <div class="reg-box"><div class="reg-name">A (${st.aBits}b)</div><div class="reg-val">${st.A}</div><div class="reg-sub">Signed: ${fromTwos(st.A)}</div></div>
+      <div class="reg-box"><div class="reg-name">Q (${st.n}b)</div><div class="reg-val">${st.Q}</div><div class="reg-sub">Quotient bits</div></div>
+    `;
+    const banner = document.getElementById('d-msg');
+    banner.textContent = st.msg;
+    banner.className = 'step-banner ' + (dIdx === dSteps.length - 1 ? 'ok' : '');
+
+    document.getElementById('d-tbody').innerHTML = dSteps.slice(0, dIdx + 1).map((r, i) => `
+      <tr class="${i === dIdx ? 'row-active' : ''}">
+        <td><b>${r.cycle}</b></td>
+        <td>${r.action}</td>
+        <td class="mono">${r.A}</td>
+        <td class="mono">${r.Q}</td>
+      </tr>
+    `).join('');
+  }
+  window.setDiv = function(q, m) {
+    document.getElementById('d-q').value = q;
+    document.getElementById('d-m').value = m;
+    dAlgo = document.getElementById('d-algo').value;
+    dSteps = computeDiv(q, m, dAlgo); dIdx = 0; renderDiv();
+  };
+  document.getElementById('d-build').addEventListener('click', () => {
+    const q = Math.max(1, Math.min(31, Number(document.getElementById('d-q').value) || 13));
+    const m = Math.max(1, Math.min(15, Number(document.getElementById('d-m').value) || 3));
+    dAlgo = document.getElementById('d-algo').value;
+    dSteps = computeDiv(q, m, dAlgo); dIdx = 0; renderDiv();
+  });
+  document.getElementById('d-algo').addEventListener('change', () => document.getElementById('d-build').click());
+  document.getElementById('d-prev').addEventListener('click', () => { if (dIdx > 0) { dIdx--; renderDiv(); } });
+  document.getElementById('d-next').addEventListener('click', () => { if (dIdx < dSteps.length - 1) { dIdx++; renderDiv(); } });
+  document.getElementById('d-all').addEventListener('click', () => { dIdx = dSteps.length - 1; renderDiv(); });
+  setDiv(13, 3);
+
+  // ================= 3. BCD FLOWCHART LAB =================
+  let cSteps = [], cIdx = 0;
+  function computeBcd(a, b) {
+    const sa = String(a), sb = String(b);
+    const len = Math.max(sa.length, sb.length);
+    const pa = sa.padStart(len, '0'), pb = sb.padStart(len, '0');
+    const placeNames = ['Units (10⁰)', 'Tens (10¹)', 'Hundreds (10²)', 'Thousands (10³)', 'Ten-Thous (10⁴)'];
+    let carry = 0;
+    const rows = [];
+    for (let i = len - 1, p = 0; i >= 0; i--, p++) {
+      const da = Number(pa[i]), db = Number(pb[i]);
+      const ba = da.toString(2).padStart(4, '0');
+      const bb = db.toString(2).padStart(4, '0');
+      const raw = da + db + carry;
+      const rawBin = raw.toString(2).padStart(4, '0');
+      const needFix = raw > 9;
+      const fixed = needFix ? raw + 6 : raw;
+      const cout = fixed >= 16 ? 1 : 0;
+      const digit = fixed & 0xF;
+      const digBin = digit.toString(2).padStart(4, '0');
+      rows.push({
+        place: placeNames[p] || `10^${p}`,
+        da: `${da} (${ba})`, db: `${db} (${bb}) + Cin=${carry}`,
+        raw: `${rawBin} (${raw})`,
+        fix: needFix ? `YES: +0110 (+6)` : `NO (≤ 9)`,
+        needFix, digBin, digit, cout,
+        msg: `${placeNames[p]}: ${ba} + ${bb} + ${carry} = ${rawBin} (${raw}). ` +
+             (needFix ? `Since ${raw} > 9, add 0110 (+6) → digit ${digBin} (${digit}), carry 1.` : `Valid BCD (≤ 9) → keep ${digBin} (${digit}), carry 0.`)
+      });
+      carry = cout;
+    }
+    if (carry === 1) {
+      rows.push({
+        place: placeNames[len] || `10^${len}`,
+        da: '0 (0000)', db: `0 (0000) + Cin=1`,
+        raw: '0001 (1)', fix: 'NO (≤ 9)', needFix: false,
+        digBin: '0001', digit: 1, cout: 0,
+        msg: `Final Carry 1 becomes the next decimal digit 0001 (1).`
+      });
+    }
+    const total = a + b;
+    return { rows, total, bcd: rows.slice().reverse().map(r => r.digBin).join(' ') };
+  }
+
+  let cData = null;
+  function renderBcd() {
+    const r = cData.rows[cIdx];
+    ['cf-encode','cf-add','cf-check','cf-fix','cf-keep','cf-final'].forEach(id => {
+      document.getElementById(id).setAttribute('class', 'flow-node');
+    });
+    document.getElementById('cf-check').classList.add(r.needFix ? 'active-warn' : 'active-ok');
+    if (r.needFix) document.getElementById('cf-fix').classList.add('active-warn');
+    document.getElementById('cf-keep').classList.add('active');
+    if (cIdx === cData.rows.length - 1) document.getElementById('cf-final').classList.add('active-ok');
+
+    const t = cData.total;
+    document.getElementById('c-summary').innerHTML = `
+      <div class="reg-box"><div class="reg-name">Final BCD</div><div class="reg-val">${cData.bcd}</div><div class="reg-sub">Decimal = ${t}</div></div>
+      <div class="reg-box"><div class="reg-name">Binary</div><div class="reg-val">${t.toString(2)}</div><div class="reg-sub">Base 2</div></div>
+      <div class="reg-box"><div class="reg-name">Octal / Hex</div><div class="reg-val">${t.toString(8)}₈ / ${t.toString(16).toUpperCase()}₁₆</div><div class="reg-sub">Base 8 / Base 16</div></div>
+    `;
+    const banner = document.getElementById('c-msg');
+    banner.textContent = r.msg;
+    banner.className = 'step-banner ' + (r.needFix ? 'warn' : 'ok');
+
+    document.getElementById('c-tbody').innerHTML = cData.rows.slice(0, cIdx + 1).map((row, i) => `
+      <tr class="${i === cIdx ? 'row-active' : ''}">
+        <td><b>${row.place}</b></td>
+        <td class="mono">${row.da}</td>
+        <td class="mono">${row.db}</td>
+        <td class="mono">${row.raw}</td>
+        <td><span class="badge ${row.needFix ? 'badge-warn' : 'badge-ok'}">${row.fix}</span></td>
+        <td class="mono"><b>${row.digBin}</b> (${row.digit})</td>
+        <td class="mono">${row.cout}</td>
+      </tr>
+    `).join('');
+  }
+  window.setBcd = function(a, b) {
+    document.getElementById('c-a').value = a;
+    document.getElementById('c-b').value = b;
+    cData = computeBcd(a, b); cIdx = 0; renderBcd();
+  };
+  document.getElementById('c-build').addEventListener('click', () => {
+    const a = Math.max(0, Math.min(9999, Number(document.getElementById('c-a').value) || 0));
+    const b = Math.max(0, Math.min(9999, Number(document.getElementById('c-b').value) || 0));
+    cData = computeBcd(a, b); cIdx = 0; renderBcd();
+  });
+  document.getElementById('c-prev').addEventListener('click', () => { if (cIdx > 0) { cIdx--; renderBcd(); } });
+  document.getElementById('c-next').addEventListener('click', () => { if (cIdx < cData.rows.length - 1) { cIdx++; renderBcd(); } });
+  document.getElementById('c-all').addEventListener('click', () => { cIdx = cData.rows.length - 1; renderBcd(); });
+  setBcd(375, 648);
+
+  typeset();
+})();
+</script>
+</body>
+</html>
