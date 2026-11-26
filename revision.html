@@ -482,7 +482,7 @@ ul.clean li { margin-bottom: 7px; }
             </table>
           </div>
           <div class="tip-box">
-            <b>Exam Tip:</b> Always use <b>5 bits for A and M</b> when Q is 4 bits (`8–15`). In <b>Non-Restoring</b>, never forget the final step: if <code>A &lt; 0</code> after the last cycle, do <code>A ← A + M</code> once so remainder is positive!
+            <b>Exam Tip:</b> Always use <b>5 bits for A and M</b> when Q is 4 bits (8–15). In <b>Non-Restoring</b>, never forget the final step: if <code>A &lt; 0</code> after the last cycle, do <code>A ← A + M</code> once so remainder is positive!
           </div>
         </div>
       </div>
@@ -495,7 +495,7 @@ ul.clean li { margin-bottom: 7px; }
       <div class="card-head">
         <div>
           <h2>Interactive BCD Addition Lab &amp; Flowchart</h2>
-          <p class="muted">Asked in May 2026 Q21a (`375 + 648`) and Jul 2025 Q21b (`175 + 326`). Step column-by-column right to left.</p>
+          <p class="muted">Asked in May 2026 Q21a (375 + 648) and Jul 2025 Q21b (175 + 326). Step column-by-column right to left.</p>
         </div>
         <div class="cue-row">
           <span class="badge badge-ok">Unit 1 · 8 Marks</span>
@@ -602,13 +602,13 @@ ul.clean li { margin-bottom: 7px; }
           <thead><tr><th>Mode</th><th>EA Formula</th><th>Operand Access</th><th>Example (300/301/400, R1=200)</th><th>Where Used</th></tr></thead>
           <tbody>
             <tr><td><b>Direct (Absolute)</b></td><td>\(\text{EA} = A\)</td><td>\(\text{Mem}[A]\)</td><td>\(\text{EA} = 400\)</td><td>Global variables</td></tr>
-            <tr><td><b>Immediate</b></td><td>\(\text{EA} = \text{Addr of } A\)</td><td>\(\text{Operand} = A\)</td><td>\(\text{EA} = 301\;(\text{Op}=400)\)</td><td>Constants (`#400`)</td></tr>
+            <tr><td><b>Immediate</b></td><td>\(\text{EA} = \text{Addr of } A\)</td><td>\(\text{Operand} = A\)</td><td>\(\text{EA} = 301\;(\text{Op}=400)\)</td><td>Constants (#400)</td></tr>
             <tr><td><b>Relative (PC-Rel)</b></td><td>\(\text{EA} = \text{PC} + A\)</td><td>\(\text{Mem}[\text{PC}+A]\)</td><td>\(302 + 400 = \mathbf{702}\)</td><td>Branches / loops</td></tr>
             <tr><td><b>Register Indirect</b></td><td>\(\text{EA} = [R1]\)</td><td>\(\text{Mem}[[R1]]\)</td><td>\(\text{EA} = 200\)</td><td>Pointers</td></tr>
-            <tr><td><b>Indexed (`R1`)</b></td><td>\(\text{EA} = A + [R1]\)</td><td>\(\text{Mem}[A + [R1]]\)</td><td>\(400 + 200 = \mathbf{600}\)</td><td>Arrays (`400(R1)`)</td></tr>
-            <tr><td><b>Register</b></td><td>No memory EA</td><td>\(\text{Operand} = [R1]\)</td><td>Value in `R1` (`200`)</td><td>Fastest ALU ops</td></tr>
+            <tr><td><b>Indexed (R1)</b></td><td>\(\text{EA} = A + [R1]\)</td><td>\(\text{Mem}[A + [R1]]\)</td><td>\(400 + 200 = \mathbf{600}\)</td><td>Arrays (400(R1))</td></tr>
+            <tr><td><b>Register</b></td><td>No memory EA</td><td>\(\text{Operand} = [R1]\)</td><td>Value in <code>R1</code> (200)</td><td>Fastest ALU ops</td></tr>
             <tr><td><b>Indirect</b></td><td>\(\text{EA} = [A]\)</td><td>\(\text{Mem}[[A]]\)</td><td>\(\text{EA} = \text{Mem}[400]\)</td><td>Double pointers</td></tr>
-            <tr><td><b>Auto-Inc / Dec</b></td><td>\(\text{EA} = [R1]\), then \(R1 \pm d\)</td><td>\(\text{Mem}[[R1]]\)</td><td>`(R1)+` / `-(R1)`</td><td>Stacks &amp; array loops</td></tr>
+            <tr><td><b>Auto-Inc / Dec</b></td><td>\(\text{EA} = [R1]\), then \(R1 \pm d\)</td><td>\(\text{Mem}[[R1]]\)</td><td><code>(R1)+</code> / <code>-(R1)</code></td><td>Stacks &amp; array loops</td></tr>
           </tbody>
         </table>
       </div>
@@ -617,14 +617,14 @@ ul.clean li { margin-bottom: 7px; }
         <div class="tip-box" style="margin:0;">
           <b>Top 4 Exam Tips (Where Marks Are Gained &amp; Lost):</b>
           <ul class="clean">
-            <li><b>Write `PC = 302` explicitly!</b> Always show <code>300 + 2 = 302</code> before computing Relative mode (`302 + 400 = 702`).</li>
+            <li><b>Write <code>PC = 302</code> explicitly!</b> Always show <code>300 + 2 = 302</code> before computing Relative mode (302 + 400 = 702).</li>
             <li><b>Immediate mode distinction:</b> Clearly write BOTH <code>Operand = 400</code> and <code>EA = 301</code> so any marking scheme awards full marks.</li>
-            <li><b>Pure theory 15m (`Jun 2025 Q26`):</b> Include all <b>8 modes</b> above + 1 assembly example each + a summary table at the end.</li>
-            <li><b>Instruction format MCQs:</b> \(\text{Opcode bits} = W - (\lceil\log_2 R\rceil + \lceil\log_2 M\rceil + \log_2 \text{RAM})\). For 12 regs (4b), 6 modes (3b), 64K×32 RAM (16b): `32 - 23 = 9 bits`.</li>
+            <li><b>Pure theory 15m (Jun 2025 Q26):</b> Include all <b>8 modes</b> above + 1 assembly example each + a summary table at the end.</li>
+            <li><b>Instruction format MCQs:</b> \(\text{Opcode bits} = W - (\lceil\log_2 R\rceil + \lceil\log_2 M\rceil + \log_2 \text{RAM})\). For 12 regs (4b), 6 modes (3b), 64K×32 RAM (16b): <code>32 - 23 = 9 bits</code>.</li>
           </ul>
         </div>
         <div class="info-pill">
-          <span class="info-lbl">Quick 0 / 1 / 2 / 3-Address Cheat (`X = (A+B)*(C+D)`)</span>
+          <span class="info-lbl">Quick 0 / 1 / 2 / 3-Address Cheat (X = (A+B)*(C+D))</span>
           <ul class="clean">
             <li><b>3-Addr:</b> <code>ADD R1,A,B</code>; <code>ADD R2,C,D</code>; <code>MUL X,R1,R2</code></li>
             <li><b>2-Addr:</b> <code>MOV R1,A</code>; <code>ADD R1,B</code>; <code>MOV R2,C</code>; <code>ADD R2,D</code>; <code>MUL R1,R2</code>; <code>MOV X,R1</code></li>
@@ -651,24 +651,24 @@ ul.clean li { margin-bottom: 7px; }
         <div class="info-pill">
           <span class="info-lbl">1. Base Conversions (With Fractions!)</span>
           <ul class="clean">
-            <li><b>Integer part (`÷ base`):</b> Divide by 2, 8, or 16; read remainders <b>bottom → top</b>.</li>
-            <li><b>Fractional part (`× base`):</b> Multiply fraction by 2, 8, or 16; take integer digits <b>top → bottom</b> (4–6 digits).</li>
-            <li><b>Fast Grouping:</b> Binary ↔ Octal = <b>3 bits</b> per digit; Binary ↔ Hex = <b>4 bits</b> per digit (pad outer edges with `0`).</li>
-            <li><b>Example (`Jun 25 Q21a`):</b> \(105.15_{10} = 1101001.00100110_2 = 151.1146_8 = 69.2666_{16}\).</li>
+            <li><b>Integer part (÷ base):</b> Divide by 2, 8, or 16; read remainders <b>bottom → top</b>.</li>
+            <li><b>Fractional part (× base):</b> Multiply fraction by 2, 8, or 16; take integer digits <b>top → bottom</b> (4–6 digits).</li>
+            <li><b>Fast Grouping:</b> Binary ↔ Octal = <b>3 bits</b> per digit; Binary ↔ Hex = <b>4 bits</b> per digit (pad outer edges with <code>0</code>).</li>
+            <li><b>Example (Jun 25 Q21a):</b> \(105.15_{10} = 1101001.00100110_2 = 151.1146_8 = 69.2666_{16}\).</li>
           </ul>
         </div>
         <div class="info-pill">
-          <span class="info-lbl">2. 1's &amp; 2's Complement Subtraction (`A - B`)</span>
+          <span class="info-lbl">2. 1's &amp; 2's Complement Subtraction (A - B)</span>
           <ul class="clean">
-            <li><b>First:</b> Pad `A` and `B` to the <b>exact same bit width</b>!</li>
-            <li><b>2's Comp (`A + (~B + 1)`):</b><br>Carry = <code>1</code> → <b>discard carry</b> (answer `+`).<br>Carry = <code>0</code> → negative (take 2's comp &amp; put `-`).</li>
-            <li><b>1's Comp (`A + ~B`):</b><br>Carry = <code>1</code> → <b>add End-Around Carry (EAC) to LSB</b> (`+`).<br>Carry = <code>0</code> → negative (flip bits &amp; put `-`).</li>
-            <li><b>Gray Code (`Part A`):</b> Copy MSB, XOR adjacent bits (`1010 → 1111`, `11011 → 10110`).</li>
+            <li><b>First:</b> Pad <code>A</code> and <code>B</code> to the <b>exact same bit width</b>!</li>
+            <li><b>2's Comp (A + (~B + 1)):</b><br>Carry = <code>1</code> → <b>discard carry</b> (answer <code>+</code>).<br>Carry = <code>0</code> → negative (take 2's comp &amp; put <code>-</code>).</li>
+            <li><b>1's Comp (A + ~B):</b><br>Carry = <code>1</code> → <b>add End-Around Carry (EAC) to LSB</b> (+).<br>Carry = <code>0</code> → negative (flip bits &amp; put <code>-</code>).</li>
+            <li><b>Gray Code (Part A):</b> Copy MSB, XOR adjacent bits (<code>1010 → 1111</code>, <code>11011 → 10110</code>).</li>
           </ul>
         </div>
       </div>
 
-      <h3 style="margin-top:16px;">3. Universal Gates (NAND &amp; NOR) Visual Diagrams (`6 of 8 papers`)</h3>
+      <h3 style="margin-top:16px;">3. Universal Gates (NAND &amp; NOR) Visual Diagrams (6 of 8 papers)</h3>
       <div class="svg-wrap">
         <svg viewBox="0 0 740 230" width="740" aria-label="Universal Gate Realizations">
           <text x="15" y="24" fill="var(--accent)" font-size="13" font-weight="700">USING NAND ONLY</text>
@@ -746,7 +746,7 @@ ul.clean li { margin-bottom: 7px; }
         <span class="badge badge-ok">Draw Diagrams = Half the Marks</span>
       </div>
 
-      <h3>1. 5-Stage Instruction Pipeline Space-Time Diagram (`May 2026 Q24a`)</h3>
+      <h3>1. 5-Stage Instruction Pipeline Space-Time Diagram (May 2026 Q24a)</h3>
       <div class="svg-wrap">
         <svg viewBox="0 0 680 185" width="680" aria-label="5-stage Pipeline Diagram">
           <text x="14" y="25" fill="var(--muted)" font-size="11" font-family="var(--mono)">Instr \ Clock</text>
@@ -790,7 +790,7 @@ ul.clean li { margin-bottom: 7px; }
         <span class="badge badge-warn">Latency stays ~same · Throughput increases!</span>
       </div>
 
-      <h3 style="margin-top:16px;">2. The 3 Pipeline Hazards &amp; How to Overcome Them (`May 2026 Q24b`)</h3>
+      <h3 style="margin-top:16px;">2. The 3 Pipeline Hazards &amp; How to Overcome Them (May 2026 Q24b)</h3>
       <div class="three-col">
         <div class="info-pill">
           <span class="info-lbl" style="color:var(--u4);">1. Structural Hazard</span>
@@ -857,7 +857,7 @@ ul.clean li { margin-bottom: 7px; }
         <span class="badge badge-ok">Zero Math · Pure Diagrams</span>
       </div>
 
-      <h3>1. Flynn's Classification Diagrams (`Jun 25 / Nov 25 / May 26 Q25a`)</h3>
+      <h3>1. Flynn's Classification Diagrams (Jun 25 / Nov 25 / May 26 Q25a)</h3>
       <div class="svg-wrap">
         <svg viewBox="0 0 740 210" width="740" aria-label="Flynn Classification SISD SIMD MISD MIMD">
           <!-- SISD -->
@@ -904,20 +904,20 @@ ul.clean li { margin-bottom: 7px; }
 
       <div class="two-col" style="margin-top:16px;">
         <div class="info-pill">
-          <span class="info-lbl" style="color:var(--u5);">2. ARM Processor (`Nov 24 / Jun 25 / Nov 25 / May 26`)</span>
+          <span class="info-lbl" style="color:var(--u5);">2. ARM Processor (Nov 24 / Jun 25 / Nov 25 / May 26)</span>
           <ul class="clean">
             <li><b>Architecture:</b> <b>32-bit RISC</b>, <b>Hardwired</b> control unit, <b>Load/Store</b> model (ALU works ONLY on registers; Load/Store frequency ~<b>40%</b>).</li>
             <li><b>2 Instruction Sets:</b> 32-bit <b>ARM</b> state &amp; 16-bit <b>Thumb</b> state (switches via <code>BX</code>; ~35% smaller code).</li>
             <li><b>7 Operating Modes:</b> User, FIQ, IRQ, Supervisor, Abort, Undefined, System.</li>
             <li><b>Load/Store Instructions:</b><br>
-              • Single: <code>LDR R0, [R1]</code> / <code>STR R0, [R1]</code> (`LDRB`, `LDRH`)<br>
+              • Single: <code>LDR R0, [R1]</code> / <code>STR R0, [R1]</code> (<code>LDRB</code>, <code>LDRH</code>)<br>
               • Pre-indexed: <code>LDR R0, [R1, #4]!</code> (updates R1 first)<br>
               • Post-indexed: <code>LDR R0, [R1], #4</code> (reads, then updates R1)<br>
               • Block transfer: <code>LDMIA</code> / <code>STMDB</code> (fast stack/register save).</li>
           </ul>
         </div>
         <div class="info-pill">
-          <span class="info-lbl" style="color:var(--u1);">3. Cache Coherence &amp; MESI Protocol (`4/8 papers`)</span>
+          <span class="info-lbl" style="color:var(--u1);">3. Cache Coherence &amp; MESI Protocol (4/8 papers)</span>
           <ul class="clean">
             <li><b>Problem:</b> Multiple CPU caches hold copies of the same shared memory address; when CPU1 writes, CPU2 sees stale data.</li>
             <li><b>Solutions:</b> Write-Invalidate / Write-Update snooping protocols &amp; Directory-based protocols.</li>
