@@ -147,11 +147,12 @@ p { margin: 0 0 10px; }
 
 /* Responsive 2-column Simulator Grid (Laptop side-by-side, Mobile stacked) */
 .sim-grid {
-  display: grid; grid-template-columns: minmax(310px, 420px) 1fr;
+  display: grid; grid-template-columns: minmax(310px, 420px) minmax(0, 1fr);
   gap: 20px; align-items: start;
 }
+.sim-grid > *, .two-col > *, .three-col > * { min-width: 0; max-width: 100%; }
 .two-col {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 18px;
 }
 .three-col {
@@ -220,10 +221,10 @@ select { font-family: var(--sans); width: auto; }
 /* SVG Flowcharts & Diagrams */
 .svg-wrap {
   background: var(--surface-2); border: 1px solid var(--border);
-  border-radius: 12px; padding: 14px; overflow-x: auto;
+  border-radius: 12px; padding: 14px; overflow-x: auto; max-width: 100%;
   display: flex; justify-content: center;
 }
-.svg-wrap svg { max-width: 100%; height: auto; display: block; }
+.svg-wrap svg { width: 100%; max-width: 100%; height: auto; display: block; }
 .flow-node rect, .flow-node polygon {
   fill: var(--surface); stroke: var(--border-strong); stroke-width: 1.8; transition: all 0.2s;
 }
@@ -273,12 +274,12 @@ tr.row-active td { border-bottom-color: var(--accent); }
   border: 1px solid var(--border); border-left: 3px solid var(--accent);
   border-radius: 8px; margin: 10px 0; max-width: 100%;
 }
-mjx-container { max-width: 100%; overflow-x: auto; overflow-y: hidden; }
+mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; }
 ul.clean { padding-left: 20px; margin: 8px 0; }
 ul.clean li { margin-bottom: 7px; }
 
 @media (max-width: 900px) {
-  .sim-grid { grid-template-columns: 1fr; }
+  .sim-grid { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 640px) {
   .topbar-inner { padding: 10px 14px; }
